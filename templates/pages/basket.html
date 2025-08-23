@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static %}
+{% load product_tags %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
+  <div class="bg-[var(--primary-red)] rounded-xl shadow-lg p-6 mb-2">
+    <h1 class="text-lg text-white">
+      Корзина <span class="text-sm text-white">{{ basket_count }} товара</span>
+    </h1>
+  </div>
+  <div class="lg:flex lg:space-x-6 space-y-8 lg:space-y-0">
+    <div class="lg:w-3/5 bg-white rounded-xl shadow-lg p-5 h-[600px] flex flex-col">
+      <div class="flex-1 overflow-y-auto">
+        <div class="space-y-5">
+          {% for i in carts %}
+          <div class="flex flex-col sm:flex-row gap-4 border-b border-gray-200 pb-5">
+            {% if i.product.images.first %}
+            <img
+              src="{{ i.product.images.first.image.url }}"
+              alt="{{ i.product|get_name_by_lang:lang }}"
+              class="w-full sm:w-28 h-auto rounded-lg shadow-sm bg-gray-200"
+            />
+            {% else %}
+            <img
+              src="{% static 'images/default.png' %}"
+              alt="No image"
+              class="w-full sm:w-28 h-auto rounded-lg shadow-sm bg-gray-200"
+            />
+            {% endif %}
+            <div class="flex-1 flex flex-col sm:flex-row justify-between">
+              <div class="space-y-1 flex-1">
+                <h3 class="text-lg font-semibold text-gray-900 line-clamp-2">
+                  {{ i.product|get_name_by_lang:lang }}
+                </h3>
+                <div class="flex flex-wrap gap-3 text-sm text-gray-600">
+                  <span>Size: <span class="font-medium text-gray-800">{{ i.product.size }}</span></span>
+                  <span>Color: <span class="font-medium text-gray-800">{{ i.product|get_color_by_lang:lang }}</span></span>
+                </div>
+                <p class="text-lg font-bold text-[var(--primary-red)] mt-2">
+                  {{ i.product.get_price_with_icon }}
+                </p>
+              </div>
+              <div class="flex flex-row sm:flex-col justify-between items-center sm:items-end mt-3 sm:mt-0">
+                <a href="{% url 'cart-remove' remove_id=i.product.id %}"
+                  class="text-gray-400 hover:text-red-500 transition-colors p-1"
+                  aria-label="Remove item"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </a>
+                <div class="flex items-center space-x-2">
+                  <button
+                    class="text-gray-600 hover:text-[var(--primary-red)] transition-colors p-1 decrease"
+                    aria-label="Decrease quantity"
+                    onclick="updateQuantity('card_{{ i.id }}', {{ i.id }}, -1)"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                    </svg>
+                  </button>
+                  <span class="text-lg quantity" id="card_{{ i.id }}">{{ i.quantity }}</span>
+                  <button
+                    class="text-gray-600 hover:text-[var(--primary-red)] transition-colors p-1 increase"
+                    aria-label="Increase quantity"
+                    onclick="updateQuantity('card_{{ i.id }}', {{ i.id }}, 1)"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="pt-4 border-t border-gray-200 mt-auto">
+        <a href="/pages/products/products.html">
+          <button class="inline-flex items-center text-[var(--primary-red)] hover:text-[var(--primary-dark)] font-medium transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Continue Shopping
+          </button>
+        </a>
+      </div>
+    </div>
+    <div class="lg:w-2/5 bg-white rounded-xl shadow-lg p-5 h-[600px] flex flex-col">
+      <div class="flex flex-col h-full justify-between">
+        <div>
+          <div class="space-y-3 border-b border-gray-200 pb-4 mb-4">
+            <div class="flex justify-between text-lg mb-6">
+              <span class="text-gray-900 font-bold">Total</span>
+              <span id="total_balance" class="font-bold text-gray-900 text-xl">{{ request.user.calculate_cart }} $</span>
+            </div>
+          </div>
+          <form class="space-y-3">
+            <input
+              class="w-full py-3 px-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-red)] focus:border-transparent text-gray-700"
+              type="text"
+              placeholder="Full Name"
+              required
+            />
+            <input
+              class="w-full py-3 px-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-red)] focus:border-transparent text-gray-700"
+              id="contactPhone"
+              type="tel"
+              placeholder="Phone Number"
+              pattern="\+998[0-9]{9}"
+              required
+            />
+            <input
+              class="w-full py-3 px-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-red)] focus:border-transparent text-gray-700"
+              type="email"
+              placeholder="Email Address"
+              required
+            />
+            <textarea
+              class="w-full py-3 px-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-red)] focus:border-transparent text-gray-700 resize-none h-20"
+              placeholder="Order Notes (Optional)"
+            ></textarea>
+            <button
+              type="submit"
+              class="w-full py-3 bg-[var(--primary-red)] text-white rounded-lg font-semibold text-base hover:bg-[var(--primary-dark)] transition-colors shadow-md flex items-center justify-center space-x-2"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+              <span>Proceed to Checkout</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+async function updateQuantity(spanId, id, change) {
+  const spanElement = document.getElementById(spanId);
+  const totalBalanceElement = document.getElementById("total_balance");
+  let quantity = parseInt(spanElement.innerText);
+
+  // Предотвращаем уменьшение количества ниже 1
+  if (change < 0 && quantity <= 1) {
+    alert("Количество не может быть меньше 1!");
+    return;
+  }
+
+  // Оптимистическое обновление UI
+  quantity += change;
+  spanElement.innerText = quantity;
+
+  try {
+    const url = `/ch/cart/${id}/${change === 1 ? '1' : '0'}/`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`Ошибка запроса: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    if (data.success) {
+      // Обновляем итоговую сумму
+      totalBalanceElement.innerText = `${data.total_balance} $`;
+    } else {
+      // Откатываем изменения при ошибке
+      quantity -= change;
+      spanElement.innerText = quantity;
+      alert("Не удалось обновить количество. Попробуйте еще раз.");
+    }
+  } catch (error) {
+    // Откатываем изменения при ошибке
+    quantity -= change;
+    spanElement.innerText = quantity;
+    console.error("Ошибка:", error);
+    alert("Произошла ошибка: " + error.message);
+  }
+}
+</script>
+{% endblock content %}
