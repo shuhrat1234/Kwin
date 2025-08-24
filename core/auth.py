@@ -1,59 +1,91 @@
-import json
-from django.contrib.auth.models import UserManager, AbstractUser
-from django.db import models
+from functools import lru_cache
+from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
+import urllib.request
+import json
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db import models
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, phone, username, password=None, **extra_fields):
+        if not phone:
+            raise ValueError(_('The Phone field must be set'))
+        if not username:
+            raise ValueError(_('The Username field must be set'))
 
-class CustomUserManager(UserManager):
-    def create_user(self, phone, password, is_staff=False, is_superuser=False, **extra_fields):
-        user = self.model(
-            phone=phone,
-            password=password,
-            is_staff=is_staff,
-            is_superuser=is_superuser,
-            **extra_fields)
+        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('is_staff', False)
 
-        user.set_password(str(password))
-        user.save()
+        user = self.model(phone=phone, username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, password, is_staff=True, is_superuser=True, **extra_fields):
-        return self.create_user(phone=phone, password=password, is_staff=is_staff, is_superuser=is_superuser,
-                                **extra_fields)
+    def create_superuser(self, phone, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('user_type', 2)  # admin
 
+        return self.create_user(phone, username, password, **extra_fields)
 
-class User(AbstractUser):
+class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(_("Ism familiya"), max_length=50)
-    phone = models.CharField(_("Telefon raqam"), max_length=50, unique=True)
-    updated_at = models.DateTimeField(auto_now=True, auto_now_add=False, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now=False, auto_now_add=True, blank=True, null=True)
-    is_superuser = models.BooleanField(default=False)
+    phone = models.CharField(_("Telefon raqam"), max_length=12, unique=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     user_type = models.SmallIntegerField(default=1, choices=[
         (1, 'user'),
         (2, 'admin')
     ])
 
-    email = False
-    first_name = False
-    last_name = False
-
     objects = CustomUserManager()
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = ['user_type']
+    REQUIRED_FIELDS = ['username', 'user_type']
 
-        
+    def __str__(self):
+        return self.username
+
+    @lru_cache(maxsize=1)  # Cache the result for the lifetime of the request
+    def get_exchange_rates(self):
+        """
+        Получаем курс валют (USD и RUB к UZS).
+        Кэшируем на 1 час, чтобы не дергать API постоянно.
+        """
+        rates = cache.get("exchange_rates")
+        if not rates:
+            try:
+                with urllib.request.urlopen("https://cbu.uz/oz/arkhiv-kursov-valyut/json/") as response:
+                    if response.status == 200:
+                        data = json.loads(response.read().decode('utf-8'))
+                        usd = next(item for item in data if item["Ccy"] == "USD")["Rate"]
+                        rub = next(item for item in data if item["Ccy"] == "RUB")["Rate"]
+
+                        rates = {
+                            "USD": float(usd),
+                            "RUB": float(rub),
+                            "UZS": 1.0
+                        }
+                        cache.set("exchange_rates", rates, 60 * 60)  # 1 hour
+            except Exception:
+                # Fallback if API is unavailable
+                rates = {
+                    "USD": 12800.0,
+                    "RUB": 163.0,
+                    "UZS": 1.0
+                }
+        return rates
+
     def calculate_cart(self):
         carts = self.carts.filter(status=True)
-        total_balance = 0
-        valyuta = {
-            "USD": 12800,
-            "RUB": 163,
-            "UZS": 1
-        }
-        for i in carts:
-            cart_total = i.total_price
-            price_type = i.product.price_type
-            total_balance += cart_total * valyuta[price_type]
-        return f"{total_balance // 12800}"
-
-
+        total_balance = 0.0
+        rates = self.get_exchange_rates()
+        for cart in carts:
+            cart_total = cart.total_price  # Assuming total_price is a field or method in Cart
+            price_type = cart.product.price_type  # Assuming price_type is a field
+            total_balance += cart_total * rates[price_type]
+        # Convert to USD and round to 2 decimal places
+        usd_total = total_balance / rates["USD"]
+        return f"{usd_total:.2f} $"

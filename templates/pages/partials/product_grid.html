@@ -1,0 +1,197 @@
+{% load product_tags %}
+<div
+  id="productsGrid"
+  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+>
+  {% for i in products %}
+  <div
+    data-product-id="{{ i.id }}"
+    data-brand-id="{{ i.brand.id }}"
+    data-model-id="{{ i.car_model.id|default:'' }}"
+    data-year-id="{{ i.car_year.id|default:'' }}"
+    data-series-id="{{ i.car_series.id|default:'' }}"
+    data-brand="{{ i.brand.name }}"
+    data-name="{{ i|get_name_by_lang:lang }}"
+    data-price="{{ i.get_price_with_icon|floatformat:2 }}"
+    class="product-card bg-white rounded-2xl sm:rounded-3xl shadow-lg border border-gray-100 overflow-hidden relative"
+  >
+    <div class="relative h-48 sm:h-64">
+      <div
+        class="image-slider h-full bg-gradient-to-br from-gray-100 to-gray-200"
+      >
+        {% for image in i.images.all %}
+        <div
+          class="slide {% if forloop.first %}active{% endif %}"
+          data-product="{{ i.id }}"
+          data-slide="{{ forloop.counter0 }}"
+        >
+          <img
+            src="{{ image.image.url }}"
+            alt="{{ i|get_name_by_lang:lang }}"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        {% empty %}
+        <div class="slide active" data-product="{{ i.id }}" data-slide="0">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 380 260"
+            class="w-full h-full"
+          >
+            <defs>
+              <linearGradient id="wiper1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop
+                  offset="0%"
+                  style="stop-color: #667eea; stop-opacity: 0.8"
+                />
+                <stop
+                  offset="50%"
+                  style="stop-color: #764ba2; stop-opacity: 0.9"
+                />
+                <stop
+                  offset="100%"
+                  style="stop-color: #667eea; stop-opacity: 0.8"
+                />
+              </linearGradient>
+            </defs>
+            <rect
+              x="40"
+              y="120"
+              width="300"
+              height="12"
+              rx="6"
+              fill="url(#wiper1)"
+            />
+            <rect
+              x="40"
+              y="140"
+              width="280"
+              height="8"
+              rx="4"
+              fill="#667eea"
+              opacity="0.6"
+            />
+            <circle cx="50" cy="126" r="8" fill="#764ba2" />
+            <circle cx="330" cy="126" r="8" fill="#764ba2" />
+            <circle cx="50" cy="126" r="3" fill="white" />
+            <circle cx="330" cy="126" r="3" fill="white" />
+          </svg>
+        </div>
+        {% endfor %}
+      </div>
+      <div
+        class="discount-badge absolute top-3 sm:top-4 right-3 sm:right-4 bg-primary text-white px-2 py-1 sm:px-3 sm:py-1 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold"
+      >
+        {{ i.brand.name }}
+      </div>
+      <div
+        class="basket-control absolute top-3 sm:top-4 left-3 sm:left-4 flex items-center gap-1 bg-white/90 backdrop-blur-md rounded-full shadow-lg transition-all duration-300"
+      >
+        {% if user.is_authenticated and i|is_in_cart:user %}
+        <a
+          href="{% url 'cart-remove' remove_id=i.id %}"
+          class="basket-btn flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full hover:bg-red-600 added"
+          title="Удалить из корзины"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            ></path>
+          </svg>
+        </a>
+        {% else %}
+        <form action="{% url 'cart-add' add_id=i.id %}" method="post">
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="basket-btn flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full hover:bg-gray-100"
+            title="Добавить в корзину"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              ></path>
+            </svg>
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    <div class="p-4 sm:p-6">
+      <div class="mb-3">
+        <span
+          class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 sm:px-3 sm:py-1 rounded-full font-medium"
+          >{{ i.brand.name }}</span
+        >
+      </div>
+      <a
+        href="{% url 'product_detail' pk=i.id %}"
+        class="font-bold text-lg sm:text-xl mb-2 text-gray-900 hover:text-primary transition-colors cursor-pointer line-clamp-2"
+      >
+        {{ i|get_name_by_lang:lang }}
+      </a>
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl sm:text-2xl font-bold text-primary"
+            >{{ i.get_price_with_icon }}</span
+          >
+          <span class="text-gray-400 line-through text-xs sm:text-sm"
+            >{{ i.get_price_original_with_icon }}</span
+          >
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button
+          class="flex-1 py-2 px-4 bg-primary text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:bg-red-600 transition-all duration-300"
+          onclick="openOrderModal({{ i.id }})"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            ></path>
+          </svg>
+          Купить сейчас
+        </button>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div id="noResults" class="text-center py-12">
+    <div class="text-gray-400 text-6xl mb-4">🔍</div>
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">Товары не найдены</h3>
+    <p class="text-gray-600 mb-4">
+      Попробуйте изменить параметры поиска или фильтры
+    </p>
+    <button
+      id="resetFiltersBtn"
+      class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors duration-200"
+    >
+      Сбросить фильтры
+    </button>
+  </div>
+  {% endfor %}
+</div>
