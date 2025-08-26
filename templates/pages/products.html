@@ -132,6 +132,13 @@
 
 <main class="flex-1 pt-24 pb-12">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+    {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+      <div class="text-{% if message.tags == 'error' %}red-600{% else %}green-600{% endif %} text-center">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
     {% if error %}
     <div class="text-red-600 text-center mb-4">{{ error }}</div>
     {% endif %}
@@ -173,7 +180,7 @@
                 <h3 class="font-medium mb-3 text-gray-900">Модели</h3>
                 <select name="model_ids" id="modelSelect" class="filter-select" onchange="updateFilters()">
                   <option value="">Выберите модель</option>
-                  {% for model in car_models %}
+                  {% for model in car_models %} <!-- Changed from 'models' to 'car_models' -->
                   <option value="{{ model.id }}" {% if model.id|stringformat:"s" in selected_model_ids %}selected{% endif %}>{{ model.name }}</option>
                   {% endfor %}
                 </select>
@@ -222,28 +229,24 @@
               <div class="image-slider h-full bg-gradient-to-br from-gray-100 to-gray-200">
                 {% for image in i.images.all %}
                 <div class="slide {% if forloop.first %}active{% endif %}" data-product="{{ i.id }}" data-slide="{{ forloop.counter0 }}">
-                  <a href="{% url 'product_detail' pk=i.id %}">
-                    <img src="{{ image.image.url }}" alt="{{ i|get_name_by_lang:lang }}" class="w-full h-full object-contain">
-                  </a>
+                  <img src="{{ image.image.url }}" alt="{{ i|get_name_by_lang:lang }}" class="w-full h-full object-cover">
                 </div>
                 {% empty %}
                 <div class="slide active" data-product="{{ i.id }}" data-slide="0">
-                  <a href="{% url 'product_detail' pk=i.id %}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260" class="w-full h-full">
-                      <defs><linearGradient id="wiper1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/><stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9"/><stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8"/></linearGradient></defs>
-                      <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper1)"/>
-                      <rect x="40" y="140" width="280" height="8" rx="4" fill="#667eea" opacity="0.6"/>
-                      <circle cx="50" cy="126" r="8" fill="#764ba2"/><circle cx="330" cy="126" r="8" fill="#764ba2"/>
-                      <circle cx="50" cy="126" r="3" fill="white"/><circle cx="330" cy="126" r="3" fill="white"/>
-                    </svg>
-                  </a>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260" class="w-full h-full">
+                    <defs><linearGradient id="wiper1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/><stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9"/><stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8"/></linearGradient></defs>
+                    <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper1)"/>
+                    <rect x="40" y="140" width="280" height="8" rx="4" fill="#667eea" opacity="0.6"/>
+                    <circle cx="50" cy="126" r="8" fill="#764ba2"/><circle cx="330" cy="126" r="8" fill="#764ba2"/>
+                    <circle cx="50" cy="126" r="3" fill="white"/><circle cx="330" cy="126" r="3" fill="white"/>
+                  </svg>
                 </div>
                 {% endfor %}
               </div>
-              <a href="{% url 'product_detail' pk=i.id %}" class="discount-badge absolute top-3 sm:top-4 right-3 sm:right-4 bg-primary text-white px-2 py-1 sm:px-3 sm:py-1 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold">
+              <div class="discount-badge absolute top-3 sm:top-4 right-3 sm:right-4 bg-primary text-white px-2 py-1 sm:px-3 sm:py-1 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold">
                 {{ i.brand.name }}
-              </a>
-              <div class="basket-control absolute top-3 sm:top-4 left-3 sm:left-4 flex items-center gap-1 bg-white/90 backdrop-blur-md rounded-full shadow-lg transition-all duration-300" onclick="event.stopPropagation();">
+              </div>
+              <div class="basket-control absolute top-3 sm:top-4 left-3 sm:left-4 flex items-center gap-1 bg-white/90 backdrop-blur-md rounded-full shadow-lg transition-all duration-300">
                 {% if user.is_authenticated and i|is_in_cart:user %}
                 <a href="{% url 'cart-remove' remove_id=i.id %}" class="basket-btn added flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full" title="Удалить из корзины">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -264,18 +267,18 @@
             </div>
             <div class="p-4 sm:p-6">
               <div class="mb-3">
-                <a href="{% url 'product_detail' pk=i.id %}" class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 sm:px-3 sm:py-1 rounded-full font-medium hover:text-primary transition-colors">{{ i.brand.name }}</a>
+                <span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 sm:px-3 sm:py-1 rounded-full font-medium">{{ i.brand.name }}</span>
               </div>
               <a href="{% url 'product_detail' pk=i.id %}" class="font-bold text-lg sm:text-xl mb-2 text-gray-900 hover:text-primary transition-colors cursor-pointer line-clamp-2">{{ i|get_name_by_lang:lang }}</a>
               <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-2">
-                  <a href="{% url 'product_detail' pk=i.id %}" class="text-xl sm:text-2xl font-bold text-primary hover:text-red-600 transition-colors">{{ i.get_price_with_icon }}</a>
+                  <span class="text-xl sm:text-2xl font-bold text-primary">{{ i.get_price_with_icon }}</span>
                   {% if i.discount > 0 %}
-                  <a href="{% url 'product_detail' pk=i.id %}" class="text-gray-400 line-through text-xs sm:text-sm hover:text-primary transition-colors">{{ i.get_price_original_with_icon }}</a>
+                  <span class="text-gray-400 line-through text-xs sm:text-sm">{{ i.get_price_original_with_icon }}</span>
                   {% endif %}
                 </div>
               </div>
-              <div class="flex gap-2" onclick="event.stopPropagation();">
+              <div class="flex gap-2">
                 <button type="button" class="flex-1 py-2 px-4 bg-primary text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:bg-red-600 transition-all duration-300" onclick="openOrderModal({{ i.id }}, '{{ i|get_name_by_lang:lang|escapejs }}', '{{ i.get_price_with_icon|escapejs }}', '{{ i.brand.name|escapejs }}')">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
@@ -419,20 +422,6 @@
     document.getElementById('filterForm').submit();
   }
 
-  function openOrderModal(productId, productName, productPrice, productBrand) {
-    event.stopPropagation(); // Prevent click from bubbling to card elements
-    document.getElementById('productId').value = productId;
-    document.getElementById('productName').value = productName;
-    document.getElementById('productPrice').value = productPrice;
-    document.getElementById('productBrand').value = productBrand;
-    document.getElementById('orderModal').style.display = 'flex';
-  }
-
-  function closeOrderModal() {
-    document.getElementById('orderModal').style.display = 'none';
-    document.getElementById('orderForm').reset();
-  }
-
   document.addEventListener('DOMContentLoaded', () => {
     fetchModels();
     updateFilters();
@@ -442,6 +431,19 @@
     document.getElementById('modelSelect').addEventListener('change', () => fetchYears(document.getElementById('modelSelect').value));
     document.getElementById('yearSelect').addEventListener('change', () => fetchSeries(document.getElementById('yearSelect').value));
   });
+
+  function openOrderModal(productId, productName, productPrice, productBrand) {
+    document.getElementById('productId').value = productId;
+    document.getElementById('productName').value = productName;
+    document.getElementById('productPrice').value = productPrice;
+    document.getElementById('productBrand').value = productBrand;
+    document.getElementById('orderModal').style.display = 'flex'; // Use style.display for consistency
+  }
+
+  function closeOrderModal() {
+    document.getElementById('orderModal').style.display = 'none';
+    document.getElementById('orderForm').reset();
+  }
 
   document.getElementById('orderForm').addEventListener('submit', function(e) {
     e.preventDefault();
