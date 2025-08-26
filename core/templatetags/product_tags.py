@@ -20,3 +20,4 @@ def is_in_cart(product, user):
     if not user.is_authenticated:
         return False
     return user.carts.filter(product=product).exists()
+

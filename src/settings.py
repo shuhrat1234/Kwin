@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core'
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Kwin admin",
+    "site_header": "Kwin",
+    "site_brand": "Магазин",
+    "welcome_sign": "Welcome to kwin",
+    "copyright": "© 2025 Все права защищены",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +65,7 @@ MIDDLEWARE = [
     
     "core.middleware.language_middleware.LanguageMiddleware",
 ]
+LOGIN_URL = '/login/'
 
 ROOT_URLCONF = 'src.urls'
 LANGUAGES = [
