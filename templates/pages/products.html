@@ -414,6 +414,13 @@
 </style>
 <main class="flex-1 pt-24 pb-12">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+    {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+      <div class="text-{% if message.tags == 'error' %}red-600{% else %}green-600{% endif %} text-center">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
     {% if error %}
     <div class="text-red-600 text-center mb-4">{{ error }}</div>
     {% endif %}
@@ -446,7 +453,7 @@
                 <h3 class="font-medium mb-3 text-gray-900">Модели</h3>
                 <select name="model_ids" id="modelSelect" class="filter-select">
                   <option value="">Выберите модель</option>
-                  {% for model in car_models %}
+                  {% for model in car_models %} <!-- Changed from 'models' to 'car_models' -->
                   <option value="{{ model.id }}" {% if model.id|stringformat:"s" in selected_model_ids %}selected{% endif %}>{{ model.name }}</option>
                   {% endfor %}
                 </select>
@@ -476,6 +483,7 @@
         </form>
       </aside>
       <div class="flex-1">
+<<<<<<< HEAD
         <div class="products-scroll-container">
           <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {% for i in products %}
@@ -537,10 +545,78 @@
                       </svg>
                     </button>
                   </form>
+=======
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {% for i in products %}
+          <div
+            data-product-id="{{ i.id }}"
+            data-brand-id="{{ i.brand.id }}"
+            data-model-id="{{ i.car_model.id|default:'' }}"
+            data-year-id="{{ i.car_year.id|default:'' }}"
+            data-series-id="{{ i.car_series.id|default:'' }}"
+            data-brand="{{ i.brand.name }}"
+            data-name="{{ i|get_name_by_lang:lang }}"
+            data-price="{{ i.get_price }}"
+            data-original-price="{{ i.price }}"
+            data-discount="{{ i.discount }}"
+            class="product-card bg-white rounded-2xl sm:rounded-3xl shadow-lg border border-gray-100 overflow-hidden relative"
+          >
+            <div class="relative h-48 sm:h-64">
+              <div class="image-slider h-full bg-gradient-to-br from-gray-100 to-gray-200">
+                {% for image in i.images.all %}
+                <div class="slide {% if forloop.first %}active{% endif %}" data-product="{{ i.id }}" data-slide="{{ forloop.counter0 }}">
+                  <img src="{{ image.image.url }}" alt="{{ i|get_name_by_lang:lang }}" class="w-full h-full object-cover">
+                </div>
+                {% empty %}
+                <div class="slide active" data-product="{{ i.id }}" data-slide="0">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260" class="w-full h-full">
+                    <defs><linearGradient id="wiper1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/><stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9"/><stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8"/></linearGradient></defs>
+                    <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper1)"/>
+                    <rect x="40" y="140" width="280" height="8" rx="4" fill="#667eea" opacity="0.6"/>
+                    <circle cx="50" cy="126" r="8" fill="#764ba2"/><circle cx="330" cy="126" r="8" fill="#764ba2"/>
+                    <circle cx="50" cy="126" r="3" fill="white"/><circle cx="330" cy="126" r="3" fill="white"/>
+                  </svg>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="discount-badge absolute top-3 sm:top-4 right-3 sm:right-4 bg-primary text-white px-2 py-1 sm:px-3 sm:py-1 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold">
+                {{ i.brand.name }}
+              </div>
+              <div class="basket-control absolute top-3 sm:top-4 left-3 sm:left-4 flex items-center gap-1 bg-white/90 backdrop-blur-md rounded-full shadow-lg transition-all duration-300">
+                {% if user.is_authenticated and i|is_in_cart:user %}
+                <a href="{% url 'cart-remove' remove_id=i.id %}" class="basket-btn added flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full" title="Удалить из корзины">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                </a>
+                {% else %}
+                <form action="{% url 'cart-add' add_id=i.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="basket-btn flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full" title="Добавить в корзину">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                  </button>
+                </form>
+                {% endif %}
+              </div>
+            </div>
+            <div class="p-4 sm:p-6">
+              <div class="mb-3">
+                <span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 sm:px-3 sm:py-1 rounded-full font-medium">{{ i.brand.name }}</span>
+              </div>
+              <a href="{% url 'product_detail' pk=i.id %}" class="font-bold text-lg sm:text-xl mb-2 text-gray-900 hover:text-primary transition-colors cursor-pointer line-clamp-2">{{ i|get_name_by_lang:lang }}</a>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-xl sm:text-2xl font-bold text-primary">{{ i.get_price_with_icon }}</span>
+                  {% if i.discount > 0 %}
+                  <span class="text-gray-400 line-through text-xs sm:text-sm">{{ i.get_price_original_with_icon }}</span>
+>>>>>>> 1468b5fad6e06aef6d02215be4e507d3ba483d5d
                   {% endif %}
                 </div>
                 <div class="brand-badge-fixed">{{ i.brand.name }}</div>
               </div>
+<<<<<<< HEAD
               <div class="product-content">
                 <div>
                   <a href="{% url 'product_detail' pk=i.id %}" class="product-title">{{ i|get_name_by_lang:lang }}</a>
@@ -552,6 +628,10 @@
                   </div>
                 </div>
                 <button type="button" class="buy-button" onclick="openOrderModal({{ i.id }}, '{{ i|get_name_by_lang:lang|escapejs }}', '{{ i.get_price_with_icon|escapejs }}', '{{ i.brand.name|escapejs }}')">
+=======
+              <div class="flex gap-2">
+                <button type="button" class="flex-1 py-2 px-4 bg-primary text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:bg-red-600 transition-all duration-300" onclick="openOrderModal({{ i.id }}, '{{ i|get_name_by_lang:lang|escapejs }}', '{{ i.get_price_with_icon|escapejs }}', '{{ i.brand.name|escapejs }}')">
+>>>>>>> 1468b5fad6e06aef6d02215be4e507d3ba483d5d
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                   </svg>
@@ -608,6 +688,7 @@
   </div>
 </main>
 <script>
+<<<<<<< HEAD
 function updateFilters() {
   const brandSelect = document.getElementById('brandSelect');
   const modelSelect = document.getElementById('modelSelect');
@@ -727,6 +808,118 @@ async function submitOrderForm(e) {
   submitButton.textContent = 'Отправка...';
   try {
     const response = await fetch(e.target.action, {
+=======
+  function updateFilters() {
+    const brandSelect = document.getElementById('brandSelect');
+    const modelSelect = document.getElementById('modelSelect');
+    const yearSelect = document.getElementById('yearSelect');
+    const seriesSelect = document.getElementById('seriesSelect');
+    const filterButton = document.getElementById('filterButton');
+    const filterButtonDesktop = document.getElementById('filterButtonDesktop');
+
+    yearSelect.disabled = !modelSelect.value;
+    seriesSelect.disabled = !yearSelect.value;
+    const isFilterActive = brandSelect.value && modelSelect.value;
+    filterButton.classList.toggle('active', isFilterActive);
+    filterButtonDesktop.classList.toggle('active', isFilterActive);
+  }
+
+  function fetchModels() {
+    fetch('/get_models/')
+      .then(response => response.json())
+      .then(data => {
+        const modelSelect = document.getElementById('modelSelect');
+        const savedModel = modelSelect.value;
+        modelSelect.innerHTML = '<option value="">Выберите модель</option>';
+        data.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+        if (savedModel && Array.from(modelSelect.options).some(opt => opt.value === savedModel)) {
+          modelSelect.value = savedModel;
+        }
+        fetchYears(modelSelect.value);
+      })
+      .catch(error => console.error('Error fetching models:', error));
+  }
+
+  function fetchYears(modelId) {
+    fetch(`/get_years/?model_id=${modelId || ''}`)
+      .then(response => response.json())
+      .then(data => {
+        const yearSelect = document.getElementById('yearSelect');
+        const savedYear = yearSelect.value;
+        yearSelect.innerHTML = '<option value="">Выберите год</option>';
+        data.forEach(year => {
+          const option = document.createElement('option');
+          option.value = year.id;
+          option.textContent = year.year;
+          yearSelect.appendChild(option);
+        });
+        if (savedYear && Array.from(yearSelect.options).some(opt => opt.value === savedYear)) {
+          yearSelect.value = savedYear;
+        }
+        updateFilters();
+        fetchSeries(yearSelect.value);
+      })
+      .catch(error => console.error('Error fetching years:', error));
+  }
+
+  function fetchSeries(yearId) {
+    fetch(`/get_series/?year_id=${yearId || ''}`)
+      .then(response => response.json())
+      .then(data => {
+        const seriesSelect = document.getElementById('seriesSelect');
+        const savedSeries = seriesSelect.value;
+        seriesSelect.innerHTML = '<option value="">Выберите серию</option>';
+        data.forEach(series => {
+          const option = document.createElement('option');
+          option.value = series.id;
+          option.textContent = series.name;
+          seriesSelect.appendChild(option);
+        });
+        if (savedSeries && Array.from(seriesSelect.options).some(opt => opt.value === savedSeries)) {
+          seriesSelect.value = savedSeries;
+        }
+        updateFilters();
+      })
+      .catch(error => console.error('Error fetching series:', error));
+  }
+
+  function submitSearch() {
+    document.getElementById('filterForm').submit();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchModels();
+    updateFilters();
+    document.querySelectorAll('#brandSelect, #modelSelect, #yearSelect, #seriesSelect').forEach(select => {
+      select.addEventListener('change', updateFilters);
+    });
+    document.getElementById('modelSelect').addEventListener('change', () => fetchYears(document.getElementById('modelSelect').value));
+    document.getElementById('yearSelect').addEventListener('change', () => fetchSeries(document.getElementById('yearSelect').value));
+  });
+
+  function openOrderModal(productId, productName, productPrice, productBrand) {
+    document.getElementById('productId').value = productId;
+    document.getElementById('productName').value = productName;
+    document.getElementById('productPrice').value = productPrice;
+    document.getElementById('productBrand').value = productBrand;
+    document.getElementById('orderModal').style.display = 'flex'; // Use style.display for consistency
+  }
+
+  function closeOrderModal() {
+    document.getElementById('orderModal').style.display = 'none';
+    document.getElementById('orderForm').reset();
+  }
+
+  document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    fetch(this.action, {
+>>>>>>> 1468b5fad6e06aef6d02215be4e507d3ba483d5d
       method: 'POST',
       body: new FormData(e.target),
       headers: {

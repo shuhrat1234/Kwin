@@ -127,25 +127,38 @@ def change_cart(request, cart_id, inc):
 
 @require_POST
 def cart_add(request, add_id):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    
     if not request.user.is_authenticated:
-        messages.error = get_error_message("not_authenticated", request) or "Пожалуйста, войдите для добавления в корзину!"
+        error_message = get_error_message("not_authenticated", request) or "Пожалуйста, войдите для добавления в корзину!"
+        if is_ajax:
+            return JsonResponse({"success": False, "message": error_message})
+        messages.error(request, error_message)
         return redirect(request.META.get("HTTP_REFERER", "products"))
 
     product = Product.objects.filter(id=add_id).first()
     if not product:
-        messages.error = get_error_message("product_not_found", request) or "Товар не найден!"
+        error_message = get_error_message("product_not_found", request) or "Товар не найден!"
+        if is_ajax:
+            return JsonResponse({"success": False, "message": error_message})
+        messages.error(request, error_message)
         return redirect(request.META.get("HTTP_REFERER", "products"))
 
     cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, status=True)
     if not created:
         cart_item.quantity += 1
         cart_item.save()
-        messages.error = get_error_message("already_in_cart", request) or "Товар уже в корзине, количество обновлено!"
+        success_message = get_error_message("already_in_cart", request) or "Товар уже в корзине, количество обновлено!"
+        if is_ajax:
+            return JsonResponse({"success": True, "message": success_message})
+        messages.success(request, success_message)
         return redirect(request.META.get("HTTP_REFERER", "products"))
 
-    messages.error = get_error_message("cart_added", request) or "Товар успешно добавлен в корзину!"
+    success_message = get_error_message("cart_added", request) or "Товар успешно добавлен в корзину!"
+    if is_ajax:
+        return JsonResponse({"success": True, "message": success_message})
+    messages.success(request, success_message)
     return redirect(request.META.get("HTTP_REFERER", "products"))
-
 @login_required
 def cart_remove(request, remove_id):
     product = Product.objects.filter(id=remove_id, deleted=False).first()
