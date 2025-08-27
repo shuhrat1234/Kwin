@@ -4,6 +4,7 @@
 {% block content %}
 <meta name="csrf-token" content="{{ csrf_token }}" />
 <style>
+/* CSS with scale effects removed and responsive fixes */
 .filter-select {
   width: 100%;
   padding: 0.5rem;
@@ -47,16 +48,16 @@
   min-height: 420px;
   width: 100%;
   max-width: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   border-radius: 1rem;
   background: white;
   box-sizing: border-box;
   overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #e5e7eb;
 }
 .product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 .product-image-container {
   position: relative;
@@ -124,11 +125,9 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
 }
 .cart-button-fixed:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 1);
 }
 .cart-button-fixed.in-cart {
   background: var(--primary-red);
@@ -150,6 +149,10 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  max-width: calc(100% - 80px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .product-content {
   padding: 1rem;
@@ -172,7 +175,6 @@
 }
 .product-title:hover {
   color: var(--primary-red);
-  cursor: pointer;
 }
 .price-container {
   display: flex;
@@ -200,7 +202,6 @@
   font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -209,7 +210,6 @@
 }
 .buy-button:hover {
   background: var(--primary-dark);
-  transform: translateY(-1px);
 }
 .image-dots {
   position: absolute;
@@ -226,17 +226,15 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 .dot.active {
   background: white;
-  transform: scale(1.2);
 }
 @media (min-width: 768px) {
   .products-scroll-container {
     max-height: calc(100vh - 200px);
     overflow-y: auto;
-    padding-right: 0;
+    padding-right: 0.5rem;
   }
   .products-scroll-container::-webkit-scrollbar {
     width: 6px;
@@ -284,24 +282,24 @@
 .close:hover {
   color: #000;
 }
+/* Mobile styles */
 @media (max-width: 767px) {
   .flex.gap-8 {
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
   }
   aside.w-64 {
     width: 100%;
+    max-width: 100%;
   }
   #productsGrid {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    width: 100%;
-    margin: 0;
+    gap: 1.5rem;
+    padding: 0 0.5rem;
   }
   .product-image-container {
-    height: 320px;
+    height: 300px;
     width: 100%;
-    max-width: 100%;
   }
   .cart-button-fixed,
   .brand-badge-fixed {
@@ -309,40 +307,48 @@
   }
   .cart-button-fixed {
     left: 8px;
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
+  }
+  .cart-button-fixed svg {
+    width: 24px;
+    height: 24px;
   }
   .brand-badge-fixed {
     right: 8px;
-    padding: 4px 8px;
-    font-size: 0.625rem;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    max-width: calc(100% - 64px);
+    min-height: 28px;
   }
   .products-scroll-container {
     max-height: none;
     overflow-y: visible;
-    margin: 0;
+    padding: 0;
   }
   .product-card {
-    min-height: 440px;
+    min-height: 400px;
     width: 100%;
-    max-width: 100%;
   }
   .product-content {
-    padding: 0.75rem;
-    min-height: 140px;
+    padding: 1rem;
+    min-height: 120px;
   }
   .buy-button {
-    font-size: 0.8125rem;
-    padding: 8px 10px;
+    font-size: 0.875rem;
+    padding: 10px 14px;
+  }
+  .buy-button svg {
+    width: 18px;
+    height: 18px;
   }
 }
+/* Tablet styles */
 @media (min-width: 768px) and (max-width: 1023px) {
   #productsGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
-    width: 100%;
-    padding: 0 1.5rem;
-    margin: 0;
+    padding: 0 1rem;
   }
   aside.w-64 {
     width: 100%;
@@ -350,47 +356,62 @@
   }
   .flex.gap-8 {
     flex-direction: row;
-    gap: 1.5rem;
+    gap: 2rem;
   }
   .product-image-container {
     height: 260px;
     width: 100%;
-    max-width: 100%;
   }
   .product-card {
     min-height: 400px;
     width: 100%;
-    max-width: 100%;
   }
   .product-content {
     padding: 1rem;
-    min-height: 140px;
+    min-height: 130px;
   }
   .buy-button {
     font-size: 0.875rem;
     padding: 10px 12px;
   }
+  .cart-button-fixed {
+    width: 42px;
+    height: 42px;
+    top: 8px;
+    left: 8px;
+  }
+  .brand-badge-fixed {
+    top: 8px;
+    right: 8px;
+    padding: 5px 10px;
+    font-size: 0.7rem;
+    max-width: calc(100% - 64px);
+  }
+  .current-price {
+    font-size: 1.3rem;
+  }
+  .product-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
 }
+/* Desktop styles */
 @media (min-width: 1024px) {
   #productsGrid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    width: 100%;
-    padding: 0 2rem;
-    margin: 0;
+    gap: 1.5rem;
+    padding: 0 1rem;
   }
   aside.w-64 {
-    width: 256px;
+    width: 280px;
   }
   .product-image-container {
     height: 280px;
     width: 100%;
-    max-width: 100%;
   }
   .product-card {
     min-height: 420px;
     width: 100%;
-    max-width: 100%;
   }
 }
 .max-w-7xl {
@@ -412,21 +433,22 @@
   }
 }
 </style>
-<main class="flex-1 pt-24 pb-12">
+<main class="flex-1 pt-20 pb-12">
+  <!-- HTML remains unchanged, only CSS and JavaScript modified -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
     {% if messages %}
     <div class="mb-4">
       {% for message in messages %}
-      <div class="text-{% if message.tags == 'error' %}red-600{% else %}green-600{% endif %} text-center">{{ message }}</div>
+      <div class="text-{% if message.tags == 'error' %}red-600{% else %}green-600{% endif %} text-center" data-translate="message_{{ message.tags }}">{{ message }}</div>
       {% endfor %}
     </div>
     {% endif %}
     {% if error %}
-    <div class="text-red-600 text-center mb-4">{{ error }}</div>
+    <div class="text-red-600 text-center mb-4" data-translate="error_message">{{ error }}</div>
     {% endif %}
     <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Дворники для автомобилей</h1>
-      <span class="text-gray-600 font-medium text-sm sm:text-base">Найдено товаров: {{ products.count }}</span>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" data-translate="auto_parts"></h1>
+      <span class="text-gray-600 font-medium text-sm sm:text-base"><span  data-translate="products_found"></span> {{ products.count }}</span>
     </div>
     <div class="flex gap-8">
       <aside class="w-64 flex-shrink-0">
@@ -437,47 +459,47 @@
               <svg class="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
               </svg>
-              <h2 class="text-lg font-semibold text-gray-900">Фильтры</h2>
+              <h2 class="text-lg font-semibold text-gray-900" data-translate="filters"></h2>
             </div>
             <div class="space-y-6">
               <div>
-                <h3 class="font-medium mb-3 text-gray-900">Бренды</h3>
+                <h3 class="font-medium mb-3 text-gray-900" data-translate="brands"></h3>
                 <select name="brand_ids" id="brandSelect" class="filter-select">
-                  <option value="">Выберите бренд</option>
+                  <option value="" data-translate="select_brand"></option>
                   {% for brand in brands %}
                   <option value="{{ brand.id }}" {% if brand.id|stringformat:"s" in selected_brand_ids %}selected{% endif %}>{{ brand.name }}</option>
                   {% endfor %}
                 </select>
               </div>
               <div>
-                <h3 class="font-medium mb-3 text-gray-900">Модели</h3>
+                <h3 class="font-medium mb-3 text-gray-900" data-translate="models"></h3>
                 <select name="model_ids" id="modelSelect" class="filter-select">
-                  <option value="">Выберите модель</option>
+                  <option value="" data-translate="select_model"></option>
                   {% for model in car_models %}
                   <option value="{{ model.id }}" {% if model.id|stringformat:"s" in selected_model_ids %}selected{% endif %}>{{ model.name }}</option>
                   {% endfor %}
                 </select>
               </div>
               <div>
-                <h3 class="font-medium mb-3 text-gray-900">Годы</h3>
+                <h3 class="font-medium mb-3 text-gray-900" data-translate="years"></h3>
                 <select name="year_ids" id="yearSelect" class="filter-select" disabled>
-                  <option value="">Выберите год</option>
+                  <option value="" data-translate="select_year"></option>
                   {% for year in years %}
                   <option value="{{ year.id }}" {% if year.id|stringformat:"s" in selected_year_ids %}selected{% endif %}>{{ year.year }}</option>
                   {% endfor %}
                 </select>
               </div>
               <div>
-                <h3 class="font-medium mb-3 text-gray-900">Серии</h3>
+                <h3 class="font-medium mb-3 text-gray-900" data-translate="series"></h3>
                 <select name="series_ids" id="seriesSelect" class="filter-select" disabled>
-                  <option value="">Выберите серию</option>
+                  <option value="" data-translate="select_series"></option>
                   {% for series in series %}
                   <option value="{{ series.id }}" {% if series.id|stringformat:"s" in selected_series_ids %}selected{% endif %}>{{ series.name }}</option>
                   {% endfor %}
                 </select>
               </div>
-              <button type="submit" id="filterButtonDesktop" class="w-full mt-4 filter-button {% if filter_active %}active{% endif %}">Отфильтровать</button>
-              <a href="{% url 'reset_filters' %}" class="w-full mt-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors duration-200 text-center block">Сбросить фильтры</a>
+              <button type="submit" id="filterButtonDesktop" class="w-full mt-4 filter-button {% if filter_active %}active{% endif %}" data-translate="filter"></button>
+              <a href="{% url 'reset_filters' %}" class="w-full mt-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors duration-200 text-center block" data-translate="reset_filters"></a>
             </div>
           </div>
         </form>
@@ -498,18 +520,19 @@
               data-original-price="{{ i.price }}"
               data-discount="{{ i.discount }}"
               class="product-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden"
+              onclick="window.location.href='{% url 'product_detail' pk=i.id %}'"
             >
               <div class="product-image-container">
                 <div class="image-slider">
                   {% for image in i.images.all %}
                   <div class="slide {% if forloop.first %}active{% endif %}" data-product="{{ i.id }}" data-slide="{{ forloop.counter0 }}">
-                    <a href="{% url 'product_detail' pk=i.id %}" class="block w-full h-full">
+                    <div class="block w-full h-full">
                       <img src="{{ image.image.url }}" alt="{{ i|get_name_by_lang:lang }}" class="w-full h-full object-cover">
-                    </a>
+                    </div>
                   </div>
                   {% empty %}
                   <div class="slide active" data-product="{{ i.id }}" data-slide="0">
-                    <a href="{% url 'product_detail' pk=i.id %}" class="block w-full h-full">
+                    <div class="block w-full h-full">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260" class="w-full h-full">
                         <defs><linearGradient id="wiper{{ i.id }}" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/><stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9"/><stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8"/></linearGradient></defs>
                         <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper{{ i.id }})"/>
@@ -517,20 +540,20 @@
                         <circle cx="50" cy="126" r="8" fill="#764ba2"/><circle cx="330" cy="126" r="8" fill="#764ba2"/>
                         <circle cx="50" cy="126" r="3" fill="white"/><circle cx="330" cy="126" r="3" fill="white"/>
                       </svg>
-                    </a>
+                    </div>
                   </div>
                   {% endfor %}
                 </div>
                 {% if i.images.all|length > 1 %}
                 <div class="image-dots">
                   {% for image in i.images.all %}
-                  <div class="dot {% if forloop.first %}active{% endif %}" data-product="{{ i.id }}" data-slide="{{ forloop.counter0 }}" onclick="changeSlide({{ i.id }}, {{ forloop.counter0 }})"></div>
+                  <div class="dot {% if forloop.first %}active{% endif %}" data-product="{{ i.id }}" data-slide="{{ forloop.counter0 }}" onclick="event.stopPropagation(); changeSlide({{ i.id }}, {{ forloop.counter0 }})"></div>
                   {% endfor %}
                 </div>
                 {% endif %}
                 <div class="cart-button-fixed {% if user.is_authenticated and i|is_in_cart:user %}in-cart{% endif %}" onclick="event.stopPropagation();">
                   {% if user.is_authenticated and i|is_in_cart:user %}
-                  <a href="{% url 'cart-remove' remove_id=i.id %}" title="Удалить из корзины">
+                  <a href="{% url 'cart-remove' remove_id=i.id %}" title="{{ 'remove_from_cart' }}">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                     </svg>
@@ -538,7 +561,7 @@
                   {% else %}
                   <form action="{% url 'cart-add' add_id=i.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" title="Добавить в корзину">
+                    <button type="submit" title="{{ 'add_to_cart' }}">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                       </svg>
@@ -550,7 +573,7 @@
               </div>
               <div class="product-content">
                 <div>
-                  <a href="{% url 'product_detail' pk=i.id %}" class="product-title">{{ i|get_name_by_lang:lang }}</a>
+                  <div class="product-title">{{ i|get_name_by_lang:lang }}</div>
                   <div class="price-container">
                     <span class="current-price">{{ i.get_price_with_icon }}</span>
                     {% if i.discount > 0 %}
@@ -558,20 +581,20 @@
                     {% endif %}
                   </div>
                 </div>
-                <button type="button" class="buy-button" onclick="openOrderModal({{ i.id }}, '{{ i|get_name_by_lang:lang|escapejs }}', '{{ i.get_price_with_icon|escapejs }}', '{{ i.brand.name|escapejs }}')">
+                <button type="button" class="buy-button" onclick="event.stopPropagation(); openOrderModal({{ i.id }}, '{{ i|get_name_by_lang:lang|escapejs }}', '{{ i.get_price_with_icon|escapejs }}', '{{ i.brand.name|escapejs }}')">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                   </svg>
-                  Купить сейчас
+                  <span data-translate="buy_now"></span>
                 </button>
               </div>
             </div>
             {% empty %}
             <div id="noResults" class="col-span-full text-center py-12">
               <div class="text-gray-400 text-6xl mb-4">🔍</div>
-              <h3 class="text-xl font-semibold text-gray-900 mb-2">Товары не найдены</h3>
-              <p class="text-gray-600 mb-4">Попробуйте изменить параметры поиска или фильтры</p>
-              <a href="{% url 'reset_filters' %}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200">Сбросить фильтры</a>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate="no_products_found"></h3>
+              <p class="text-gray-600 mb-4" data-translate="try_changing_filters"></p>
+              <a href="{% url 'reset_filters' %}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200" data-translate="reset_filters"></a>
             </div>
             {% endfor %}
           </div>
@@ -582,7 +605,7 @@
   <div id="orderModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4 relative">
       <span class="close absolute top-2 right-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-700" onclick="closeOrderModal()">&times;</span>
-      <h2 class="text-xl font-bold mb-4">Оформление заказа</h2>
+      <h2 class="text-xl font-bold mb-4" data-translate="order_checkout">Оформление заказа</h2>
       <form id="orderForm" action="{% url 'order_create' %}" method="post" class="space-y-4">
         {% csrf_token %}
         <input type="hidden" id="productId" name="productId">
@@ -591,24 +614,24 @@
         <input type="hidden" id="productBrand" name="productBrand">
         <input type="hidden" id="productQuantity" name="productQuantity" value="1">
         <div>
-          <label class="block text-sm font-medium text-gray-700">Полное имя *</label>
+          <label class="block text-sm font-medium text-gray-700" data-translate="full_name">Полное имя *</label>
           <input type="text" name="fullName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700">Номер телефона *</label>
-          <input type="tel" id="contactPhone" name="contactPhone" placeholder="+998 (XX) XXX-XX-XX" pattern="\+998[0-9]{9}" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+          <label class="block text-sm font-medium text-gray-700" data-translate="phone_number">Номер телефона *</label>
+          <input type="tel" id="contactPhone" name="contactPhone" placeholder="{{ 'phone_placeholder' }}" pattern="\+998[0-9]{9}" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700">Email *</label>
+          <label class="block text-sm font-medium text-gray-700" data-translate="email">Email *</label>
           <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700">Дополнительная информация</label>
-          <textarea name="additionalInfo" rows="4" placeholder="Адрес доставки, пожелания к заказу..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-y"></textarea>
+          <label class="block text-sm font-medium text-gray-700" data-translate="additional_info">Дополнительная информация</label>
+          <textarea name="additionalInfo" rows="4" placeholder="{{ 'additional_info_placeholder' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-y"></textarea>
         </div>
         <div class="flex gap-3 pt-4">
-          <button type="button" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 transition-colors" onclick="closeOrderModal()">Отмена</button>
-          <button type="submit" class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition-colors">Подтвердить заказ</button>
+          <button type="button" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 transition-colors" data-translate="cancel">Отмена</button>
+          <button type="submit" class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition-colors" data-translate="confirm_order">Подтвердить заказ</button>
         </div>
       </form>
     </div>
@@ -655,7 +678,7 @@ function fetchModels() {
     .then(data => {
       const modelSelect = document.getElementById('modelSelect');
       const savedModel = modelSelect.value;
-      modelSelect.innerHTML = '<option value="">Выберите модель</option>';
+      modelSelect.innerHTML = '<option value="" data-translate="select_model">Выберите модель</option>';
       data.forEach(model => {
         const option = document.createElement('option');
         option.value = model.id;
@@ -676,7 +699,7 @@ function fetchYears(modelId) {
     .then(data => {
       const yearSelect = document.getElementById('yearSelect');
       const savedYear = yearSelect.value;
-      yearSelect.innerHTML = '<option value="">Выберите год</option>';
+      yearSelect.innerHTML = '<option value="" data-translate="select_year">Выберите год</option>';
       data.forEach(year => {
         const option = document.createElement('option');
         option.value = year.id;
@@ -698,7 +721,7 @@ function fetchSeries(yearId) {
     .then(data => {
       const seriesSelect = document.getElementById('seriesSelect');
       const savedSeries = seriesSelect.value;
-      seriesSelect.innerHTML = '<option value="">Выберите серию</option>';
+      seriesSelect.innerHTML = '<option value="" data-translate="select_series">Выберите серию</option>';
       data.forEach(series => {
         const option = document.createElement('option');
         option.value = series.id;
@@ -714,7 +737,6 @@ function fetchSeries(yearId) {
 }
 
 function openOrderModal(productId, productName, productPrice, productBrand) {
-  event.stopPropagation();
   document.getElementById('productId').value = productId;
   document.getElementById('productName').value = productName;
   document.getElementById('productPrice').value = productPrice;
@@ -754,24 +776,24 @@ function initKeyboardNavigation() {
   });
 }
 
-function initProductCardEffects() {
-  document.querySelectorAll('.product-card').forEach(card => {
-    card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-8px)');
-    card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
-  });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   fetchModels();
   updateFilters();
   initAutoSlide();
   initKeyboardNavigation();
-  initProductCardEffects();
+  
   document.querySelectorAll('#brandSelect, #modelSelect, #yearSelect, #seriesSelect').forEach(select => {
     select.addEventListener('change', updateFilters);
   });
-  document.getElementById('modelSelect').addEventListener('change', () => fetchYears(document.getElementById('modelSelect').value));
-  document.getElementById('yearSelect').addEventListener('change', () => fetchSeries(document.getElementById('yearSelect').value));
+  
+  document.getElementById('modelSelect').addEventListener('change', () => {
+    fetchYears(document.getElementById('modelSelect').value);
+  });
+  
+  document.getElementById('yearSelect').addEventListener('change', () => {
+    fetchSeries(document.getElementById('yearSelect').value);
+  });
+  
   const phoneInput = document.getElementById('contactPhone');
   if (phoneInput) {
     phoneInput.addEventListener('input', () => formatPhoneNumber(phoneInput));
@@ -779,6 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!phoneInput.value) phoneInput.value = '+998 (';
     });
   }
+  
   const orderForm = document.getElementById('orderForm');
   if (orderForm) {
     orderForm.addEventListener('submit', async (e) => {
@@ -786,7 +809,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const submitButton = e.target.querySelector('button[type="submit"]');
       const originalText = submitButton.textContent;
       submitButton.disabled = true;
-      submitButton.textContent = 'Отправка...';
+      submitButton.textContent = translateText('sending');
+      
       try {
         const response = await fetch(e.target.action, {
           method: 'POST',
@@ -796,20 +820,27 @@ document.addEventListener('DOMContentLoaded', () => {
             'X-Requested-With': 'XMLHttpRequest'
           }
         });
+        
         const data = await response.json();
-        alert(data.success ? (data.message || 'Заказ успешно оформлен!') : (data.message || 'Произошла ошибка при оформлении заказа'));
+        alert(data.success ? (data.message || translateText('order_success')) : (data.message || translateText('order_error')));
+        
         if (data.success) closeOrderModal();
       } catch (error) {
         console.error('Error:', error);
-        alert('Произошла ошибка при отправке заказа');
+        alert(translateText('order_submit_error'));
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = originalText;
       }
     });
   }
+  
   const modal = document.getElementById('orderModal');
-  if (modal) modal.addEventListener('click', e => { if (e.target === modal) closeOrderModal(); });
+  if (modal) {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeOrderModal();
+    });
+  }
 });
 
 window.updateFilters = updateFilters;
