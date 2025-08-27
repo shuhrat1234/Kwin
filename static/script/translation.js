@@ -95,7 +95,7 @@ const TranslationManager = {
 
 const Translations = {
     en: {
-        // Existing translations
+        // Existing translations (unchanged, included for context)
         password: 'Password',
         site_title: 'KWIN Commerce',
         home: 'Home',
@@ -132,7 +132,6 @@ const Translations = {
         footer_title: 'KWIN Commerce',
         footer_slogan: 'Your reliable partner in the world of auto products.',
         footer_copyright: 'KWIN. All rights reserved.',
-        // Product template translations
         auto_parts: 'Auto Parts',
         products_found: 'Products found:',
         filters: 'Filters',
@@ -156,16 +155,35 @@ const Translations = {
         phone_number: 'Phone number *',
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Additional information',
-        additional_info_placeholder: 'Delivery address, order notes...',
         cancel: 'Cancel',
         confirm_order: 'Confirm order',
         sending: 'Sending...',
         order_success: 'Order successfully placed!',
         order_error: 'An error occurred while placing the order',
-        order_submit_error: 'An error occurred while submitting the order'
+        order_submit_error: 'An error occurred while submitting the order',
+        product_description: 'Product Description',
+        quantity_label: 'Quantity:',
+        convenient_purchase: 'Convenient Purchase',
+        convenient_purchase_description: 'Easily and quickly place an order',
+        quality_guarantee: 'Quality Guarantee',
+        quality_guarantee_description: 'All products are high quality',
+        reliable_partner: 'Reliable Partner',
+        reliable_partner_description: 'Your reliable partner in the world of auto products',
+        // New translations for basket page
+        basket: 'Cart',
+        items: 'items',
+        size: 'Size',
+        color: 'Color',
+        continue_shopping: 'Continue Shopping',
+        total: 'Total',
+        send: 'Send',
+        min_quantity_error: 'Quantity cannot be less than 1!',
+        request_error: 'Request error',
+        update_quantity_error: 'Failed to update quantity. Please try again.',
+        error: 'Error'
     },
     uz: {
-        // Existing translations
+        // Existing translations (unchanged, included for context)
         password: 'Parol',
         site_title: 'KWIN Tijorat',
         home: 'Bosh sahifa',
@@ -202,7 +220,6 @@ const Translations = {
         footer_title: 'KWIN Tijorat',
         footer_slogan: 'Avto mahsulotlar dunyosidagi ishonchli hamkoringiz.',
         footer_copyright: 'KWIN. Barcha huquqlar himoyalangan.',
-        // Product template translations
         auto_parts: 'Avto ehtiyot qismlari',
         products_found: 'Topilgan mahsulotlar:',
         filters: 'Filtrlar',
@@ -226,16 +243,35 @@ const Translations = {
         phone_number: 'Telefon raqami *',
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: "Qo'shimcha ma'lumot",
-        additional_info_placeholder: "Yetkazib berish manzili, buyurtma eslatmalari...",
         cancel: 'Bekor qilish',
         confirm_order: 'Buyurtmani tasdiqlash',
         sending: 'Yuborilmoqda...',
         order_success: 'Buyurtma muvaffaqiyatli joylashtirildi!',
         order_error: 'Buyurtma berishda xatolik yuz berdi',
-        order_submit_error: 'Buyurtmani yuborishda xatolik yuz berdi'
+        order_submit_error: 'Buyurtmani yuborishda xatolik yuz berdi',
+        product_description: 'Mahsulot Tavsifi',
+        quantity_label: 'Miqdori:',
+        convenient_purchase: 'Qulay Xarid',
+        convenient_purchase_description: 'Oson va tez buyurtma berish',
+        quality_guarantee: 'Sifat Kafolati',
+        quality_guarantee_description: 'Barcha mahsulotlar yuqori sifatli',
+        reliable_partner: 'Ishonchli Hamkor',
+        reliable_partner_description: 'Avto mahsulotlar dunyosidagi ishonchli hamkoringiz',
+        // New translations for basket page
+        basket: 'Savat',
+        items: 'mahsulotlar',
+        size: 'Hajm',
+        color: 'Rang',
+        continue_shopping: 'Xaridni davom ettirish',
+        total: 'Jami',
+        send: 'Yuborish',
+        min_quantity_error: 'Miqdor 1 dan kam bo‘lishi mumkin emas!',
+        request_error: 'So‘rov xatosi',
+        update_quantity_error: 'Miqdorni yangilash muvaffaqiyatsiz bo‘ldi. Iltimos, qayta urinib ko‘ring.',
+        error: 'Xato'
     },
     ru: {
-        // Existing translations
+        // Existing translations (unchanged, included for context)
         password: 'Пароль',
         site_title: 'KWIN Коммерция',
         home: 'Главная',
@@ -272,7 +308,6 @@ const Translations = {
         footer_title: 'KWIN Коммерция',
         footer_slogan: 'Ваш надежный партнер в мире авто товаров.',
         footer_copyright: 'KWIN. Все права защищены.',
-        // Product template translations
         auto_parts: 'Автокомплектующие',
         products_found: 'Найдено товаров:',
         filters: 'Фильтры',
@@ -296,16 +331,35 @@ const Translations = {
         phone_number: 'Номер телефона *',
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Дополнительная информация',
-        additional_info_placeholder: 'Адрес доставки, пожелания к заказу...',
         cancel: 'Отмена',
         confirm_order: 'Подтвердить заказ',
         sending: 'Отправка...',
         order_success: 'Заказ успешно оформлен!',
         order_error: 'Произошла ошибка при оформлении заказа',
-        order_submit_error: 'Произошла ошибка при отправке заказа'
+        order_submit_error: 'Произошла ошибка при отправке заказа',
+        product_description: 'Описание товара',
+        quantity_label: 'Количество:',
+        convenient_purchase: 'Удобная Покупка',
+        convenient_purchase_description: 'Легко и быстро оформить заказ',
+        quality_guarantee: 'Гарантия Качества',
+        quality_guarantee_description: 'Все товары высокого качества',
+        reliable_partner: 'Надежный Партнер',
+        reliable_partner_description: 'Ваш надежный партнер в мире автотоваров',
+        // New translations for basket page
+        basket: 'Корзина',
+        items: 'товаров',
+        size: 'Размер',
+        color: 'Цвет',
+        continue_shopping: 'Продолжить покупки',
+        total: 'Итого',
+        send: 'Отправить',
+        min_quantity_error: 'Количество не может быть меньше 1!',
+        request_error: 'Ошибка запроса',
+        update_quantity_error: 'Не удалось обновить количество. Попробуйте снова.',
+        error: 'Ошибка'
     },
     ger: {
-        // Existing translations
+        // Existing translations (unchanged, included for context)
         password: 'Passwort',
         site_title: 'KWIN Handel',
         home: 'Startseite',
@@ -342,7 +396,6 @@ const Translations = {
         footer_title: 'KWIN Handel',
         footer_slogan: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte.',
         footer_copyright: 'KWIN. Alle Rechte vorbehalten.',
-        // Product template translations
         auto_parts: 'Autoteile',
         products_found: 'Gefundene Produkte:',
         filters: 'Filter',
@@ -366,13 +419,32 @@ const Translations = {
         phone_number: 'Telefonnummer *',
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Zusätzliche Informationen',
-        additional_info_placeholder: 'Lieferadresse, Anmerkungen zur Bestellung...',
         cancel: 'Abbrechen',
         confirm_order: 'Bestellung bestätigen',
         sending: 'Senden...',
         order_success: 'Bestellung erfolgreich aufgegeben!',
         order_error: 'Fehler beim Aufgeben der Bestellung',
-        order_submit_error: 'Fehler beim Senden der Bestellung'
+        order_submit_error: 'Fehler beim Senden der Bestellung',
+        product_description: 'Produktbeschreibung',
+        quantity_label: 'Menge:',
+        convenient_purchase: 'Bequemer Einkauf',
+        convenient_purchase_description: 'Einfach und schnell bestellen',
+        quality_guarantee: 'Qualitätsgarantie',
+        quality_guarantee_description: 'Alle Produkte sind von hoher Qualität',
+        reliable_partner: 'Zuverlässiger Partner',
+        reliable_partner_description: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte',
+        // New translations for basket page
+        basket: 'Warenkorb',
+        items: 'Artikel',
+        size: 'Größe',
+        color: 'Farbe',
+        continue_shopping: 'Weiter einkaufen',
+        total: 'Gesamt',
+        send: 'Senden',
+        min_quantity_error: 'Die Menge darf nicht weniger als 1 sein!',
+        request_error: 'Anfragefehler',
+        update_quantity_error: 'Menge konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut.',
+        error: 'Fehler'
     }
 };
 

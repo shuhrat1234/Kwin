@@ -162,7 +162,16 @@ const Translations = {
         sending: 'Sending...',
         order_success: 'Order successfully placed!',
         order_error: 'An error occurred while placing the order',
-        order_submit_error: 'An error occurred while submitting the order'
+        order_submit_error: 'An error occurred while submitting the order',
+
+        product_description: 'Product Description',
+        quantity_label: 'Quantity:',
+        convenient_purchase: 'Convenient Purchase',
+        convenient_purchase_description: 'Easily and quickly place an order',
+        quality_guarantee: 'Quality Guarantee',
+        quality_guarantee_description: 'All products are high quality',
+        reliable_partner: 'Reliable Partner',
+        reliable_partner_description: 'Your reliable partner in the world of auto products'
     },
     uz: {
         // Existing translations
@@ -232,7 +241,17 @@ const Translations = {
         sending: 'Yuborilmoqda...',
         order_success: 'Buyurtma muvaffaqiyatli joylashtirildi!',
         order_error: 'Buyurtma berishda xatolik yuz berdi',
-        order_submit_error: 'Buyurtmani yuborishda xatolik yuz berdi'
+        order_submit_error: 'Buyurtmani yuborishda xatolik yuz berdi',
+
+
+        product_description: 'Mahsulot Tavsifi',
+        quantity_label: 'Miqdori:',
+        convenient_purchase: 'Qulay Xarid',
+        convenient_purchase_description: 'Oson va tez buyurtma berish',
+        quality_guarantee: 'Sifat Kafolati',
+        quality_guarantee_description: 'Barcha mahsulotlar yuqori sifatli',
+        reliable_partner: 'Ishonchli Hamkor',
+        reliable_partner_description: 'Avto mahsulotlar dunyosidagi ishonchli hamkoringiz'
     },
     ru: {
         // Existing translations
@@ -302,7 +321,19 @@ const Translations = {
         sending: 'Отправка...',
         order_success: 'Заказ успешно оформлен!',
         order_error: 'Произошла ошибка при оформлении заказа',
-        order_submit_error: 'Произошла ошибка при отправке заказа'
+        order_submit_error: 'Произошла ошибка при отправке заказа',
+
+
+
+
+        product_description: 'Описание товара',
+        quantity_label: 'Количество:',
+        convenient_purchase: 'Удобная Покупка',
+        convenient_purchase_description: 'Легко и быстро оформить заказ',
+        quality_guarantee: 'Гарантия Качества', 
+        quality_guarantee_description: 'Все товары высокого качества',
+        reliable_partner: 'Надежный Партнер',
+        reliable_partner_description: 'Ваш надежный партнер в мире автотоваров'
     },
     ger: {
         // Existing translations
@@ -372,7 +403,16 @@ const Translations = {
         sending: 'Senden...',
         order_success: 'Bestellung erfolgreich aufgegeben!',
         order_error: 'Fehler beim Aufgeben der Bestellung',
-        order_submit_error: 'Fehler beim Senden der Bestellung'
+        order_submit_error: 'Fehler beim Senden der Bestellung',
+
+        product_description: 'Produktbeschreibung',
+        quantity_label: 'Menge:',
+        convenient_purchase: 'Bequemer Einkauf',
+        convenient_purchase_description: 'Einfach und schnell bestellen',
+        quality_guarantee: 'Qualitätsgarantie',
+        quality_guarantee_description: 'Alle Produkte sind von hoher Qualität',
+        reliable_partner: 'Zuverlässiger Partner',
+        reliable_partner_description: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte'
     }
 };
 

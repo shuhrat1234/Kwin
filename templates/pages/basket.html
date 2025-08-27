@@ -6,7 +6,7 @@
 <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
   <div class="bg-[var(--primary-red)] rounded-xl shadow-lg p-6 mb-2">
     <h1 class="text-lg text-white">
-      Корзина <span class="text-sm text-white">{{ basket_count }} товара</span>
+      <span data-translate="basket">Корзина</span> <span class="text-sm text-white">{{ basket_count }} <span data-translate="items">товара</span></span>
     </h1>
   </div>
   <div class="lg:flex lg:space-x-6 space-y-8 lg:space-y-0">
@@ -34,8 +34,8 @@
                   {{ i.product|get_name_by_lang:lang }}
                 </h3>
                 <div class="flex flex-wrap gap-3 text-sm text-gray-600">
-                  <span>Size: <span class="font-medium text-gray-800">{{ i.product.size }}</span></span>
-                  <span>Color: <span class="font-medium text-gray-800">{{ i.product|get_color_by_lang:lang }}</span></span>
+                  <span><span data-translate="size">Size</span>: <span class="font-medium text-gray-800">{{ i.product.size }}</span></span>
+                  <span><span data-translate="color">Color</span>: <span class="font-medium text-gray-800">{{ i.product|get_color_by_lang:lang }}</span></span>
                 </div>
                 <p class="text-lg font-bold text-[var(--primary-red)] mt-2">
                   {{ i.product.get_price_with_icon }}
@@ -83,7 +83,7 @@
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
-            Continue Shopping
+            <span data-translate="continue_shopping">Continue Shopping</span>
           </button>
         </a>
       </div>
@@ -93,7 +93,7 @@
         <div>
           <div class="space-y-3 border-b border-gray-200 pb-4 mb-4">
             <div class="flex justify-between text-lg mb-6">
-              <span class="text-gray-900 font-bold">Total</span>
+              <span class="text-gray-900 font-bold" data-translate="total">Total</span>
               <span id="total_balance" class="font-bold text-gray-900 text-xl">
                 {% if request.user.is_authenticated %}{{ request.user.calculate_cart }}{% else %}0.00{% endif %}
               </span>
@@ -103,6 +103,7 @@
             <input
               class="w-full py-3 px-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-red)] focus:border-transparent text-gray-700"
               type="text"
+              data-translate-placeholder="full_name"
               placeholder="Full Name"
               required
             />
@@ -110,6 +111,7 @@
               class="w-full py-3 px-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-red)] focus:border-transparent text-gray-700"
               id="contactPhone"
               type="tel"
+              data-translate-placeholder="phone_number"
               placeholder="Phone Number"
               pattern="\+998[0-9]{9}"
               required
@@ -117,21 +119,34 @@
             <input
               class="w-full py-3 px-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-red)] focus:border-transparent text-gray-700"
               type="email"
+              data-translate-placeholder="email"
               placeholder="Email Address"
               required
             />
             <textarea
               class="w-full py-3 px-4 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-red)] focus:border-transparent text-gray-700 resize-none h-20"
-              placeholder="Order Notes (Optional)"
+              data-translate-placeholder="additional_info"
+              placeholder="Qo'shimcha ma'lumot"
             ></textarea>
             <button
               type="submit"
               class="w-full py-3 bg-[var(--primary-red)] text-white rounded-lg font-semibold text-base hover:bg-[var(--primary-dark)] transition-colors shadow-md flex items-center justify-center space-x-2"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M22 2L11 13"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M22 2L15 22l-4-9-9-4 20-9z"
+                />
               </svg>
-              <span>Send</span>
+              <span data-translate="send">Send</span>
             </button>
           </form>
         </div>
@@ -147,7 +162,7 @@ async function updateQuantity(spanId, id, change) {
   let quantity = parseInt(spanElement.innerText);
 
   if (change < 0 && quantity <= 1) {
-    alert("Количество не может быть меньше 1!");
+    alert(translateText("min_quantity_error"));
     return;
   }
 
@@ -159,7 +174,7 @@ async function updateQuantity(spanId, id, change) {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Ошибка запроса: ${response.status}`);
+      throw new Error(`${translateText("request_error")}: ${response.status}`);
     }
 
     const data = await response.json();
@@ -169,14 +184,19 @@ async function updateQuantity(spanId, id, change) {
     } else {
       quantity -= change;
       spanElement.innerText = quantity;
-      alert("Не удалось обновить количество. Попробуйте еще раз.");
+      alert(translateText("update_quantity_error"));
     }
   } catch (error) {
     quantity -= change;
     spanElement.innerText = quantity;
-    console.error("Ошибка:", error);
-    alert("Произошла ошибка: " + error.message);
+    console.error(`${translateText("error")}:`, error);
+    alert(`${translateText("error")}: ${error.message}`);
   }
 }
+
+// Ensure translations are applied after DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  applyTranslations();
+});
 </script>
 {% endblock content %}

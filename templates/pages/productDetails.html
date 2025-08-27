@@ -159,7 +159,7 @@
             </div>
           </div>
           <div class="bg-gray-50 rounded-xl p-5">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3" data-translate="product_description">
               Описание товара
             </h3>
             <p class="text-gray-700 leading-relaxed mb-3">
@@ -170,6 +170,7 @@
             <button
               class="buy-button flex-1 px-4 sm:px-6 lg:px-8 py-3 text-white font-semibold rounded-lg text-sm sm:text-base lg:text-lg shadow-lg"
               onclick="openOrderModal()"
+              data-translate="buy_now"
             >
               Купить сейчас
             </button>
@@ -178,6 +179,7 @@
               href="{% url 'cart-remove' remove_id=product_one.id %}"
               class="basket-btn flex items-center justify-center w-12 h-12 rounded-lg border border-gray-300 hover:bg-red-600 added"
               title="Удалить из корзины"
+              data-translate-title="remove_from_cart"
             >
               <svg
                 class="w-6 h-6"
@@ -200,6 +202,7 @@
                 type="submit"
                 class="basket-btn flex items-center justify-center w-12 h-12 rounded-lg border border-gray-300 hover:bg-gray-50"
                 title="Добавить в корзину"
+                data-translate-title="add_to_cart"
               >
                 <svg
                   class="w-6 h-6"
@@ -240,8 +243,10 @@
             ></path>
           </svg>
         </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Удобно Купить</h3>
-        <p class="text-gray-600 text-sm">
+        <h3 class="font-semibold text-gray-900 mb-2" data-translate="convenient_purchase">
+          Удобно Купить
+        </h3>
+        <p class="text-gray-600 text-sm" data-translate="convenient_purchase_description">
           Легко и быстро оформить заказ
         </p>
       </div>
@@ -263,8 +268,12 @@
             ></path>
           </svg>
         </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Гарантия качества</h3>
-        <p class="text-gray-600 text-sm">Все товары качественные</p>
+        <h3 class="font-semibold text-gray-900 mb-2" data-translate="quality_guarantee">
+          Гарантия качества
+        </h3>
+        <p class="text-gray-600 text-sm" data-translate="quality_guarantee_description">
+          Все товары качественные
+        </p>
       </div>
       <div class="feature-card rounded-xl p-6 text-center">
         <div
@@ -284,13 +293,19 @@
             ></path>
           </svg>
         </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Надежный Партнер</h3>
-        <p class="text-gray-600 text-sm">Ваш надежный партнер в мире авто товаров</p>
+        <h3 class="font-semibold text-gray-900 mb-2" data-translate="reliable_partner">
+          Надежный Партнер
+        </h3>
+        <p class="text-gray-600 text-sm" data-translate="reliable_partner_description">
+          Ваш надежный партнер в мире авто товаров
+        </p>
       </div>
     </div>
     {% else %}
     <div class="text-center py-12">
-      <h3 class="text-xl font-semibold text-gray-900 mb-2">Товар не найден</h3>
+      <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate="no_products_found">
+        Товар не найден
+      </h3>
     </div>
     {% endif %}
   </div>
@@ -301,7 +316,9 @@
     <div class="modal-content">
       <div class="p-6">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold text-gray-900">Оформить заказ</h2>
+          <h2 class="text-2xl font-bold text-gray-900" data-translate="order_checkout">
+            Оформить заказ
+          </h2>
           <button
             id="closeOrderModalBtn"
             class="text-gray-400 hover:text-gray-600 transition-colors"
@@ -327,7 +344,7 @@
             {{ product_one|get_name_by_lang:lang }}
           </h3>
           <div class="flex justify-between text-sm text-gray-600">
-            <span>
+            <span data-translate="quantity_label">
               Количество:
               <div class="inline-flex items-center border border-gray-300 rounded-lg">
                 <button
@@ -347,9 +364,9 @@
                 </button>
               </div>
             </span>
-            <span id="modalPrice" class="font-bold text-lg text-gray-900"
-              >{{ product_one.get_price_with_icon }}</span
-            >
+            <span id="modalPrice" class="font-bold text-lg text-gray-900">
+              {{ product_one.get_price_with_icon }}
+            </span>
           </div>
         </div>
         <form id="orderForm" action="{% url 'order_create' %}" method="post" class="space-y-4">
@@ -385,20 +402,21 @@
             value="1"
           />
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Полное имя *</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="full_name">
+              Полное имя *
+            </label>
             <input
               type="text"
               name="fullName"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              data-translate-placeholder="name_placeholder"
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Номер телефона *</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="phone_number">
+              Номер телефона *
+            </label>
             <input
               id="contactPhone"
               type="tel"
@@ -406,41 +424,46 @@
               pattern="\+998[0-9]{9}"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              data-translate-placeholder="phone_placeholder"
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Email *</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="email">
+              Email *
+            </label>
             <input
               type="email"
               name="email"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              data-translate-placeholder="email"
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Дополнительная информация</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="additional_info">
+              Дополнительная информация
+            </label>
             <textarea
               name="additionalInfo"
               rows="3"
               placeholder="Ваше сообщение"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+              data-translate-placeholder="message_placeholder" 
             ></textarea>
           </div>
           <div class="flex gap-3 pt-4">
             <button
               type="button"
               onclick="closeOrderModal()"
-              class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+              class="flex-1 max-h-auto max-w-auto p-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+              data-translate="cancel"
             >
               Отмена
             </button>
             <button
               type="submit"
-              class="flex-1 px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
+              class="flex-1 max-h-auto max-w-auto bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
+              data-translate="confirm_order"
             >
               Подтвердить заказ
             </button>
