@@ -6,19 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{% csrf_token %}">
     <title data-translate="site_title">KWIN</title>
+    <meta name="description" data-translate-content="meta_description" content="Your reliable partner in the world of auto products. High-quality auto components from leading manufacturers since 2005.">
+    <meta name="keywords" data-translate-content="meta_keywords" content="auto parts, car components, automotive, KWIN, Heyner, Alca, Utal, ARS, Delta, Uzbekistan, auto accessories">
+    <meta property="og:title" data-translate-content="og_title" content="KWIN Commerce - Your Reliable Auto Parts Partner">
+    <meta property="og:description" data-translate-content="og_description" content="High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands in Uzbekistan.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" data-translate-content="og_site_name" content="KWIN Commerce">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" data-translate-content="twitter_title" content="KWIN Commerce - Auto Parts & Components">
+    <meta name="twitter:description" data-translate-content="twitter_description" content="Your reliable partner for high-quality automotive components in Uzbekistan.">
+    <meta name="language" content="en">
+    <meta name="geo.region" content="UZ">
+    <meta name="geo.country" content="Uzbekistan">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <link rel="stylesheet" href="{% static 'css/index.css' %}" />
     <link rel="stylesheet" href="{% static 'css/basket.css' %}" />
     <link rel="stylesheet" href="{% static 'css/productDetails.css' %}" />
     <link rel="stylesheet" href="{% static 'css/products.css' %}" />
+    <link rel="icon" type="image/png" href="/static/assets/img/logo.png" />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <script>
       window.languageChangeUrl = "{% url 'set_language' 'PLACEHOLDER' %}".replace('PLACEHOLDER', '');
     </script>

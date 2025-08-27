@@ -95,9 +95,18 @@ const TranslationManager = {
 
 const Translations = {
     en: {
-        // Existing translations
+        // New SEO translations
+        site_title: 'KWIN Commerce - Auto Parts & Components in Uzbekistan',
+        meta_description: 'Your reliable partner in the world of auto products. High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands.',
+        meta_keywords: 'auto parts, car components, automotive accessories, KWIN Commerce, Heyner Germany, Alca Germany, Utal Poland, ARS Russia, Delta Russia, Uzbekistan auto parts, car accessories, vehicle components, automotive distributor',
+        og_title: 'KWIN Commerce - Your Reliable Auto Parts Partner in Uzbekistan',
+        og_description: 'High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands in Uzbekistan.',
+        og_site_name: 'KWIN Commerce',
+        twitter_title: 'KWIN Commerce - Auto Parts & Components',
+        twitter_description: 'Your reliable partner for high-quality automotive components in Uzbekistan since 2005.',
+        // Existing translations (unchanged, included for context)
+        home_title: 'KWIN Commerce',
         password: 'Password',
-        site_title: 'KWIN Commerce',
         home: 'Home',
         products: 'Products',
         contact: 'Contact',
@@ -132,7 +141,6 @@ const Translations = {
         footer_title: 'KWIN Commerce',
         footer_slogan: 'Your reliable partner in the world of auto products.',
         footer_copyright: 'KWIN. All rights reserved.',
-        // Product template translations
         auto_parts: 'Auto Parts',
         products_found: 'Products found:',
         filters: 'Filters',
@@ -156,14 +164,12 @@ const Translations = {
         phone_number: 'Phone number *',
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Additional information',
-        additional_info_placeholder: 'Delivery address, order notes...',
         cancel: 'Cancel',
         confirm_order: 'Confirm order',
         sending: 'Sending...',
         order_success: 'Order successfully placed!',
         order_error: 'An error occurred while placing the order',
         order_submit_error: 'An error occurred while submitting the order',
-
         product_description: 'Product Description',
         quantity_label: 'Quantity:',
         convenient_purchase: 'Convenient Purchase',
@@ -171,12 +177,33 @@ const Translations = {
         quality_guarantee: 'Quality Guarantee',
         quality_guarantee_description: 'All products are high quality',
         reliable_partner: 'Reliable Partner',
-        reliable_partner_description: 'Your reliable partner in the world of auto products'
+        reliable_partner_description: 'Your reliable partner in the world of auto products',
+        // New translations for basket page
+        basket: 'Cart',
+        items: 'items',
+        size: 'Size',
+        color: 'Color',
+        continue_shopping: 'Continue Shopping',
+        total: 'Total',
+        send: 'Send',
+        min_quantity_error: 'Quantity cannot be less than 1!',
+        request_error: 'Request error',
+        update_quantity_error: 'Failed to update quantity. Please try again.',
+        error: 'Error'
     },
     uz: {
-        // Existing translations
+        // New SEO translations
+        site_title: 'KWIN Tijorat - O\'zbekistonda Avto Ehtiyot Qismlar',
+        meta_description: 'Avto mahsulotlar dunyosidagi ishonchli hamkoringiz. 2005 yildan beri yetakchi ishlab chiqaruvchilardan yuqori sifatli avto komponentlar. Heyner, Alca, Utal, ARS va Delta brendlarining rasmiy distribyutori.',
+        meta_keywords: 'avto ehtiyot qismlar, mashina komponentlari, avtomobil aksessuarlari, KWIN Tijorat, Heyner Germaniya, Alca Germaniya, Utal Polsha, ARS Rossiya, Delta Rossiya, O\'zbekiston avto qismlar, mashina aksessuarlari, transport komponentlari, avtomobil distribyutor',
+        og_title: 'KWIN Tijorat - O\'zbekistonda Ishonchli Avto Ehtiyot Qismlar Hamkori',
+        og_description: '2005 yildan beri yetakchi ishlab chiqaruvchilardan yuqori sifatli avto komponentlar. O\'zbekistonda Heyner, Alca, Utal, ARS va Delta brendlarining rasmiy distribyutori.',
+        og_site_name: 'KWIN Tijorat',
+        twitter_title: 'KWIN Tijorat - Avto Ehtiyot Qismlar',
+        twitter_description: '2005 yildan beri O\'zbekistonda yuqori sifatli avtomobil komponentlari uchun ishonchli hamkoringiz.',
+        // Existing translations (unchanged, included for context)
+        home_title: 'KWIN Tijorat',
         password: 'Parol',
-        site_title: 'KWIN Tijorat',
         home: 'Bosh sahifa',
         products: 'Mahsulotlar',
         contact: 'Aloqa',
@@ -211,7 +238,6 @@ const Translations = {
         footer_title: 'KWIN Tijorat',
         footer_slogan: 'Avto mahsulotlar dunyosidagi ishonchli hamkoringiz.',
         footer_copyright: 'KWIN. Barcha huquqlar himoyalangan.',
-        // Product template translations
         auto_parts: 'Avto ehtiyot qismlari',
         products_found: 'Topilgan mahsulotlar:',
         filters: 'Filtrlar',
@@ -235,15 +261,12 @@ const Translations = {
         phone_number: 'Telefon raqami *',
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: "Qo'shimcha ma'lumot",
-        additional_info_placeholder: "Yetkazib berish manzili, buyurtma eslatmalari...",
         cancel: 'Bekor qilish',
         confirm_order: 'Buyurtmani tasdiqlash',
         sending: 'Yuborilmoqda...',
         order_success: 'Buyurtma muvaffaqiyatli joylashtirildi!',
         order_error: 'Buyurtma berishda xatolik yuz berdi',
         order_submit_error: 'Buyurtmani yuborishda xatolik yuz berdi',
-
-
         product_description: 'Mahsulot Tavsifi',
         quantity_label: 'Miqdori:',
         convenient_purchase: 'Qulay Xarid',
@@ -251,12 +274,33 @@ const Translations = {
         quality_guarantee: 'Sifat Kafolati',
         quality_guarantee_description: 'Barcha mahsulotlar yuqori sifatli',
         reliable_partner: 'Ishonchli Hamkor',
-        reliable_partner_description: 'Avto mahsulotlar dunyosidagi ishonchli hamkoringiz'
+        reliable_partner_description: 'Avto mahsulotlar dunyosidagi ishonchli hamkoringiz',
+        // New translations for basket page
+        basket: 'Savat',
+        items: 'mahsulotlar',
+        size: 'Hajm',
+        color: 'Rang',
+        continue_shopping: 'Xaridni davom ettirish',
+        total: 'Jami',
+        send: 'Yuborish',
+        min_quantity_error: 'Miqdor 1 dan kam bo‘lishi mumkin emas!',
+        request_error: 'So‘rov xatosi',
+        update_quantity_error: 'Miqdorni yangilash muvaffaqiyatsiz bo‘ldi. Iltimos, qayta urinib ko‘ring.',
+        error: 'Xato'
     },
     ru: {
-        // Existing translations
+        // SEO Meta Tags
+        site_title: 'KWIN Коммерция - Автозапчасти и Компоненты в Узбекистане',
+        meta_description: 'Ваш надежный партнер в мире автотоваров. Качественные автокомплектующие от ведущих производителей с 2005 года. Официальный дистрибьютор брендов Heyner, Alca, Utal, ARS и Delta.',
+        meta_keywords: 'автозапчасти, автокомплектующие, автомобильные аксессуары, KWIN Коммерция, Heyner Германия, Alca Германия, Utal Польша, ARS Россия, Delta Россия, автозапчасти Узбекистан, автомобильные аксессуары, компоненты транспорта, автомобильный дистрибьютор',
+        og_title: 'KWIN Коммерция - Ваш Надежный Партнер по Автозапчастям в Узбекистане',
+        og_description: 'Качественные автокомплектующие от ведущих производителей с 2005 года. Официальный дистрибьютор брендов Heyner, Alca, Utal, ARS и Delta в Узбекистане.',
+        og_site_name: 'KWIN Коммерция',
+        twitter_title: 'KWIN Коммерция - Автозапчасти и Компоненты',
+        twitter_description: 'Ваш надежный партнер для качественных автомобильных компонентов в Узбекистане с 2005 года.',
+        // Existing translations (unchanged, included for context)
+        home_title: 'KWIN Коммерция',
         password: 'Пароль',
-        site_title: 'KWIN Коммерция',
         home: 'Главная',
         products: 'Продукты',
         contact: 'Контакты',
@@ -291,7 +335,6 @@ const Translations = {
         footer_title: 'KWIN Коммерция',
         footer_slogan: 'Ваш надежный партнер в мире авто товаров.',
         footer_copyright: 'KWIN. Все права защищены.',
-        // Product template translations
         auto_parts: 'Автокомплектующие',
         products_found: 'Найдено товаров:',
         filters: 'Фильтры',
@@ -315,30 +358,46 @@ const Translations = {
         phone_number: 'Номер телефона *',
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Дополнительная информация',
-        additional_info_placeholder: 'Адрес доставки, пожелания к заказу...',
         cancel: 'Отмена',
         confirm_order: 'Подтвердить заказ',
         sending: 'Отправка...',
         order_success: 'Заказ успешно оформлен!',
         order_error: 'Произошла ошибка при оформлении заказа',
         order_submit_error: 'Произошла ошибка при отправке заказа',
-
-
-
-
         product_description: 'Описание товара',
         quantity_label: 'Количество:',
         convenient_purchase: 'Удобная Покупка',
         convenient_purchase_description: 'Легко и быстро оформить заказ',
-        quality_guarantee: 'Гарантия Качества', 
+        quality_guarantee: 'Гарантия Качества',
         quality_guarantee_description: 'Все товары высокого качества',
         reliable_partner: 'Надежный Партнер',
-        reliable_partner_description: 'Ваш надежный партнер в мире автотоваров'
+        reliable_partner_description: 'Ваш надежный партнер в мире автотоваров',
+        // New translations for basket page
+        basket: 'Корзина',
+        items: 'товаров',
+        size: 'Размер',
+        color: 'Цвет',
+        continue_shopping: 'Продолжить покупки',
+        total: 'Итого',
+        send: 'Отправить',
+        min_quantity_error: 'Количество не может быть меньше 1!',
+        request_error: 'Ошибка запроса',
+        update_quantity_error: 'Не удалось обновить количество. Попробуйте снова.',
+        error: 'Ошибка'
     },
     ger: {
-        // Existing translations
+        // New SEO translations
+        site_title: 'KWIN Handel - Autoteile und Komponenten in Usbekistan',
+        meta_description: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte. Hochwertige Autokomponenten von führenden Herstellern seit 2005. Offizieller Distributor von Heyner, Alca, Utal, ARS und Delta Marken.',
+        meta_keywords: 'Autoteile, Fahrzeugkomponenten, Autozubehör, KWIN Handel, Heyner Deutschland, Alca Deutschland, Utal Polen, ARS Russland, Delta Russland, Usbekistan Autoteile, Fahrzeugzubehör, Transportkomponenten, Automobilvertrieb',
+        og_title: 'KWIN Handel - Ihr Zuverlässiger Autoteile-Partner in Usbekistan',
+        og_description: 'Hochwertige Autokomponenten von führenden Herstellern seit 2005. Offizieller Distributor von Heyner, Alca, Utal, ARS und Delta Marken in Usbekistan.',
+        og_site_name: 'KWIN Handel',
+        twitter_title: 'KWIN Handel - Autoteile und Komponenten',
+        twitter_description: 'Ihr zuverlässiger Partner für hochwertige Fahrzeugkomponenten in Usbekistan seit 2005.',
+        // Existing translations (unchanged, included for context)
+        home_title: 'KWIN Handel',
         password: 'Passwort',
-        site_title: 'KWIN Handel',
         home: 'Startseite',
         products: 'Produkte',
         contact: 'Kontakt',
@@ -373,7 +432,6 @@ const Translations = {
         footer_title: 'KWIN Handel',
         footer_slogan: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte.',
         footer_copyright: 'KWIN. Alle Rechte vorbehalten.',
-        // Product template translations
         auto_parts: 'Autoteile',
         products_found: 'Gefundene Produkte:',
         filters: 'Filter',
@@ -397,14 +455,12 @@ const Translations = {
         phone_number: 'Telefonnummer *',
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Zusätzliche Informationen',
-        additional_info_placeholder: 'Lieferadresse, Anmerkungen zur Bestellung...',
         cancel: 'Abbrechen',
         confirm_order: 'Bestellung bestätigen',
         sending: 'Senden...',
         order_success: 'Bestellung erfolgreich aufgegeben!',
         order_error: 'Fehler beim Aufgeben der Bestellung',
         order_submit_error: 'Fehler beim Senden der Bestellung',
-
         product_description: 'Produktbeschreibung',
         quantity_label: 'Menge:',
         convenient_purchase: 'Bequemer Einkauf',
@@ -412,9 +468,21 @@ const Translations = {
         quality_guarantee: 'Qualitätsgarantie',
         quality_guarantee_description: 'Alle Produkte sind von hoher Qualität',
         reliable_partner: 'Zuverlässiger Partner',
-        reliable_partner_description: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte'
+        reliable_partner_description: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte',
+        // New translations for basket page
+        basket: 'Warenkorb',
+        items: 'Artikel',
+        size: 'Größe',
+        color: 'Farbe',
+        continue_shopping: 'Weiter einkaufen',
+        total: 'Gesamt',
+        send: 'Senden',
+        min_quantity_error: 'Die Menge darf nicht weniger als 1 sein!',
+        request_error: 'Anfragefehler',
+        update_quantity_error: 'Menge konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut.',
+        error: 'Fehler'
     }
-};
+};  
 
 function translateText(key, lang = null) {
     const currentLang = lang || TranslationManager.currentLang;

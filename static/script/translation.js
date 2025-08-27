@@ -95,9 +95,18 @@ const TranslationManager = {
 
 const Translations = {
     en: {
+        // New SEO translations
+        site_title: 'KWIN Commerce - Auto Parts & Components in Uzbekistan',
+        meta_description: 'Your reliable partner in the world of auto products. High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands.',
+        meta_keywords: 'auto parts, car components, automotive accessories, KWIN Commerce, Heyner Germany, Alca Germany, Utal Poland, ARS Russia, Delta Russia, Uzbekistan auto parts, car accessories, vehicle components, automotive distributor',
+        og_title: 'KWIN Commerce - Your Reliable Auto Parts Partner in Uzbekistan',
+        og_description: 'High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands in Uzbekistan.',
+        og_site_name: 'KWIN Commerce',
+        twitter_title: 'KWIN Commerce - Auto Parts & Components',
+        twitter_description: 'Your reliable partner for high-quality automotive components in Uzbekistan since 2005.',
         // Existing translations (unchanged, included for context)
+        home_title: 'KWIN Commerce',
         password: 'Password',
-        site_title: 'KWIN Commerce',
         home: 'Home',
         products: 'Products',
         contact: 'Contact',
@@ -183,9 +192,18 @@ const Translations = {
         error: 'Error'
     },
     uz: {
+        // New SEO translations
+        site_title: 'KWIN Tijorat - O\'zbekistonda Avto Ehtiyot Qismlar',
+        meta_description: 'Avto mahsulotlar dunyosidagi ishonchli hamkoringiz. 2005 yildan beri yetakchi ishlab chiqaruvchilardan yuqori sifatli avto komponentlar. Heyner, Alca, Utal, ARS va Delta brendlarining rasmiy distribyutori.',
+        meta_keywords: 'avto ehtiyot qismlar, mashina komponentlari, avtomobil aksessuarlari, KWIN Tijorat, Heyner Germaniya, Alca Germaniya, Utal Polsha, ARS Rossiya, Delta Rossiya, O\'zbekiston avto qismlar, mashina aksessuarlari, transport komponentlari, avtomobil distribyutor',
+        og_title: 'KWIN Tijorat - O\'zbekistonda Ishonchli Avto Ehtiyot Qismlar Hamkori',
+        og_description: '2005 yildan beri yetakchi ishlab chiqaruvchilardan yuqori sifatli avto komponentlar. O\'zbekistonda Heyner, Alca, Utal, ARS va Delta brendlarining rasmiy distribyutori.',
+        og_site_name: 'KWIN Tijorat',
+        twitter_title: 'KWIN Tijorat - Avto Ehtiyot Qismlar',
+        twitter_description: '2005 yildan beri O\'zbekistonda yuqori sifatli avtomobil komponentlari uchun ishonchli hamkoringiz.',
         // Existing translations (unchanged, included for context)
+        home_title: 'KWIN Tijorat',
         password: 'Parol',
-        site_title: 'KWIN Tijorat',
         home: 'Bosh sahifa',
         products: 'Mahsulotlar',
         contact: 'Aloqa',
@@ -271,9 +289,18 @@ const Translations = {
         error: 'Xato'
     },
     ru: {
+        // SEO Meta Tags
+        site_title: 'KWIN Коммерция - Автозапчасти и Компоненты в Узбекистане',
+        meta_description: 'Ваш надежный партнер в мире автотоваров. Качественные автокомплектующие от ведущих производителей с 2005 года. Официальный дистрибьютор брендов Heyner, Alca, Utal, ARS и Delta.',
+        meta_keywords: 'автозапчасти, автокомплектующие, автомобильные аксессуары, KWIN Коммерция, Heyner Германия, Alca Германия, Utal Польша, ARS Россия, Delta Россия, автозапчасти Узбекистан, автомобильные аксессуары, компоненты транспорта, автомобильный дистрибьютор',
+        og_title: 'KWIN Коммерция - Ваш Надежный Партнер по Автозапчастям в Узбекистане',
+        og_description: 'Качественные автокомплектующие от ведущих производителей с 2005 года. Официальный дистрибьютор брендов Heyner, Alca, Utal, ARS и Delta в Узбекистане.',
+        og_site_name: 'KWIN Коммерция',
+        twitter_title: 'KWIN Коммерция - Автозапчасти и Компоненты',
+        twitter_description: 'Ваш надежный партнер для качественных автомобильных компонентов в Узбекистане с 2005 года.',
         // Existing translations (unchanged, included for context)
+        home_title: 'KWIN Коммерция',
         password: 'Пароль',
-        site_title: 'KWIN Коммерция',
         home: 'Главная',
         products: 'Продукты',
         contact: 'Контакты',
@@ -359,9 +386,18 @@ const Translations = {
         error: 'Ошибка'
     },
     ger: {
+        // New SEO translations
+        site_title: 'KWIN Handel - Autoteile und Komponenten in Usbekistan',
+        meta_description: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte. Hochwertige Autokomponenten von führenden Herstellern seit 2005. Offizieller Distributor von Heyner, Alca, Utal, ARS und Delta Marken.',
+        meta_keywords: 'Autoteile, Fahrzeugkomponenten, Autozubehör, KWIN Handel, Heyner Deutschland, Alca Deutschland, Utal Polen, ARS Russland, Delta Russland, Usbekistan Autoteile, Fahrzeugzubehör, Transportkomponenten, Automobilvertrieb',
+        og_title: 'KWIN Handel - Ihr Zuverlässiger Autoteile-Partner in Usbekistan',
+        og_description: 'Hochwertige Autokomponenten von führenden Herstellern seit 2005. Offizieller Distributor von Heyner, Alca, Utal, ARS und Delta Marken in Usbekistan.',
+        og_site_name: 'KWIN Handel',
+        twitter_title: 'KWIN Handel - Autoteile und Komponenten',
+        twitter_description: 'Ihr zuverlässiger Partner für hochwertige Fahrzeugkomponenten in Usbekistan seit 2005.',
         // Existing translations (unchanged, included for context)
+        home_title: 'KWIN Handel',
         password: 'Passwort',
-        site_title: 'KWIN Handel',
         home: 'Startseite',
         products: 'Produkte',
         contact: 'Kontakt',
@@ -446,7 +482,7 @@ const Translations = {
         update_quantity_error: 'Menge konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut.',
         error: 'Fehler'
     }
-};
+};  
 
 function translateText(key, lang = null) {
     const currentLang = lang || TranslationManager.currentLang;
