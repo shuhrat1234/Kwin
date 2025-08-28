@@ -10,7 +10,6 @@ from core.error_messages import ERROR_MESSAGES
 from .models import Brand, Product, Cart, Order, CarModel, CarYear, CarSeries
 from django.contrib.auth import login, logout, authenticate
 
-
 def set_language(request, lang):
     request.session["lang"] = lang
     return redirect(request.META.get("HTTP_REFERER", "/"))
@@ -57,7 +56,7 @@ def products(request):
     products = products.distinct()
 
     brands = Brand.objects.all()
-    car_models = CarModel.objects.filter(deleted=False)  # Renamed to avoid confusion
+    car_models = CarModel.objects.filter(deleted=False)
     years = CarYear.objects.filter(deleted=False)
     series = CarSeries.objects.filter(deleted=False)
 
@@ -70,7 +69,7 @@ def products(request):
         "products": products,
         "lang": lang,
         "brands": brands,
-        "car_models": car_models,  # Changed from 'models' to 'car_models'
+        "car_models": car_models,
         "years": years,
         "series": series,
         "search": search,
@@ -79,14 +78,17 @@ def products(request):
         "selected_year_ids": year_ids,
         "selected_series_ids": series_ids,
         "error": request.session.pop("error", None),
-        "filter_active": bool(brand_ids and model_ids)
+        "filter_active": bool(brand_ids or model_ids)
     }
     return render(request, 'pages/products.html', ctx)
 
 def product_detail(request, pk):
     lang = request.GET.get('lang', request.session.get('lang', 'uz'))
     request.session['lang'] = lang
-    product_one = Product.objects.prefetch_related('images').filter(pk=pk).first()
+    product_one = Product.objects.prefetch_related('images').filter(pk=pk, deleted=False).first()
+    if not product_one:
+        messages.error(request, get_error_message("product_not_found", request))
+        return redirect('products')
     ctx = {
         "product_one": product_one,
         "lang": lang,
@@ -99,22 +101,24 @@ def basket(request, add_id=None):
     request.session['lang'] = lang
     if add_id:
         if not request.user.is_authenticated:
-            messages.error = get_error_message("not_authenticated", request)
+            messages.error(request, get_error_message("not_authenticated", request))
             return redirect(request.META.get("HTTP_REFERER", "home"))
         product = Product.objects.filter(id=add_id, deleted=False).first()
         if not product:
-            messages.error = get_error_message("product_not_found", request)
+            messages.error(request, get_error_message("product_not_found", request))
             return redirect(request.META.get("HTTP_REFERER", "home"))
         cart, created = Cart.objects.get_or_create(user=request.user, product=product, status=True)
         if not created:
-            messages.error = get_error_message("already_in_cart", request)
+            messages.error(request, get_error_message("already_in_cart", request))
         else:
-            messages.error = get_error_message("cart_added", request)
+            messages.success(request, get_error_message("cart_added", request))
         return redirect("basket")
     carts = Cart.objects.filter(user=request.user, status=True) if request.user.is_authenticated else []
     return render(request, 'pages/basket.html', {"carts": carts, "lang": lang, "basket_count": carts.count()})
 
 def change_cart(request, cart_id, inc):
+    if not request.user.is_authenticated:
+        return JsonResponse({"success": False, "error": get_error_message("not_authenticated", request)})
     cart = Cart.objects.filter(id=cart_id, user=request.user).first()
     if cart:
         if inc:
@@ -122,13 +126,12 @@ def change_cart(request, cart_id, inc):
         else:
             cart.quantity = max(1, cart.quantity - 1)
         cart.save()
-        return JsonResponse({"success": "Muaffaqiyatli!", "total_balance": request.user.calculate_cart()})
-    return JsonResponse({"error": "Cart Topilmadi"})
+        return JsonResponse({"success": True, "total_balance": request.user.calculate_cart()})
+    return JsonResponse({"success": False, "error": "Cart not found"})
 
 @require_POST
 def cart_add(request, add_id):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    
     if not request.user.is_authenticated:
         error_message = get_error_message("not_authenticated", request) or "Пожалуйста, войдите для добавления в корзину!"
         if is_ajax:
@@ -136,7 +139,7 @@ def cart_add(request, add_id):
         messages.error(request, error_message)
         return redirect(request.META.get("HTTP_REFERER", "products"))
 
-    product = Product.objects.filter(id=add_id).first()
+    product = Product.objects.filter(id=add_id, deleted=False).first()
     if not product:
         error_message = get_error_message("product_not_found", request) or "Товар не найден!"
         if is_ajax:
@@ -149,52 +152,55 @@ def cart_add(request, add_id):
         cart_item.quantity += 1
         cart_item.save()
         success_message = get_error_message("already_in_cart", request) or "Товар уже в корзине, количество обновлено!"
-        if is_ajax:
-            return JsonResponse({"success": True, "message": success_message})
-        messages.success(request, success_message)
-        return redirect(request.META.get("HTTP_REFERER", "products"))
-
-    success_message = get_error_message("cart_added", request) or "Товар успешно добавлен в корзину!"
+    else:
+        success_message = get_error_message("cart_added", request) or "Товар успешно добавлен в корзину!"
+    
     if is_ajax:
         return JsonResponse({"success": True, "message": success_message})
     messages.success(request, success_message)
     return redirect(request.META.get("HTTP_REFERER", "products"))
+
 @login_required
 def cart_remove(request, remove_id):
     product = Product.objects.filter(id=remove_id, deleted=False).first()
     if product:
         Cart.objects.filter(user=request.user, product=product, status=True).delete()
+        messages.success(request, get_error_message("cart_removed", request) or "Товар удален из корзины!")
+    else:
+        messages.error(request, get_error_message("product_not_found", request))
     return redirect(request.META.get("HTTP_REFERER", "products"))
 
 @require_POST
 @csrf_exempt
 def login_view(request):
-    if request.method == "POST" and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        next_url = request.POST.get("next") or "/"
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return JsonResponse({"success": True, "next": next_url})
-        return JsonResponse({"success": False, "error": get_error_message("login_failed", request)})
-    return JsonResponse({"success": False, "error": "Invalid request method"})
+    if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+        return JsonResponse({"success": False, "error": "Invalid request method"})
+    
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    next_url = request.POST.get("next") or "/"
+    user = authenticate(request, username=username, password=password)
+    if user:
+        login(request, user)
+        return JsonResponse({"success": True, "next": next_url})
+    return JsonResponse({"success": False, "error": get_error_message("login_failed", request)})
 
 @require_POST
 @csrf_exempt
 def register_view(request):
-    if request.method == "POST" and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        name = request.POST.get("username")
-        phone = request.POST.get("phone")
-        password = request.POST.get("password")
-        if not all([name, phone, password]):
-            return JsonResponse({"success": False, "error": "Заполните все поля"})
-        if User.objects.filter(phone=phone).exists():
-            return JsonResponse({"success": False, "error": get_error_message("phone_already_exists", request)})
-        user = User.objects.create_user(phone=phone, username=name, password=password)
-        login(request, user)
-        return JsonResponse({"success": True, "next": "/"})
-    return JsonResponse({"success": False, "error": "Invalid request method"})
+    if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+        return JsonResponse({"success": False, "error": "Invalid request method"})
+    
+    name = request.POST.get("username")
+    phone = request.POST.get("phone")
+    password = request.POST.get("password")
+    if not all([name, phone, password]):
+        return JsonResponse({"success": False, "error": "Заполните все поля"})
+    if User.objects.filter(phone=phone).exists():
+        return JsonResponse({"success": False, "error": get_error_message("phone_already_exists", request)})
+    user = User.objects.create_user(phone=phone, username=name, password=password)
+    login(request, user)
+    return JsonResponse({"success": True, "next": "/"})
 
 @login_required
 def logout_view(request):
@@ -224,19 +230,20 @@ def order_create(request):
             full_name=full_name,
             phone=phone,
             email=email,
-            additional_info=additional_info
+            additional_info=additional_info or ''
         )
-        return JsonResponse({"success": True, "message": get_error_message("order_success", request) or "Order placed successfully!"})
+        return JsonResponse({"success": True, "message": get_error_message("order_success", request) or "Заказ успешно оформлен!"})
     except Product.DoesNotExist:
-        return JsonResponse({"success": False, "message": get_error_message("product_not_found", request)})
+        return JsonResponse({"success": False, "message": get_error_message("product_not_found", request) or "Товар не найден!"})
     except ValueError:
         return JsonResponse({"success": False, "message": "Неверное количество!"})
     except Exception as e:
-        return JsonResponse({"success": False, "message": get_error_message("invalid_request", request) or f"Error: {str(e)}"})
+        return JsonResponse({"success": False, "message": get_error_message("invalid_request", request) or f"Ошибка: {str(e)}"})
 
 @require_GET
 def get_brands(request):
-    return JsonResponse(list(Brand.objects.values('id', 'name')), safe=False)
+    brands = Brand.objects.filter(deleted=False).values('id', 'name')
+    return JsonResponse(list(brands), safe=False)
 
 @require_GET
 def reset_filters(request):
@@ -245,25 +252,24 @@ def reset_filters(request):
 
 @require_GET
 def get_models(request):
-    return JsonResponse(list(CarModel.objects.filter(deleted=False).values('id', 'name')), safe=False)
+    brand_id = request.GET.get('brand_id')
+    models = CarModel.objects.filter(deleted=False)
+    if brand_id:
+        models = models.filter(brand_id=brand_id)
+    return JsonResponse(list(models.values('id', 'name')), safe=False)
 
 @require_GET
 def get_years(request):
     model_id = request.GET.get('model_id')
-    years = CarYear.objects.filter(deleted=False).values('id', 'year').order_by('year')
+    years = CarYear.objects.filter(deleted=False).order_by('year')
     if model_id:
         years = years.filter(model_id=model_id)
-    return JsonResponse(list(years), safe=False)
+    return JsonResponse(list(years.values('id', 'year')), safe=False)
 
 @require_GET
 def get_series(request):
     year_id = request.GET.get('year_id')
-    series = CarSeries.objects.filter(deleted=False).values('id', 'name')
+    series = CarSeries.objects.filter(deleted=False)
     if year_id:
         series = series.filter(year_id=year_id)
-    return JsonResponse(list(series), safe=False)
-
-
-
-
-
+    return JsonResponse(list(series.values('id', 'name')), safe=False)

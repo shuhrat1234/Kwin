@@ -95,7 +95,7 @@
             <div class="flex justify-between text-lg mb-6">
               <span class="text-gray-900 font-bold">Total</span>
               <span id="total_balance" class="font-bold text-gray-900 text-xl">
-                {% if request.user.is_authenticated %}{{ request.user.calculate_cart }}{% else %}0.00 ${% endif %}
+                {% if request.user.is_authenticated %}{{ request.user.calculate_cart }}{% endif %}
               </span>
             </div>
           </div>

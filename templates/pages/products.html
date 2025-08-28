@@ -91,8 +91,6 @@
   .basket-btn:hover:not(.added) {
     background-color: #f1f1f1;
   }
-
-  /* Responsive Layout */
   @media (max-width: 640px) {
     .flex.gap-8 {
       flex-direction: column;
@@ -170,7 +168,7 @@
               <div>
                 <h3 class="font-medium mb-3 text-gray-900">Бренды</h3>
                 <select name="brand_ids" id="brandSelect" class="filter-select" onchange="updateFilters()">
-                  <option value="">Выберите бренд</option>
+                  <option value="">Все бренды</option>
                   {% for brand in brands %}
                   <option value="{{ brand.id }}" {% if brand.id|stringformat:"s" in selected_brand_ids %}selected{% endif %}>{{ brand.name }}</option>
                   {% endfor %}
@@ -180,7 +178,7 @@
                 <h3 class="font-medium mb-3 text-gray-900">Модели</h3>
                 <select name="model_ids" id="modelSelect" class="filter-select" onchange="updateFilters()">
                   <option value="">Выберите модель</option>
-                  {% for model in car_models %} <!-- Changed from 'models' to 'car_models' -->
+                  {% for model in car_models %}
                   <option value="{{ model.id }}" {% if model.id|stringformat:"s" in selected_model_ids %}selected{% endif %}>{{ model.name }}</option>
                   {% endfor %}
                 </select>
@@ -301,39 +299,61 @@
     </div>
   </div>
 
-  <!-- Order Modal -->
-  <div id="orderModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
-      <span class="close absolute top-2 right-4 text-2xl cursor-pointer text-gray-500 hover:text-gray-700" onclick="closeOrderModal()">&times;</span>
-      <h2 class="text-xl font-bold mb-4">Оформление заказа</h2>
-      <form id="orderForm" action="{% url 'order_create' %}" method="post" class="space-y-4">
-        {% csrf_token %}
-        <input type="hidden" id="productId" name="productId">
-        <input type="hidden" id="productName" name="productName">
-        <input type="hidden" id="productPrice" name="productPrice">
-        <input type="hidden" id="productBrand" name="productBrand">
-        <input type="hidden" id="productQuantity" name="productQuantity" value="1">
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Полное имя *</label>
-          <input type="text" name="fullName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+  <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-900">Оформить заказ</h2>
+          <button onclick="closeOrderModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Номер телефона *</label>
-          <input type="tel" id="contactPhone" name="contactPhone" placeholder="+998 (XX) XXX-XX-XX" pattern="\+998[0-9]{9}" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+          <h3 id="modalProductName" class="font-semibold text-gray-900 mb-2"></h3>
+          <div class="flex justify-between text-sm text-gray-600">
+            <span id="modalPrice" class="font-bold text-lg text-gray-900"></span>
+          </div>
+          <div class="basket-counter flex items-center gap-1 bg-white/90 backdrop-blur-md rounded-full px-2 py-1 mt-2">
+            <button class="minus-btn w-6 h-6 flex items-center justify-center text-gray-600 hover:text-primary" onclick="updateQuantity(-1)">
+              -
+            </button>
+            <span class="basket-count text-sm font-medium" id="modalQuantity">1</span>
+            <button class="plus-btn w-6 h-6 flex items-center justify-center text-gray-600 hover:text-primary" onclick="updateQuantity(1)">
+              +
+            </button>
+          </div>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Email *</label>
-          <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Дополнительная информация</label>
-          <textarea name="additionalInfo" rows="4" placeholder="Адрес доставки, пожелания к заказу..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-y"></textarea>
-        </div>
-        <div class="flex gap-3 pt-4">
-          <button type="button" id="cancelOrderBtn" class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 transition-colors" onclick="closeOrderModal()">Отмена</button>
-          <button type="submit" class="flex-1 px-4 py-2 bg-primary text-white font-semibold rounded-md hover:bg-primary-dark transition-colors">Подтвердить заказ</button>
-        </div>
-      </form>
+        <form id="orderForm" action="{% url 'order_create' %}" method="POST" class="space-y-4">
+          {% csrf_token %}
+          <input type="hidden" id="productId" name="productId">
+          <input type="hidden" id="productQuantity" name="productQuantity" value="1">
+          <input type="hidden" id="productName" name="productName">
+          <input type="hidden" id="productPrice" name="productPrice">
+          <input type="hidden" id="productBrand" name="productBrand">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Полное имя *</label>
+            <input type="text" name="fullName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Номер телефона *</label>
+            <input id="contactPhone" type="tel" name="contactPhone" placeholder="+998 (XX) XXX-XX-XX" pattern="\+998[0-9]{9}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+            <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Дополнительная информация</label>
+            <textarea name="additionalInfo" rows="4" placeholder="Адрес доставки, пожелания к заказу..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
+          </div>
+          <div class="flex gap-3 pt-4">
+            <button type="button" onclick="closeOrderModal()" class="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">Отмена</button>
+            <button type="submit" class="flex-1 px-4 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors">Подтвердить заказ</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </main>
@@ -349,13 +369,14 @@
 
     yearSelect.disabled = !modelSelect.value;
     seriesSelect.disabled = !yearSelect.value;
-    const isFilterActive = brandSelect.value && modelSelect.value;
+    const isFilterActive = brandSelect.value || modelSelect.value;
     filterButton.classList.toggle('active', isFilterActive);
     filterButtonDesktop.classList.toggle('active', isFilterActive);
   }
 
-  function fetchModels() {
-    fetch('/get_models/')
+  function fetchModels(brandId) {
+    const url = brandId ? `/get_models/?brand_id=${brandId}` : '/get_models/';
+    fetch(url)
       .then(response => response.json())
       .then(data => {
         const modelSelect = document.getElementById('modelSelect');
@@ -367,16 +388,15 @@
           option.textContent = model.name;
           modelSelect.appendChild(option);
         });
-        if (savedModel && Array.from(modelSelect.options).some(opt => opt.value === savedModel)) {
-          modelSelect.value = savedModel;
-        }
+        modelSelect.value = savedModel && Array.from(modelSelect.options).some(opt => opt.value === savedModel) ? savedModel : '';
         fetchYears(modelSelect.value);
       })
       .catch(error => console.error('Error fetching models:', error));
   }
 
   function fetchYears(modelId) {
-    fetch(`/get_years/?model_id=${modelId || ''}`)
+    const url = modelId ? `/get_years/?model_id=${modelId}` : '/get_years/';
+    fetch(url)
       .then(response => response.json())
       .then(data => {
         const yearSelect = document.getElementById('yearSelect');
@@ -388,17 +408,16 @@
           option.textContent = year.year;
           yearSelect.appendChild(option);
         });
-        if (savedYear && Array.from(yearSelect.options).some(opt => opt.value === savedYear)) {
-          yearSelect.value = savedYear;
-        }
-        updateFilters();
+        yearSelect.value = savedYear && Array.from(yearSelect.options).some(opt => opt.value === savedYear) ? savedYear : '';
+        yearSelect.disabled = !modelId;
         fetchSeries(yearSelect.value);
       })
       .catch(error => console.error('Error fetching years:', error));
   }
 
   function fetchSeries(yearId) {
-    fetch(`/get_series/?year_id=${yearId || ''}`)
+    const url = yearId ? `/get_series/?year_id=${yearId}` : '/get_series/';
+    fetch(url)
       .then(response => response.json())
       .then(data => {
         const seriesSelect = document.getElementById('seriesSelect');
@@ -410,9 +429,8 @@
           option.textContent = series.name;
           seriesSelect.appendChild(option);
         });
-        if (savedSeries && Array.from(seriesSelect.options).some(opt => opt.value === savedSeries)) {
-          seriesSelect.value = savedSeries;
-        }
+        seriesSelect.value = savedSeries && Array.from(seriesSelect.options).some(opt => opt.value === savedSeries) ? savedSeries : '';
+        seriesSelect.disabled = !yearId;
         updateFilters();
       })
       .catch(error => console.error('Error fetching series:', error));
@@ -422,33 +440,50 @@
     document.getElementById('filterForm').submit();
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    fetchModels();
-    updateFilters();
-    document.querySelectorAll('#brandSelect, #modelSelect, #yearSelect, #seriesSelect').forEach(select => {
-      select.addEventListener('change', updateFilters);
-    });
-    document.getElementById('modelSelect').addEventListener('change', () => fetchYears(document.getElementById('modelSelect').value));
-    document.getElementById('yearSelect').addEventListener('change', () => fetchSeries(document.getElementById('yearSelect').value));
-  });
+  function updateQuantity(delta) {
+    const quantityElem = document.getElementById('modalQuantity');
+    let quantity = parseInt(quantityElem.innerText) + delta;
+    quantity = Math.max(1, quantity);
+    quantityElem.innerText = quantity;
+    document.getElementById('productQuantity').value = quantity;
+  }
 
   function openOrderModal(productId, productName, productPrice, productBrand) {
     document.getElementById('productId').value = productId;
     document.getElementById('productName').value = productName;
     document.getElementById('productPrice').value = productPrice;
     document.getElementById('productBrand').value = productBrand;
-    document.getElementById('orderModal').style.display = 'flex'; // Use style.display for consistency
+    document.getElementById('modalProductName').innerText = productName;
+    document.getElementById('modalPrice').innerText = productPrice;
+    document.getElementById('modalQuantity').innerText = '1';
+    document.getElementById('productQuantity').value = '1';
+    document.getElementById('orderModal').style.display = 'flex';
+    const modal = document.getElementById('orderModal')
+    modal.classList.remove('hidden');
   }
 
   function closeOrderModal() {
     document.getElementById('orderModal').style.display = 'none';
     document.getElementById('orderForm').reset();
+    document.getElementById('modalQuantity').innerText = '1';
+    document.getElementById('productQuantity').value = '1';
+    const modal = document.getElementById('orderModal');
+  modal.classList.add('hidden')
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const brandSelect = document.getElementById('brandSelect');
+    fetchModels(brandSelect.value);
+    updateFilters();
+    brandSelect.addEventListener('change', () => fetchModels(brandSelect.value));
+    document.getElementById('modelSelect').addEventListener('change', () => fetchYears(document.getElementById('modelSelect').value));
+    document.getElementById('yearSelect').addEventListener('change', () => fetchSeries(document.getElementById('yearSelect').value));
+  });
 
   document.getElementById('orderForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const formData = new FormData(this);
-    fetch(this.action, {
+    fetch('{% url "order_create" %}', {
       method: 'POST',
       body: formData,
       headers: {
@@ -458,14 +493,16 @@
     })
     .then(response => response.json())
     .then(data => {
+      alert(data.message);
       if (data.success) {
-        alert(data.message);
         closeOrderModal();
-      } else {
-        alert(data.message);
+        window.location.reload();
       }
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Ошибка при отправке заказа. Попробуйте снова.');
+    });
   });
 </script>
 {% endblock %}

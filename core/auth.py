@@ -87,5 +87,5 @@ class User(AbstractBaseUser, PermissionsMixin):
             price_type = cart.product.price_type  # Assuming price_type is a field
             total_balance += cart_total * rates[price_type]
         # Convert to USD and round to 2 decimal places
-        usd_total = total_balance / rates["USD"]
-        return f"{usd_total:.2f} $"
+        usd_total = total_balance / rates["UZS"]
+        return f"{usd_total:.2f} sum"

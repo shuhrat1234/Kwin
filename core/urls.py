@@ -19,3 +19,4 @@ urlpatterns = [
     path('get_years/', views.get_years, name='get_years'),
     path('get_series/', views.get_series, name='get_series'),
 ]
+
