@@ -36,8 +36,40 @@
     border-radius: 0.5rem;
     display: none;
   }
+  /* Modal styles */
+  #orderModal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  #orderModal.hidden {
+    display: none;
+  }
+  .modal-content {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 28rem;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-content .p-6 {
+    flex: 1;
+    overflow: hidden;
+  }
+  /* Prevent body scrolling when modal is open */
+  body.modal-open {
+    overflow: hidden;
+  }
 </style>
-
 <main class="pt-32 pb-12">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Контейнер для сообщений -->
@@ -51,29 +83,57 @@
       <div class="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
         <div class="space-y-3">
           <div class="product-image-container rounded-2xl p-6 relative overflow-hidden">
-            <img
-              id="mainImage-{{ product_one.id }}"
-              src="{{ product_one.images.first.image.url }}"
-              alt="{{ product_one|get_name_by_lang:lang }}"
-              class="w-full h-auto max-w-md mx-auto drop-shadow-2xl animate-float"
-            />
-          </div>
-          <div class="flex space-x-3 justify-center">
-            {% for image in product_one.images.all %}
-            <button
-              data-product="{{ product_one.id }}"
-              data-slide="{{ forloop.counter0 }}"
-              class="thumbnail-btn w-16 h-16 rounded-lg border-2 overflow-hidden {% if forloop.first %}border-primary{% else %}border-gray-300{% endif %}"
-            >
+            {% if product_one.images.exists %}
               <img
-                src="{{ image.image.url }}"
-                alt="Thumbnail {{ forloop.counter }}"
-                class="w-full h-full object-cover"
+                id="mainImage-{{ product_one.id }}"
+                src="{{ product_one.images.first.image.url }}"
+                alt="{{ product_one|get_name_by_lang:lang }}"
+                class="w-full h-auto max-w-md mx-auto drop-shadow-2xl animate-float"
               />
-            </button>
-            {% endfor %}
+            {% else %}
+              <!-- Empty state placeholder -->
+              <div class="w-full h-auto max-w-md mx-auto flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260" class="w-full h-full max-h-64">
+                  <defs>
+                    <linearGradient id="wiper{{ product_one.id }}" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/>
+                      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9"/>
+                      <stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper{{ product_one.id }})"/>
+                  <rect x="40" y="140" width="280" height="8" rx="4" fill="#667eea" opacity="0.6"/>
+                  <circle cx="50" cy="126" r="8" fill="#764ba2"/>
+                  <circle cx="330" cy="126" r="8" fill="#764ba2"/>
+                  <circle cx="50" cy="126" r="3" fill="white"/>
+                  <circle cx="330" cy="126" r="3" fill="white"/>
+                </svg>
+              </div>
+            {% endif %}
           </div>
+          
+          <!-- Thumbnails section -->
+          {% if product_one.images.exists %}
+            <div class="flex space-x-3 justify-center">
+              {% for image in product_one.images.all %}
+              <!-- <button
+                data-product="{{ product_one.id }}"
+                data-slide="{{ forloop.counter0 }}"
+                class="thumbnail-btn w-18 h-16 rounded-lg border-2 overflow-hidden {% if forloop.first %}border-primary{% else %}border-gray-300{% endif %}"
+              >
+                <img
+                  src="{{ image.image.url }}"
+                  alt="Thumbnail {{ forloop.counter }}"
+                  class="w-full h-full object-cover"
+                />
+              </button> -->
+              {% endfor %}
+            </div>
+          {% else %}
+
+          {% endif %}
         </div>
+        
         <div class="space-y-5">
           <div>
             <div
@@ -99,7 +159,7 @@
             </div>
           </div>
           <div class="bg-gray-50 rounded-xl p-5">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3" data-translate="product_description">
               Описание товара
             </h3>
             <p class="text-gray-700 leading-relaxed mb-3">
@@ -110,6 +170,7 @@
             <button
               class="buy-button flex-1 px-4 sm:px-6 lg:px-8 py-3 text-white font-semibold rounded-lg text-sm sm:text-base lg:text-lg shadow-lg"
               onclick="openOrderModal()"
+              data-translate="buy_now"
             >
               Купить сейчас
             </button>
@@ -118,6 +179,7 @@
               href="{% url 'cart-remove' remove_id=product_one.id %}"
               class="basket-btn flex items-center justify-center w-12 h-12 rounded-lg border border-gray-300 hover:bg-red-600 added"
               title="Удалить из корзины"
+              data-translate-title="remove_from_cart"
             >
               <svg
                 class="w-6 h-6"
@@ -140,6 +202,7 @@
                 type="submit"
                 class="basket-btn flex items-center justify-center w-12 h-12 rounded-lg border border-gray-300 hover:bg-gray-50"
                 title="Добавить в корзину"
+                data-translate-title="add_to_cart"
               >
                 <svg
                   class="w-6 h-6"
@@ -180,9 +243,11 @@
             ></path>
           </svg>
         </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Бесплатная доставка</h3>
-        <p class="text-gray-600 text-sm">
-          Бесплатная доставка для заказов свыше $100
+        <h3 class="font-semibold text-gray-900 mb-2" data-translate="convenient_purchase">
+          Удобно Купить
+        </h3>
+        <p class="text-gray-600 text-sm" data-translate="convenient_purchase_description">
+          Легко и быстро оформить заказ
         </p>
       </div>
       <div class="feature-card rounded-xl p-6 text-center">
@@ -203,8 +268,12 @@
             ></path>
           </svg>
         </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Гарантия качества</h3>
-        <p class="text-gray-600 text-sm">1 года гарантии на все товары</p>
+        <h3 class="font-semibold text-gray-900 mb-2" data-translate="quality_guarantee">
+          Гарантия качества
+        </h3>
+        <p class="text-gray-600 text-sm" data-translate="quality_guarantee_description">
+          Все товары качественные
+        </p>
       </div>
       <div class="feature-card rounded-xl p-6 text-center">
         <div
@@ -224,13 +293,19 @@
             ></path>
           </svg>
         </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Поддержка 24/7</h3>
-        <p class="text-gray-600 text-sm">Круглосуточная поддержка клиентов</p>
+        <h3 class="font-semibold text-gray-900 mb-2" data-translate="reliable_partner">
+          Надежный Партнер
+        </h3>
+        <p class="text-gray-600 text-sm" data-translate="reliable_partner_description">
+          Ваш надежный партнер в мире авто товаров
+        </p>
       </div>
     </div>
     {% else %}
     <div class="text-center py-12">
-      <h3 class="text-xl font-semibold text-gray-900 mb-2">Товар не найден</h3>
+      <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate="no_products_found">
+        Товар не найден
+      </h3>
     </div>
     {% endif %}
   </div>
@@ -238,12 +313,12 @@
     id="orderModal"
     class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4"
   >
-    <div
-      class="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
-    >
+    <div class="modal-content">
       <div class="p-6">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold text-gray-900">Оформить заказ</h2>
+          <h2 class="text-2xl font-bold text-gray-900" data-translate="order_checkout">
+            Оформить заказ
+          </h2>
           <button
             id="closeOrderModalBtn"
             class="text-gray-400 hover:text-gray-600 transition-colors"
@@ -269,21 +344,19 @@
             {{ product_one|get_name_by_lang:lang }}
           </h3>
           <div class="flex justify-between text-sm text-gray-600">
-            <span>
+            <span data-translate="quantity_label">
               Количество:
-              <div class="flex items-center border border-gray-300 rounded-lg">
+              <div class="inline-flex items-center border border-gray-300 rounded-lg">
                 <button
-                  class="quantity-btn px-4 py-3 text-gray-600 hover:bg-gray-50 font-medium"
+                  class="quantity-btn px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium"
                   onclick="updateQuantity(-1)"
                   aria-label="Decrease quantity"
                 >
                   −
                 </button>
-                <span class="px-4 py-3 text-gray-900 font-medium" id="quantity"
-                  >1</span
-                >
+                <span class="px-4 py-2 text-gray-900 font-medium" id="quantity">1</span>
                 <button
-                  class="quantity-btn px-4 py-3 text-gray-600 hover:bg-gray-50 font-medium"
+                  class="quantity-btn px-4 py-2 text-gray-600 hover:bg-gray-50 font-medium"
                   onclick="updateQuantity(1)"
                   aria-label="Increase quantity"
                 >
@@ -291,9 +364,9 @@
                 </button>
               </div>
             </span>
-            <span id="modalPrice" class="font-bold text-lg text-gray-900"
-              >{{ product_one.get_price_with_icon }}</span
-            >
+            <span id="modalPrice" class="font-bold text-lg text-gray-900">
+              {{ product_one.get_price_with_icon }}
+            </span>
           </div>
         </div>
         <form id="orderForm" action="{% url 'order_create' %}" method="post" class="space-y-4">
@@ -329,62 +402,68 @@
             value="1"
           />
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Полное имя *</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="full_name">
+              Полное имя *
+            </label>
             <input
               type="text"
               name="fullName"
               required
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              data-translate-placeholder="name_placeholder"
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Номер телефона *</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="phone_number">
+              Номер телефона *
+            </label>
             <input
               id="contactPhone"
               type="tel"
               placeholder="+998 (XX) XXX-XX-XX"
               pattern="\+998[0-9]{9}"
               required
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              data-translate-placeholder="phone_placeholder"
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Email *</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="email">
+              Email *
+            </label>
             <input
               type="email"
               name="email"
               required
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              data-translate-placeholder="email"
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Дополнительная информация</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="additional_info">
+              Дополнительная информация
+            </label>
             <textarea
               name="additionalInfo"
-              rows="4"
-              placeholder="Адрес доставки, пожелания к заказу..."
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+              rows="3"
+              placeholder="Ваше сообщение"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+              data-translate-placeholder="message_placeholder" 
             ></textarea>
           </div>
           <div class="flex gap-3 pt-4">
             <button
               type="button"
               onclick="closeOrderModal()"
-              class="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+              class="flex-1 max-h-auto max-w-auto p-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+              data-translate="cancel"
             >
               Отмена
             </button>
             <button
               type="submit"
-              class="flex-1 px-4 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
+              class="flex-1 max-h-auto max-w-auto bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
+              data-translate="confirm_order"
             >
               Подтвердить заказ
             </button>
@@ -394,7 +473,6 @@
     </div>
   </div>
 </main>
-
 <script>
   // Function to get CSRF token from cookies
   function getCookie(name) {
@@ -411,11 +489,9 @@
     }
     return cookieValue;
   }
-
-  // Модал и обработка формы заказа
+  // Modal and order form handling
   let currentQuantity = 1;
   let currentPrice = parseFloat("{{ product_one.get_price }}".replace(/[^\d.]/g, ""));
-
   window.openOrderModal = () => {
     currentQuantity = 1;
     document.getElementById("quantity").textContent = currentQuantity;
@@ -424,28 +500,26 @@
     const orderModal = document.getElementById("orderModal");
     if (orderModal) {
       orderModal.classList.remove("hidden");
+      document.body.classList.add("modal-open");
     }
   };
-
   window.closeOrderModal = () => {
     const orderModal = document.getElementById("orderModal");
     if (orderModal) {
       orderModal.classList.add("hidden");
+      document.body.classList.remove("modal-open");
     }
   };
-
   window.updateQuantity = (change) => {
     currentQuantity = Math.max(1, currentQuantity + change);
     document.getElementById("quantity").textContent = currentQuantity;
     document.getElementById("productQuantity").value = currentQuantity;
     updatePrice();
   };
-
   function updatePrice() {
     const totalPrice = currentPrice * currentQuantity;
     document.getElementById("modalPrice").textContent = `${totalPrice.toFixed(2)} {{ product_one.price_type }}`;
   }
-
   document.getElementById("orderForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -481,31 +555,30 @@
       }, 5000);
     });
   });
-
   document.getElementById("closeOrderModalBtn").addEventListener("click", closeOrderModal);
-
   document.getElementById("orderModal").addEventListener("click", (e) => {
     if (e.target === document.getElementById("orderModal")) {
       closeOrderModal();
     }
   });
-
-  // Thumbnail functionality
+  // Thumbnail functionality - only run if images exist
   const thumbnailButtons = document.querySelectorAll(".thumbnail-btn");
-  thumbnailButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      const productId = button.getAttribute("data-product");
-      const slideIndex = button.getAttribute("data-slide");
-      const mainImage = document.getElementById(`mainImage-${productId}`);
-      const newImageSrc = button.querySelector("img").src;
-      mainImage.src = newImageSrc;
-      thumbnailButtons.forEach((btn) => {
-        btn.classList.remove("border-primary");
-        btn.classList.add("border-gray-300");
+  if (thumbnailButtons.length > 0) {
+    thumbnailButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const productId = button.getAttribute("data-product");
+        const slideIndex = button.getAttribute("data-slide");
+        const mainImage = document.getElementById(`mainImage-${productId}`);
+        const newImageSrc = button.querySelector("img").src;
+        mainImage.src = newImageSrc;
+        thumbnailButtons.forEach((btn) => { 
+          btn.classList.remove("border-primary");
+          btn.classList.add("border-gray-300");
+        });
+        button.classList.remove("border-gray-300");
+        button.classList.add("border-primary");
       });
-      button.classList.remove("border-gray-300");
-      button.classList.add("border-primary");
     });
-  });
+  }
 </script>
 {% endblock %}
