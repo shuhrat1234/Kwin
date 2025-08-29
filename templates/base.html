@@ -4,20 +4,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="csrf-token" content="{% csrf_token %}">
+    <meta name="csrf-token" content="{% csrf_token %} 
     <title data-translate="site_title">KWIN</title>
-    <meta name="description" data-translate-content="meta_description" content="Your reliable partner in the world of auto products. High-quality auto components from leading manufacturers since 2005.">
-    <meta name="keywords" data-translate-content="meta_keywords" content="auto parts, car components, automotive, KWIN, Heyner, Alca, Utal, ARS, Delta, Uzbekistan, auto accessories">
-    <meta property="og:title" data-translate-content="og_title" content="KWIN Commerce - Your Reliable Auto Parts Partner">
-    <meta property="og:description" data-translate-content="og_description" content="High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands in Uzbekistan.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" data-translate-content="og_site_name" content="KWIN Commerce">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" data-translate-content="twitter_title" content="KWIN Commerce - Auto Parts & Components">
-    <meta name="twitter:description" data-translate-content="twitter_description" content="Your reliable partner for high-quality automotive components in Uzbekistan.">
-    <meta name="language" content="en">
-    <meta name="geo.region" content="UZ">
-    <meta name="geo.country" content="Uzbekistan">
+    <meta
+      name="description"
+      data-translate-content="meta_description"
+      content="Your reliable partner in the world of auto products. High-quality auto components from leading manufacturers since 2005."
+    />
+    <meta
+      name="keywords"
+      data-translate-content="meta_keywords"
+      content="auto parts, car components, automotive, KWIN, Heyner, Alca, Utal, ARS, Delta, Uzbekistan, auto accessories"
+    />
+    <meta
+      property="og:title"
+      data-translate-content="og_title"
+      content="KWIN Commerce - Your Reliable Auto Parts Partner"
+    />
+    <meta
+      property="og:description"
+      data-translate-content="og_description"
+      content="High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands in Uzbekistan."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:site_name"
+      data-translate-content="og_site_name"
+      content="KWIN Commerce"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      data-translate-content="twitter_title"
+      content="KWIN Commerce - Auto Parts & Components"
+    />
+    <meta
+      name="twitter:description"
+      data-translate-content="twitter_description"
+      content="Your reliable partner for high-quality automotive components in Uzbekistan."
+    />
+    <meta name="language" content="en" />
+    <meta name="geo.region" content="UZ" />
+    <meta name="geo.country" content="Uzbekistan" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/index.css' %}" />
@@ -26,26 +54,41 @@
     <link rel="stylesheet" href="{% static 'css/products.css' %}" />
     <link rel="icon" type="image/png" href="/static/assets/img/logo.png" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <script>
-      window.languageChangeUrl = "{% url 'set_language' 'PLACEHOLDER' %}".replace('PLACEHOLDER', '');
+      window.languageChangeUrl =
+        "{% url 'set_language' 'PLACEHOLDER' %}".replace("PLACEHOLDER", "");
     </script>
   </head>
 
   <body class="font-sans">
-    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-sm shadow-sm z-50 border-b border-gray-100">
+    <nav
+      class="fixed top-0 w-full bg-white/90 backdrop-blur-sm shadow-sm z-50 border-b border-gray-100"
+    >
       <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div class="flex justify-between items-center h-20 lg:h-24">
           <!-- Logo Section -->
           <a href="{% url 'home' %}" class="flex-shrink-0">
             <div class="flex items-center space-x-2">
-              <img src="{% static 'assets/img/logo.png' %}" alt="KWIN Logo" class="h-10 lg:h-12" />
-              <span class="text-xl lg:text-2xl font-bold text-[var(--primary-red)]">KWIN</span>
+              <img
+                src="{% static 'assets/img/logo.png' %}"
+                alt="KWIN Logo"
+                class="h-10 lg:h-12"
+              />
+              <span
+                class="text-xl lg:text-2xl font-bold text-[var(--primary-red)]"
+                >KWIN</span
+              >
             </div>
           </a>
-          
+
           <!-- Navigation Links - Responsive -->
-          <div class="hidden md:flex items-center space-x-3 lg:space-x-8 mx-4 lg:mx-8">
+          <div
+            class="hidden md:flex items-center space-x-3 lg:space-x-8 mx-4 lg:mx-8"
+          >
             <a
               href="{% url 'home' %}#home"
               class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
@@ -83,7 +126,7 @@
               ></span>
             </a>
           </div>
-          
+
           <!-- Right Section - Actions -->
           <div class="flex items-center space-x-4 lg:space-x-6 flex-shrink-0">
             <!-- Cart Button - Tablet/Desktop -->
@@ -118,14 +161,28 @@
 
             <!-- Login/Logout Button -->
             {% if request.user.is_authenticated %}
-            <a href="{% url 'logout' %}"
+            <a
+              href="{% url 'logout' %}"
               class="bg-gray-100 p-1 lg:p-2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition hover:bg-[var(--light-gray)] rounded-full flex items-center gap-2"
             >
-              <svg class="w-7 h-7 lg:w-8 lg:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 12H3m12 0l-3-3m3 3l-3 3" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M21 5v14a2 2 0 0 1-2 2h-6" />
+              <svg
+                class="w-7 h-7 lg:w-8 lg:h-8"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12H3m12 0l-3-3m3 3l-3 3"
+                >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 5v14a2 2 0 0 1-2 2h-6"
+                >
               </svg>
             </a>
             {% else %}
@@ -148,15 +205,20 @@
               </svg>
             </button>
             {% endif %}
-            
+
             <!-- Separator -->
-            
+
             <div class="relative group">
               <button
                 class="flex items-center space-x-1 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition px-2 lg:px-3 py-1 lg:py-2 rounded-lg bg-gray-100 hover:bg-[var(--light-gray)]"
               >
-                <div class="w-0.5 lg:w-1 h-6 lg:h-8 bg-[var(--primary-red)] rounded-full opacity-70 me-4"></div>
-                <span id="current-language" class="font-medium text-sm lg:text-base"></span>
+                <div
+                  class="w-0.5 lg:w-1 h-6 lg:h-8 bg-[var(--primary-red)] rounded-full opacity-70 me-4"
+                ></div>
+                <span
+                  id="current-language"
+                  class="font-medium text-sm lg:text-base"
+                ></span>
                 <svg
                   class="w-3 h-3 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:rotate-180"
                   fill="none"
@@ -171,6 +233,10 @@
                   ></path>
                 </svg>
               </button>
+              <form id="langForm" method="post" class="hidden">
+                {% csrf_token %}
+              </form>
+
               <div
                 class="absolute right-0 mt-1 w-32 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50"
               >
@@ -179,26 +245,47 @@
                   data-lang="en"
                   class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
                   data-translate="lang_en"
-                ></a>
+                  >English</a
+                >
+
                 <a
                   href="javascript:void(0)"
                   data-lang="uz"
                   class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
                   data-translate="lang_uz"
-                ></a>
+                  >O‘zbekcha</a
+                >
+
                 <a
                   href="javascript:void(0)"
                   data-lang="ru"
                   class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
                   data-translate="lang_ru"
-                ></a>
+                  >Русский</a
+                >
+
                 <a
                   href="javascript:void(0)"
                   data-lang="ger"
                   class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
                   data-translate="lang_ger"
-                ></a>
+                  >Deutsch</a
+                >
               </div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  document.querySelectorAll("[data-lang]").forEach((el) => {
+                    el.addEventListener("click", function () {
+                      let lang = this.getAttribute("data-lang");
+                      let form = document.getElementById("langForm");
+
+                      form.action = `/set-language/${lang}/`;
+                      form.submit();
+                    });
+                  });
+                });
+              </script>
             </div>
           </div>
         </div>
@@ -304,7 +391,8 @@
             {% if cart_count > 0 %}
             <span
               class="absolute -top-1 -right-1 bg-[var(--accent-yellow)] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium animate-pulse"
-            >{{ cart_count }}</span>
+              >{{ cart_count }}</span
+            >
             {% endif %}
           </button>
         </a>
@@ -399,9 +487,24 @@
               id="toggleLoginPassword"
               class="absolute top-1/2 right-4 -translate-y-1/2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                ></path>
               </svg>
             </button>
           </div>
@@ -493,7 +596,7 @@
           <button
             type="button"
             id="openLoginModalFromRegister"
-            class="text-[var(--primary-red)] hover:text-[var(--primary-dark)] text-center text-sm font-medium transition" 
+            class="text-[var(--primary-red)] hover:text-[var(--primary-dark)] text-center text-sm font-medium transition"
             data-translate="login"
           ></button>
         </form>
@@ -508,24 +611,31 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <a href="{% url 'home' %}">
           <div class="flex items-center justify-center space-x-2 mb-4">
-            <span class="text-2xl font-bold text-[var(--primary-red)]" data-translate="footer_title"></span>
+            <span
+              class="text-2xl font-bold text-[var(--primary-red)]"
+              data-translate="footer_title"
+            ></span>
           </div>
         </a>
-        <p class="text-gray-400 text-sm mb-6" data-translate="footer_slogan"></p>
+        <p
+          class="text-gray-400 text-sm mb-6"
+          data-translate="footer_slogan"
+        ></p>
         <p class="text-gray-500 text-xs" data-translate="footer_copyright"></p>
       </div>
     </footer>
 
     <!-- Load Scripts -->
+     {% block scripts %}
+     
+     {% endblock  %}
     <script src="{% static 'script/translation.js' %}"></script>
     <script src="{% static 'script/index.js' %}"></script>
-    <script src="{% static 'script/productDetails.js' %}"></script>
-    <script src="{% static 'script/productScripts.js' %}"></script> 
     
     <script>
-      $(document).ready(function() {
+      $(document).ready(function () {
         // Login AJAX
-        $("#loginForm").submit(function(e) {
+        $("#loginForm").submit(function (e) {
           e.preventDefault();
           var formData = $(this).serialize();
           $.ajax({
@@ -533,21 +643,30 @@
             type: "POST",
             data: formData,
             headers: { "X-Requested-With": "XMLHttpRequest" },
-            success: function(response) {
+            success: function (response) {
               if (response.success) {
                 window.location.href = response.next || "{% url 'home' %}";
               } else {
                 alert(response.error || "Login failed. Please try again.");
               }
             },
-            error: function(xhr) {
-              alert("An error occurred: " + (xhr.responseJSON?.error || "Please try again."));
-            }
+            error: function (xhr) {
+              alert(
+                "An error occurred: " +
+                  (xhr.responseJSON?.error || "Please try again.")
+              );
+            },
           });
         });
 
+        $(document).on("click", "[data-lang]", function () {
+          let lang = $(this).data("lang");
+          $("#langInput").val(lang);
+          $("#langForm").submit();
+        });
+
         // Register AJAX
-        $("#registerForm").submit(function(e) {
+        $("#registerForm").submit(function (e) {
           e.preventDefault();
           var formData = $(this).serialize();
           $.ajax({
@@ -555,16 +674,21 @@
             type: "POST",
             data: formData,
             headers: { "X-Requested-With": "XMLHttpRequest" },
-            success: function(response) {
+            success: function (response) {
               if (response.success) {
                 window.location.href = response.next || "{% url 'home' %}";
               } else {
-                alert(response.error || "Registration failed. Please try again.");
+                alert(
+                  response.error || "Registration failed. Please try again."
+                );
               }
             },
-            error: function(xhr) {
-              alert("An error occurred: " + (xhr.responseJSON?.error || "Please try again."));
-            }
+            error: function (xhr) {
+              alert(
+                "An error occurred: " +
+                  (xhr.responseJSON?.error || "Please try again.")
+              );
+            },
           });
         });
 
@@ -572,90 +696,110 @@
         function openLoginModal() {
           $("#loginModal").removeClass("hidden");
         }
-        
+
         function closeLoginModal() {
           $("#loginModal").addClass("hidden");
         }
-        
+
         $("#openLoginModal, #openLoginModalMobile").click(openLoginModal);
         $("#closeLoginModal").click(closeLoginModal);
-        
-        $("#openRegisterModal").click(function() {
+
+        $("#openRegisterModal").click(function () {
           closeLoginModal();
           $("#registerModal").removeClass("hidden");
         });
-        
-        $("#openLoginModalFromRegister").click(function() {
+
+        $("#openLoginModalFromRegister").click(function () {
           $("#registerModal").addClass("hidden");
           openLoginModal();
         });
-        
-        $("#closeRegisterModal").click(function() {
+
+        $("#closeRegisterModal").click(function () {
           $("#registerModal").addClass("hidden");
         });
 
         // Close modals when clicking outside content
-        $("#loginModal").click(function(e) {
+        $("#loginModal").click(function (e) {
           if (e.target.id === "loginModal") {
             $(this).addClass("hidden");
           }
         });
-        $("#registerModal").click(function(e) {
+        $("#registerModal").click(function (e) {
           if (e.target.id === "registerModal") {
             $(this).addClass("hidden");
           }
         });
 
         // Password toggle
-        $("#toggleLoginPassword").click(function() {
+        $("#toggleLoginPassword").click(function () {
           var passwordField = $("#loginPassword");
-          var type = passwordField.attr("type") === "password" ? "text" : "password";
+          var type =
+            passwordField.attr("type") === "password" ? "text" : "password";
           passwordField.attr("type", type);
-          
-          var icon = $(this).find('svg');
-          icon.html(type === "text" ?
-            '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>' :
-            '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>'
+
+          var icon = $(this).find("svg");
+          icon.html(
+            type === "text"
+              ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>'
+              : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>'
           );
         });
 
         // Phone number formatting
-        $("#registerPhone").on('input', function() {
-          var value = this.value.replace(/\D/g, '');
-          if (value.startsWith('998')) {
+        $("#registerPhone").on("input", function () {
+          var value = this.value.replace(/\D/g, "");
+          if (value.startsWith("998")) {
             value = value.substring(3);
           }
           if (value.length > 0) {
             if (value.length <= 2) {
-              this.value = '+998 (' + value;
+              this.value = "+998 (" + value;
             } else if (value.length <= 5) {
-              this.value = '+998 (' + value.substring(0, 2) + ') ' + value.substring(2);
+              this.value =
+                "+998 (" + value.substring(0, 2) + ") " + value.substring(2);
             } else if (value.length <= 8) {
-              this.value = '+998 (' + value.substring(0, 2) + ') ' + value.substring(2, 5) + '-' + value.substring(5);
+              this.value =
+                "+998 (" +
+                value.substring(0, 2) +
+                ") " +
+                value.substring(2, 5) +
+                "-" +
+                value.substring(5);
             } else {
-              this.value = '+998 (' + value.substring(0, 2) + ') ' + value.substring(2, 5) + '-' + value.substring(5, 7) + '-' + value.substring(7, 9);
+              this.value =
+                "+998 (" +
+                value.substring(0, 2) +
+                ") " +
+                value.substring(2, 5) +
+                "-" +
+                value.substring(5, 7) +
+                "-" +
+                value.substring(7, 9);
             }
           }
         });
 
         // Smooth scrolling
-        $('a[href^="#"]').click(function(e) {
+        $('a[href^="#"]').click(function (e) {
           e.preventDefault();
-          var target = $(this.getAttribute('href'));
+          var target = $(this.getAttribute("href"));
           if (target.length) {
-            $('html, body').animate({
-              scrollTop: target.offset().top - 100
-            }, 800);
+            $("html, body").animate(
+              {
+                scrollTop: target.offset().top - 100,
+              },
+              800
+            );
           }
         });
 
         // Form validation
-        $('input[required]').on('blur', function() {
-          $(this).toggleClass('border-red-500', !this.value.trim());
+        $("input[required]").on("blur", function () {
+          $(this).toggleClass("border-red-500", !this.value.trim());
         });
 
         // Escape key to close modals
-        $(document).keydown(function(e) {
+        $(document).keydown(function (e) {
           if (e.key === "Escape") {
             $("#loginModal, #registerModal").addClass("hidden");
           }

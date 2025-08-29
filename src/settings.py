@@ -91,13 +91,18 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 "core.context_processors.cart_count",
+                'django.template.context_processors.csrf',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'src.wsgi.application'
-
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

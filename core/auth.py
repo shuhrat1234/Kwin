@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
-    @lru_cache(maxsize=1)  # Cache the result for the lifetime of the request
+    @lru_cache(maxsize=1)
     def get_exchange_rates(self):
         """
         Получаем курс валют (USD и RUB к UZS).
@@ -86,6 +86,5 @@ class User(AbstractBaseUser, PermissionsMixin):
             cart_total = cart.total_price  # Assuming total_price is a field or method in Cart
             price_type = cart.product.price_type  # Assuming price_type is a field
             total_balance += cart_total * rates[price_type]
-        # Convert to USD and round to 2 decimal places
         usd_total = total_balance / rates["UZS"]
         return f"{usd_total:.2f} sum"

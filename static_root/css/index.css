@@ -3,7 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+body.modal-open {
+    overflow: hidden;
+}
 :root {
     --primary-red: #ef4444;
     --primary-dark: #1e293b;

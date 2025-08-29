@@ -181,7 +181,7 @@ async function updateQuantity(spanId, id, change) {
     const data = await response.json();
     
     if (data.success) {
-      totalBalanceElement.innerText = `${data.total_balance} $`;
+      totalBalanceElement.innerText = `${data.total_balance}`;
     } else {
       quantity -= change;
       spanElement.innerText = quantity;

@@ -85,7 +85,7 @@ class Product(models.Model):
     color_ru = models.CharField(_("Цвет (RU)"), max_length=50, null=True, blank=True)
     color_en = models.CharField(_("Color (EN)"), max_length=50, null=True, blank=True)
     color_ger = models.CharField(_("Farbe (GER)"), max_length=50, null=True, blank=True)
-    discount = models.IntegerField(default=20)
+    discount = models.IntegerField(default=0)
     deleted = models.BooleanField(default=False)
 
     def get_price(self):
