@@ -165,10 +165,7 @@ const Translations = {
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Additional information',
         cancel: 'Cancel',
-        confirm_order: 'Confirm order',
         sending: 'Sending...',
-        order_success: 'Order successfully placed!',
-        order_error: 'An error occurred while placing the order',
         order_submit_error: 'An error occurred while submitting the order',
         product_description: 'Product Description',
         quantity_label: 'Quantity:',
@@ -189,7 +186,9 @@ const Translations = {
         min_quantity_error: 'Quantity cannot be less than 1!',
         request_error: 'Request error',
         update_quantity_error: 'Failed to update quantity. Please try again.',
-        error: 'Error'
+        error: 'Error',
+         order_success: "Order successfully submitted! We will contact you shortly.",
+  order_error: "An error occurred while submitting the order. Please try again."
     },
     uz: {
         // New SEO translations
@@ -262,10 +261,7 @@ const Translations = {
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: "Qo'shimcha ma'lumot",
         cancel: 'Bekor qilish',
-        confirm_order: 'Buyurtmani tasdiqlash',
         sending: 'Yuborilmoqda...',
-        order_success: 'Buyurtma muvaffaqiyatli joylashtirildi!',
-        order_error: 'Buyurtma berishda xatolik yuz berdi',
         order_submit_error: 'Buyurtmani yuborishda xatolik yuz berdi',
         product_description: 'Mahsulot Tavsifi',
         quantity_label: 'Miqdori:',
@@ -286,7 +282,9 @@ const Translations = {
         min_quantity_error: 'Miqdor 1 dan kam bo‘lishi mumkin emas!',
         request_error: 'So‘rov xatosi',
         update_quantity_error: 'Miqdorni yangilash muvaffaqiyatsiz bo‘ldi. Iltimos, qayta urinib ko‘ring.',
-        error: 'Xato'
+        error: 'Xato',
+         order_success: "Buyurtma muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.",
+          order_error: "Buyurtma yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring."
     },
     ru: {
         // SEO Meta Tags
@@ -359,10 +357,7 @@ const Translations = {
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Дополнительная информация',
         cancel: 'Отмена',
-        confirm_order: 'Подтвердить заказ',
         sending: 'Отправка...',
-        order_success: 'Заказ успешно оформлен!',
-        order_error: 'Произошла ошибка при оформлении заказа',
         order_submit_error: 'Произошла ошибка при отправке заказа',
         product_description: 'Описание товара',
         quantity_label: 'Количество:',
@@ -383,11 +378,12 @@ const Translations = {
         min_quantity_error: 'Количество не может быть меньше 1!',
         request_error: 'Ошибка запроса',
         update_quantity_error: 'Не удалось обновить количество. Попробуйте снова.',
-        error: 'Ошибка'
+        error: 'Ошибка',
+         order_success: "Заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.",
+  order_error: "Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз."
     },
     ger: {
         // New SEO translations
-        site_title: 'KWIN Handel - Autoteile und Komponenten in Usbekistan',
         meta_description: 'Ihr zuverlässiger Partner in der Welt der Autoprodukte. Hochwertige Autokomponenten von führenden Herstellern seit 2005. Offizieller Distributor von Heyner, Alca, Utal, ARS und Delta Marken.',
         meta_keywords: 'Autoteile, Fahrzeugkomponenten, Autozubehör, KWIN Handel, Heyner Deutschland, Alca Deutschland, Utal Polen, ARS Russland, Delta Russland, Usbekistan Autoteile, Fahrzeugzubehör, Transportkomponenten, Automobilvertrieb',
         og_title: 'KWIN Handel - Ihr Zuverlässiger Autoteile-Partner in Usbekistan',
@@ -456,10 +452,7 @@ const Translations = {
         phone_placeholder: '+998 (XX) XXX-XX-XX',
         additional_info: 'Zusätzliche Informationen',
         cancel: 'Abbrechen',
-        confirm_order: 'Bestellung bestätigen',
         sending: 'Senden...',
-        order_success: 'Bestellung erfolgreich aufgegeben!',
-        order_error: 'Fehler beim Aufgeben der Bestellung',
         order_submit_error: 'Fehler beim Senden der Bestellung',
         product_description: 'Produktbeschreibung',
         quantity_label: 'Menge:',
@@ -480,7 +473,9 @@ const Translations = {
         min_quantity_error: 'Die Menge darf nicht weniger als 1 sein!',
         request_error: 'Anfragefehler',
         update_quantity_error: 'Menge konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut.',
-        error: 'Fehler'
+        error: 'Fehler',
+         order_success: "Bestellung erfolgreich gesendet! Wir werden Sie in Kürze kontaktieren.",
+  order_error: "Beim Absenden der Bestellung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
     }
 };  
 
