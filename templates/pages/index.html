@@ -75,7 +75,7 @@
 
 <section id="products" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
+        <div class="text-center">
             <h2 class="text-4xl sm:text-6xl font-extrabold text-[var(--primary-dark)] mb-4">
                 <span data-translate="our"></span>
                 <span
@@ -85,12 +85,12 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for i in brands %}
-            <a href="{% url 'products' %}?search={{ i.slug }}&brand_ids=1&model_ids=1&year_ids="
-                class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
-                <div class="relative h-72 overflow-hidden rounded-2xl">
-                    <img src="{{ i.icon.url }}" alt="{{ i.name }}" class="w-full h-full">
+            <a href="{% url 'products' %}?lang={{ lang }}&brand_ids={{ i.id }}&model_ids=1&year_ids="
+                class="group relative rounded-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden">
+                <div class="relative h-80 overflow-hidden rounded-2xl flex items-center justify-center">
+                    <img src="{{ i.icon.url }}" alt="{{ i.name }}" class="w-4/5 h-4/5 object-contain">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    <h3 class="absolute bottom-6 left-6 text-2xl font-bold text-white drop-shadow-2xl">{{ i.name }}</h3>
+                    <!-- <h3 class="absolute bottom-6 left-6 text-2xl font-bold text-white drop-shadow-2xl">{{ i.name }}</h3> -->
                 </div>
             </a>
             {% endfor %}
@@ -125,11 +125,11 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-xl font-semibold text-white mb-1" data-translate="email"></h4>
+                            <h4 class="text-xl font-semibold text-white mb-2" data-translate="email"></h4>
                             <a href="mailto:kwingoog@gmail.com"
                                 class="text-gray-300 hover:text-white transition-colors duration-300 block mb-1">kwingoog@gmail.com</a>
-                            <a href="mailto:kwin@bk.mail.ru"
-                                class="text-gray-300 hover:text-white transition-colors duration-300 block">kwin@bk.mail.ru</a>
+                            <a href="mailto:kwin@bk.ru"
+                                class="text-gray-300 hover:text-white transition-colors duration-300 block">kwin@bk.ru</a>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
@@ -142,9 +142,13 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-xl font-semibold text-white mb-1" data-translate="phone"></h4>
+                            <h4 class="text-xl font-semibold text-white mb-2" data-translate="phone"></h4>
                             <a href="tel:+998909950076"
-                                class="text-gray-300 hover:text-white transition-colors duration-300">+998-(90)-995-00-76</a>
+                                class="text-gray-300 hover:text-white transition-colors duration-300 block mb-1">+998-(90)-995-00-76</a>
+                            <a href="tel:+998900012040"
+                                class="text-gray-300 hover:text-white transition-colors duration-300 block mb-1">+998-(90)-001-20-40</a>
+                            <a href="tel:+998900012060"
+                                class="text-gray-300 hover:text-white transition-colors duration-300 block">+998-(90)-001-20-60</a>
                         </div>
                     </div>
                 </div>

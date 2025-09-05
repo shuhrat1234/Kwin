@@ -9,20 +9,16 @@ from .models import Brand, Product, Cart, Order, CarModel, CarYear, CarSeries
 from django.contrib.auth import login, logout, authenticate
 
 
-
-
-
 def set_language(request, lang):
     request.session['lang'] = lang
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
 def add_session_message(request, message, msg_type='error'):
     """Helper function to add a message to the session."""
     if 'messages' not in request.session:
         request.session['messages'] = []
     request.session['messages'].append({'message': message, 'type': msg_type})
     request.session.modified = True
-
-
 
 def get_error_message(code, request):
     lang = request.session.get('lang', 'uz')
@@ -93,6 +89,52 @@ def products(request):
     if 'messages' in request.session:
         ctx['messages'] = request.session.pop('messages')
     return render(request, 'pages/products.html', ctx)
+
+def productsBrand(request):
+    """View to display products filtered by brand"""
+    lang = request.GET.get('lang', request.session.get('lang', 'uz'))
+    request.session['lang'] = lang
+    
+    brand_id = request.GET.get('brand_id')
+    search = request.GET.get('search', '').strip()
+    
+    # Get all brands for the filter
+    brands = Brand.objects.all()
+    
+    # Filter products by brand if brand_id is provided
+    products = Product.objects.filter(deleted=False).prefetch_related('images')
+    
+    if brand_id:
+        products = products.filter(brand_id=brand_id)
+        selected_brand = Brand.objects.filter(id=brand_id).first()
+    else:
+        selected_brand = None
+    
+    # Apply search filter if provided
+    if search:
+        products = products.filter(
+            Q(name_ru__icontains=search) |
+            Q(name_uz__icontains=search) |
+            Q(name_en__icontains=search) |
+            Q(name_ger__icontains=search) |
+            Q(brand__name__icontains=search)
+        )
+    
+    products = products.distinct()
+    
+    ctx = {
+        'products': products,
+        'brands': brands,
+        'selected_brand': selected_brand,
+        'lang': lang,
+        'search': search,
+        'brand_id': brand_id
+    }
+    
+    if 'messages' in request.session:
+        ctx['messages'] = request.session.pop('messages')
+    
+    return render(request, 'pages/productsBrand.html', ctx)
 
 def product_detail(request, pk):
     lang = request.GET.get('lang', request.session.get('lang', 'uz'))
