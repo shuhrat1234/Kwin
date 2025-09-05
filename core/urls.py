@@ -14,6 +14,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('api/order/', views.order_create, name='order_create'),
     path('products/', views.products, name='products'),
+    path('productsBrand/', views.productsBrand, name='productsBrend'),
     path('reset_filters/', views.reset_filters, name='reset_filters'),
     path('get_models/', views.get_models, name='get_models'),
     path('get_years/', views.get_years, name='get_years'),
