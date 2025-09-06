@@ -1,5 +1,5 @@
 const TranslationManager = {
-    currentLang: 'uz', // Default to Uzbek
+    currentLang: 'uz', 
     langMap: {
         'en': 'EN',
         'uz': 'UZ',
