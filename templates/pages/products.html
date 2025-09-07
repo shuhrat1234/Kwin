@@ -2,8 +2,8 @@
 {% load product_tags %}
 {% load static %}
 {% block content %}
-<meta name="csrf-token" content="{{ csrf_token }}">
-<style>
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <style>
 .filter-container {
   background: linear-gradient(145deg, #ffffff, #f8fafc);
   border-radius: 0.5rem;
@@ -123,6 +123,9 @@
   overflow: hidden;
   border-radius: 1rem 1rem 0 0;
   background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .image-slider {
   position: absolute;
@@ -140,21 +143,29 @@
   height: 100%;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5%;
+  box-sizing: border-box;
 }
 .slide.active {
   opacity: 1;
 }
 .slide img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   object-position: center;
   display: block;
 }
 .slide svg {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  max-width: 85%;
+  max-height: 85%;
+  width: auto;
+  height: auto;
 }
 .cart-button-fixed {
   position: absolute;
@@ -471,6 +482,7 @@ body.modal-open {
   width: 100%;
   box-sizing: border-box;
 }
+
 @media (max-width: 640px) {
   .filter-container {
     padding: 1rem;
@@ -494,35 +506,31 @@ body.modal-open {
     padding: 0 0.5rem;
   }
   .product-image-container {
-    aspect-ratio: 3 / 2;
-    width: 100%;
-    min-height: 400px;
+    aspect-ratio: 4 / 3;
   }
   .cart-button-fixed {
     top: 8px;
     left: 8px;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
   }
   .cart-button-fixed svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
   .brand-badge-fixed {
     top: 8px;
     right: 8px;
-    padding: 6px 10px;
+    padding: 4px 8px;
     font-size: 0.7rem;
     max-width: calc(100% - 64px);
-    min-height: 28px;
   }
   .product-card {
-    min-height: 560px;
-    width: 100%;
+    min-height: auto;
   }
   .product-content {
     padding: 1rem;
-    min-height: 150px;
+    min-height: 120px;
   }
   .buy-button {
     font-size: 0.875rem;
@@ -551,6 +559,7 @@ body.modal-open {
     max-width: 100%;
   }
 }
+
 @media (min-width: 641px) and (max-width: 1000px) {
   .flex.gap-8 {
     flex-direction: column;
@@ -559,40 +568,36 @@ body.modal-open {
     width: 100%;
   }
   #productsGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
-    padding: 0 0.5rem;
+    padding: 0 1rem;
   }
   .product-image-container {
-    aspect-ratio: 3 / 2;
-    width: 100%;
-    min-height: 400px;
+    aspect-ratio: 4 / 3;
   }
   .cart-button-fixed {
-    top: 8px;
-    left: 8px;
-    width: 48px;
-    height: 48px;
+    top: 10px;
+    left: 10px;
+    width: 42px;
+    height: 42px;
   }
   .cart-button-fixed svg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
   }
   .brand-badge-fixed {
-    top: 8px;
-    right: 8px;
-    padding: 6px 10px;
-    font-size: 0.7rem;
-    max-width: calc(100% - 64px);
-    min-height: 28px;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    max-width: calc(100% - 70px);
   }
   .product-card {
-    min-height: 560px;
-    width: 100%;
+    min-height: auto;
   }
   .product-content {
     padding: 1rem;
-    min-height: 150px;
+    min-height: 130px;
   }
   .buy-button {
     font-size: 0.875rem;
@@ -603,16 +608,11 @@ body.modal-open {
     height: 18px;
   }
   .modal-content {
-    max-width: 95%;
+    max-width: 90%;
     margin: 1rem;
   }
-  .modal-header {
-    padding: 1rem;
-  }
-  .modal-body {
-    padding: 1rem;
-  }
 }
+
 @media (min-width: 1001px) {
   .products-scroll-container {
     max-height: calc(100vh - 200px);
@@ -642,15 +642,16 @@ body.modal-open {
     width: 280px;
   }
   .product-image-container {
-    aspect-ratio: 3 / 2;
-    width: 100%;
-    min-height: 320px;
+    aspect-ratio: 1 / 1;
   }
   .product-card {
-    min-height: 480px;
-    width: 100%;
+    min-height: 420px;
+  }
+  .product-content {
+    min-height: 85px;
   }
 }
+
 @media (min-width: 640px) {
   .max-w-7xl {
     padding-left: 1.5rem;
@@ -676,247 +677,319 @@ body.modal-open {
     background-color: #f1f1f1;
   }
 }
-</style>
-<main class="flex-1 pt-20 pb-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-    <div class="mb-4">
-      {% if messages %}
-        {% for message in messages %}
-          {% if message.type != 'success' %}
-            <div class="text-{% if message.type == 'error' %}red-600{% else %}green-600{% endif %} text-center">
-              {{ message.message }}
-            </div>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    </div>
-    <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900" data-translate="auto_parts"></h1>
-      <span class="text-gray-600 font-medium text-sm sm:text-base"><span data-translate="products_found"></span> {{ products.count }}</span>
-    </div>
-    <div class="flex gap-8">
-      <aside class="w-64 flex-shrink-0">
-        <form method="GET" action="{% url 'products' %}" id="filterForm" aria-labelledby="filter-heading">
-          <input type="hidden" name="lang" value="{{ lang }}">
-          <div class="filter-container">
-            <div class="filter-heading">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
-              </svg>
-              <h2 id="filter-heading" data-translate="filters">Filters</h2>
-            </div>
-            <div class="space-y-4">
-              <fieldset class="filter-group">
-                <legend data-translate="brands">Brands</legend>
-                <label for="brandSelect" class="sr-only" data-translate="select_brand">Select a brand</label>
-                <select name="brand_ids" id="brandSelect" class="filter-select" aria-describedby="brandSelect-description">
-                  <option value="" data-translate="select_brand">Select a brand</option>
-                  {% for brand in brands %}
-                    <option value="{{ brand.id }}" {% if brand.id|stringformat:"s" in selected_brand_ids %}selected{% endif %}>{{ brand.name }}</option>
-                  {% endfor %}
-                </select>
-                <p id="brandSelect-description" class="sr-only" data-translate="select_brand_description">Choose a brand to filter products.</p>
-              </fieldset>
-              <fieldset class="filter-group">
-                <legend data-translate="models">Models</legend>
-                <label for="modelSelect" class="sr-only" data-translate="select_model">Select a model</label>
-                <select name="model_ids" id="modelSelect" class="filter-select" aria-describedby="modelSelect-description">
-                  <option value="" data-translate="select_model">Select a model</option>
-                </select>
-                <p id="modelSelect-description" class="sr-only" data-translate="select_model_description">Choose a model to filter products.</p>
-              </fieldset>
-              <fieldset class="filter-group">
-                <legend data-translate="years">Years</legend>
-                <label for="yearSelect" class="sr-only" data-translate="select_year">Select a year</label>
-                <select name="year_ids" id="yearSelect" class="filter-select" disabled aria-describedby="yearSelect-description">
-                  <option value="" data-translate="select_year">Select a year</option>
-                </select>
-                <p id="yearSelect-description" class="sr-only" data-translate="select_year_description">Choose a year to filter products.</p>
-              </fieldset>
-              <fieldset class="filter-group">
-                <legend data-translate="series">Series</legend>
-                <label for="seriesSelect" class="sr-only" data-translate="select_series">Select a series</label>
-                <select name="series_ids" id="seriesSelect" class="filter-select" disabled aria-describedby="seriesSelect-description">
-                  <option value="" data-translate="select_series">Select a series</option>
-                </select>
-                <p id="seriesSelect-description" class="sr-only" data-translate="select_series_description">Choose a series to filter products.</p>
-              </fieldset>
-              <button type="submit" id="filterButtonDesktop" class="filter-button" data-translate="filter">Filter</button>
-              <button type="reset" class="reset-button" data-translate="reset_filters">Reset Filters</button>
-            </div>
-          </div>
-        </form>
-      </aside>
-      <div class="flex-1">
-        <div class="products-scroll-container">
-          <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {% for i in products %}
-              <div
-                data-product-id="{{ i.id }}"
-                data-brand-id="{{ i.brand.id }}"
-                data-model-id="{{ i.car_model.id|default:'' }}"
-                data-year-id="{{ i.car_year.id|default:'' }}"
-                data-series-id="{{ i.car_series.id|default:'' }}"
-                data-brand="{{ i.brand.name|escapejs }}"
-                data-name="{{ i|get_name_by_lang:lang|escapejs }}"
-                data-price="{{ i.get_price|default:0 }}"
-                data-original-price="{{ i.price|default:0 }}"
-                data-discount="{{ i.discount|default:0 }}"
-                class="product-card"
-              >
-                <div class="product-image-container">
-                  <div class="image-slider">
-                    {% for image in i.images.all %}
-                      <div class="slide {% if forloop.first %}active{% endif %}" data-product="{{ i.id }}" data-slide="{{ forloop.counter0 }}">
-                        <img src="{{ image.image.url }}" alt="{{ i|get_name_by_lang:lang|escapejs }}" class="w-full h-full object-contain">
-                      </div>
-                    {% empty %}
-                      <div class="slide active" data-product="{{ i.id }}" data-slide="0">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260" class="w-full h-full">
-                          <defs>
-                            <linearGradient id="wiper{{ i.id }}" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/>
-                              <stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9"/>
-                              <stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8"/>
-                            </linearGradient>
-                          </defs>
-                          <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper{{ i.id }})"/>
-                          <rect x="40" y="140" width="280" height="8" rx="4" fill="#667eea" opacity="0.6"/>
-                          <circle cx="50" cy="126" r="8" fill="#764ba2"/>
-                          <circle cx="330" cy="126" r="8" fill="#764ba2"/>
-                          <circle cx="50" cy="126" r="3" fill="white"/>
-                          <circle cx="330" cy="126" r="3" fill="white"/>
-                        </svg>
-                      </div>
+  </style>
+  <main class="flex-1 pt-20 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <div class="mb-4">
+        {% if messages %}
+          {% for message in messages %}
+            {% if message.type != 'success' %}
+              <div class="text-{% if message.type == 'error' %}red-600{% else %}green-600{% endif %} text-center">
+                {{ message.message }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900"
+            data-translate="auto_parts"></h1>
+        <span class="text-gray-600 font-medium text-sm sm:text-base"><span data-translate="products_found"></span> {{ products.count }}</span>
+      </div>
+      <div class="flex gap-8">
+        <aside class="w-64 flex-shrink-0">
+          <form method="GET"
+                action="{% url 'products' %}"
+                id="filterForm"
+                aria-labelledby="filter-heading">
+            <input type="hidden" name="lang" value="{{ lang }}">
+            <div class="filter-container">
+              <div class="filter-heading">
+                <svg fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24"
+                     aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293.707L3.293 7.414A1 1 0 013 6.707V4z">
+                  </path>
+                </svg>
+                <h2 id="filter-heading" data-translate="filters"></h2>
+              </div>
+              <div class="space-y-4">
+                <fieldset class="filter-group">
+                  <legend data-translate="brands"></legend>
+                  <label for="brandSelect" class="sr-only" data-translate="select_brand"></label>
+                  <select name="brand_ids"
+                          id="brandSelect"
+                          class="filter-select"
+                          aria-describedby="brandSelect-description">
+                    <option value="" data-translate="select_brand"></option>
+                    {% for brand in brands %}
+                      <option value="{{ brand.id }}"
+                              {% if brand.id|stringformat:"s" in selected_brand_ids %}selected{% endif %}>
+                        {{ brand.name }}
+                      </option>
                     {% endfor %}
-                  </div>
-                  {% if i.images.all|length > 1 %}
-                    <div class="image-dots">
+                  </select>
+                  <p id="brandSelect-description"
+                     class="sr-only"
+                     data-translate="select_brand_description"></p>
+                </fieldset>
+                <fieldset class="filter-group">
+                  <legend data-translate="models"></legend>
+                  <label for="modelSelect" class="sr-only" data-translate="select_model"></label>
+                  <select name="model_ids"
+                          id="modelSelect"
+                          class="filter-select"
+                          aria-describedby="modelSelect-description">
+                    <option value="" data-translate="select_model"></option>
+                  </select>
+                  <p id="modelSelect-description"
+                     class="sr-only"
+                     data-translate="select_model_description"></p>
+                </fieldset>
+                <fieldset class="filter-group">
+                  <legend data-translate="years"></legend>
+                  <label for="yearSelect" class="sr-only" data-translate="select_year"></label>
+                  <select name="year_ids"
+                          id="yearSelect"
+                          class="filter-select"
+                          disabled
+                          aria-describedby="yearSelect-description">
+                    <option value="" data-translate="select_year"></option>
+                  </select>
+                  <p id="yearSelect-description"
+                     class="sr-only"
+                     data-translate="select_year_description"></p>
+                </fieldset>
+                <fieldset class="filter-group">
+                  <legend data-translate="series"></legend>
+                  <label for="seriesSelect" class="sr-only" data-translate="select_series"></label>
+                  <select name="series_ids"
+                          id="seriesSelect"
+                          class="filter-select"
+                          disabled
+                          aria-describedby="seriesSelect-description">
+                    <option value="" data-translate="select_series"></option>
+                  </select>
+                  <p id="seriesSelect-description"
+                     class="sr-only"
+                     data-translate="select_series_description"></p>
+                </fieldset>
+                <button type="submit"
+                        id="filterButtonDesktop"
+                        class="filter-button"
+                        data-translate="filter"></button>
+                <button type="reset" class="reset-button" data-translate="reset_filters"></button>
+              </div>
+            </div>
+          </form>
+        </aside>
+        <div class="flex-1">
+          <div class="products-scroll-container">
+            <div id="productsGrid"
+                 class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {% for i in products %}
+                <div data-product-id="{{ i.id }}"
+                     data-brand-id="{{ i.brand.id }}"
+                     data-model-id="{{ i.car_model.id|default:'' }}"
+                     data-year-id="{{ i.car_year.id|default:'' }}"
+                     data-series-id="{{ i.car_series.id|default:'' }}"
+                     data-brand="{{ i.brand.name|escapejs }}"
+                     data-name="{{ i|get_name_by_lang:lang|escapejs }}"
+                     data-price="{{ i.get_price|default:0 }}"
+                     data-original-price="{{ i.price|default:0 }}"
+                     data-discount="{{ i.discount|default:0 }}"
+                     class="product-card">
+                  <div class="product-image-container">
+                    <div class="image-slider">
                       {% for image in i.images.all %}
-                        <div class="dot {% if forloop.first %}active{% endif %}" data-product="{{ i.id }}" data-slide="{{ forloop.counter0 }}" onclick="event.stopPropagation(); changeSlide({{ i.id }}, {{ forloop.counter0 }})"></div>
+                        <div class="slide {% if forloop.first %}active{% endif %}"
+                             data-product="{{ i.id }}"
+                             data-slide="{{ forloop.counter0 }}">
+                          <img src="{{ image.image.url }}"
+                               alt="{{ i|get_name_by_lang:lang|escapejs }}"
+                               class="w-full h-full object-contain">
+                        </div>
+                      {% empty %}
+                        <div class="slide active" data-product="{{ i.id }}" data-slide="0">
+                          <svg xmlns="http://www.w3.org/2000/svg"
+                               viewBox="0 0 380 260"
+                               class="w-full h-full">
+                            <defs>
+                            <linearGradient id="wiper{{ i.id }}" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8" />
+                            <stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9" />
+                            <stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8" />
+                            </linearGradient>
+                            </defs>
+                            <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper{{ i.id }})" />
+                            <rect x="40" y="140" width="280" height="8" rx="4" fill="#667eea" opacity="0.6" />
+                            <circle cx="50" cy="126" r="8" fill="#764ba2" />
+                            <circle cx="330" cy="126" r="8" fill="#764ba2" />
+                            <circle cx="50" cy="126" r="3" fill="white" />
+                            <circle cx="330" cy="126" r="3" fill="white" />
+                          </svg>
+                        </div>
                       {% endfor %}
                     </div>
-                  {% endif %}
-                  <div class="cart-button-fixed {% if user.is_authenticated and i|is_in_cart:user %}in-cart{% endif %}" onclick="event.stopPropagation();">
-                    {% if user.is_authenticated and i|is_in_cart:user %}
-                      <a href="{% url 'cart-remove' remove_id=i.id %}" title="{{ 'remove_from_cart' }}" class="w-full h-full flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                        </svg>
-                      </a>
-                    {% else %}
-                      <form action="{% url 'cart-add' add_id=i.id %}" method="post" class="w-full h-full">
-                        {% csrf_token %}
-                        <button type="submit" title="{{ 'add_to_cart' }}" class="w-full h-full flex items-center justify-center">
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                          </svg>
-                        </button>
-                      </form>
+                    {% if i.images.all|length > 1 %}
+                      <div class="image-dots">
+                        {% for image in i.images.all %}
+                          <div class="dot {% if forloop.first %}active{% endif %}"
+                               data-product="{{ i.id }}"
+                               data-slide="{{ forloop.counter0 }}"
+                               onclick="event.stopPropagation(); changeSlide({{ i.id }}, {{ forloop.counter0 }})">
+                          </div>
+                        {% endfor %}
+                      </div>
                     {% endif %}
-                  </div>
-                  <div class="brand-badge-fixed">{{ i.brand.name|escapejs }}</div>
-                </div>
-                <div class="product-content">
-                  <div>
-                    <div class="product-title">{{ i|get_name_by_lang:lang|escapejs }}</div>
-                    <div class="price-container">
-                      <span class="current-price">{{ i.get_price_with_icon }}</span>
-                      {% if i.discount > 0 %}
-                        <span class="original-price">{{ i.get_price_original_with_icon }}</span>
+                    <div class="cart-button-fixed {% if user.is_authenticated and i|is_in_cart:user %}in-cart{% endif %}"
+                         onclick="event.stopPropagation();">
+                      {% if user.is_authenticated and i|is_in_cart:user %}
+                        <a href="{% url 'cart-remove' remove_id=i.id %}"
+                           title="{{ 'remove_from_cart' }}"
+                           class="w-full h-full flex items-center justify-center">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </a>
+                      {% else %}
+                        <form action="{% url 'cart-add' add_id=i.id %}"
+                              method="post"
+                              class="w-full h-full">
+                          {% csrf_token %}
+                          <button type="submit"
+                                  title="{{ 'add_to_cart' }}"
+                                  class="w-full h-full flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                          </button>
+                        </form>
                       {% endif %}
                     </div>
+                    <div class="brand-badge-fixed">{{ i.brand.name|escapejs }}</div>
                   </div>
-                  <button
-                    type="button"
-                    class="buy-button"
-                    data-product-id="{{ i.id }}"
-                    data-product-name="{{ i|get_name_by_lang:lang|escapejs }}"
-                    data-product-brand="{{ i.brand.name|escapejs }}"
-                    data-product-price="{{ i.get_price|default:0 }}"
-                    data-product-price-type="{{ i.price_type|default:'UZS'|escapejs }}"
-                    onclick="event.stopPropagation(); openOrderModal({
-                      id: {{ i.id }},
-                      name: '{{ i|get_name_by_lang:lang|escapejs }}',
-                      brand: '{{ i.brand.name|escapejs }}',
-                      price: {{ i.get_price|default:0 }},
-                      priceType: '{{ i.price_type|default:'UZS'|escapejs }}'
-                    })"
-                  >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                    </svg>
-                    <span data-translate="buy_now"></span>
-                  </button>
+                  <div class="product-content">
+                    <div>
+                      <div class="product-title">{{ i|get_name_by_lang:lang|escapejs }}</div>
+                      <div class="price-container">
+                        <span class="current-price">{{ i.get_price_with_icon }}</span>
+                        {% if i.discount > 0 %}<span class="original-price">{{ i.get_price_original_with_icon }}</span>{% endif %}
+                      </div>
+                    </div>
+                    <button type="button"
+                            class="buy-button"
+                            data-product-id="{{ i.id }}"
+                            data-product-name="{{ i|get_name_by_lang:lang|escapejs }}"
+                            data-product-brand="{{ i.brand.name|escapejs }}"
+                            data-product-price="{{ i.get_price|default:0 }}"
+                            data-product-price-type="{{ i.price_type|default:'UZS'|escapejs }}"
+                            onclick="event.stopPropagation(); openOrderModal({ id: {{ i.id }}, name: '{{ i|get_name_by_lang:lang|escapejs }}', brand: '{{ i.brand.name|escapejs }}', price: {{ i.get_price|default:0 }}, priceType: '{{ i.price_type|default:'UZS'|escapejs }}' })">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                      </svg>
+                      <span data-translate="buy_now"></span>
+                    </button>
+                  </div>
+                </div>
+              {% empty %}
+                <div id="noResults" class="col-span-full text-center py-12">
+                  <div class="text-gray-400 text-6xl mb-4">🔍</div>
+                  <h3 class="text-xl font-semibold text-gray-900 mb-2"
+                      data-translate="no_products_found"></h3>
+                  <p class="text-gray-600 mb-4" data-translate="try_changing_filters"></p>
+                  <a href="{% url 'reset_filters' %}"
+                     class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200"
+                     data-translate="reset_filters"></a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="orderModal"
+         class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center px-4">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" data-translate="order_checkout"></h2>
+          <button class="close-btn" onclick="closeOrderModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="product-info">
+            <h3 id="modalProductName" class="product-name"></h3>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center">
+                <span data-translate="quantity_label"></span>
+                <div class="quantity-controls">
+                  <button type="button"
+                          class="quantity-btn"
+                          onclick="updateQuantity(-1)"
+                          id="decreaseBtn">−</button>
+                  <span class="quantity-display" id="quantity">1</span>
+                  <button type="button"
+                          class="quantity-btn"
+                          onclick="updateQuantity(1)"
+                          id="increaseBtn">+</button>
                 </div>
               </div>
-            {% empty %}
-              <div id="noResults" class="col-span-full text-center py-12">
-                <div class="text-gray-400 text-6xl mb-4">🔍</div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate="no_products_found"></h3>
-                <p class="text-gray-600 mb-4" data-translate="try_changing_filters"></p>
-                <a href="{% url 'reset_filters' %}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200" data-translate="reset_filters"></a>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center px-4">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" data-translate="order_checkout"></h2>
-        <button class="close-btn" onclick="closeOrderModal()">×</button>
-      </div>
-      <div class="modal-body">
-        <div class="product-info">
-          <h3 id="modalProductName" class="product-name"></h3>
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center">
-              <span data-translate="quantity_label"></span>
-              <div class="quantity-controls">
-                <button type="button" class="quantity-btn" onclick="updateQuantity(-1)" id="decreaseBtn">−</button>
-                <span class="quantity-display" id="quantity">1</span>
-                <button type="button" class="quantity-btn" onclick="updateQuantity(1)" id="increaseBtn">+</button>
-              </div>
+              <span id="modalProductPrice" class="product-price"></span>
             </div>
-            <span id="modalProductPrice" class="product-price"></span>
           </div>
+          <form id="orderForm" method="post" action="{% url 'order_create' %}">
+            {% csrf_token %}
+            <input type="hidden" id="productId" name="productId">
+            <input type="hidden" id="productName" name="productName">
+            <input type="hidden" id="productPrice" name="productPrice">
+            <input type="hidden" id="productBrand" name="productBrand">
+            <input type="hidden" id="productQuantity" name="productQuantity" value="1">
+            <div class="form-group">
+              <label class="form-label" data-translate="full_name"></label>
+              <input type="text"
+                     name="fullName"
+                     required
+                     class="form-input"
+                     data-translate-placeholder="name_placeholder">
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-translate="phone_number"></label>
+              <input type="tel"
+                     id="phone"
+                     name="phone"
+                     placeholder="+998 (XX) XXX-XX-XX"
+                     required
+                     class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-translate="email"></label>
+              <input type="email"
+                     name="email"
+                     required
+                     class="form-input"
+                     placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-translate="additional_info"></label>
+              <textarea name="additionalInfo"
+                        class="form-textarea"
+                        data-translate-placeholder="message_placeholder"></textarea>
+            </div>
+            <div class="modal-actions">
+              <button type="button"
+                      class="btn btn-cancel max-h-12 max-w-full"
+                      onclick="closeOrderModal()"
+                      data-translate="cancel"></button>
+              <button type="submit"
+                      class="btn btn-confirm max-h-12 max-w-full"
+                      data-translate="send"></button>
+            </div>
+          </form>
         </div>
-        <form id="orderForm" method="post">
-          {% csrf_token %}
-          <input type="hidden" id="productId" name="productId">
-          <input type="hidden" id="productName" name="productName">
-          <input type="hidden" id="productPrice" name="productPrice">
-          <input type="hidden" id="productBrand" name="productBrand">
-          <input type="hidden" id="productQuantity" name="productQuantity" value="1">
-          <div class="form-group">
-            <label class="form-label" data-translate="full_name"></label>
-            <input type="text" name="fullName" required class="form-input" data-translate="name_placeholder">
-          </div>
-          <div class="form-group">
-            <label class="form-label" data-translate="phone_number"></label>
-            <input type="tel" id="contactPhone" name="contactPhone" placeholder="+998 (XX) XXX-XX-XX" required class="form-input">
-          </div>
-          <div class="form-group">
-            <label class="form-label" data-translate="email"></label>
-            <input type="email" name="email" class="form-input" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <label class="form-label" data-translate="additional_info"></label>
-            <textarea name="additionalInfo" class="form-textarea" data-translate-placeholder="message_placeholder"></textarea>
-          </div>
-          <div class="modal-actions">
-            <button type="button" class="btn btn-cancel max-h-12 max-w-full" onclick="closeOrderModal()" data-translate="cancel"></button>
-            <button type="submit" class="btn btn-confirm max-h-12 max-w-full" data-translate="send"></button>
-          </div>
-        </form>
       </div>
     </div>
-  </div>
-</main>
-<script>
+  </main>
+  <script>
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -932,7 +1005,6 @@ function getCookie(name) {
   return cookieValue;
 }
 
-// Function to get translated text by data-translate attribute
 function getTranslatedText(key) {
   const element = document.querySelector(`[data-translate="${key}"]`);
   return element ? element.textContent || element.innerText : key;
@@ -941,21 +1013,23 @@ function getTranslatedText(key) {
 async function sendToTelegram(orderData) {
   const botToken = '8390195291:AAGK2g83t4Oo88CynwMPnyjnbx5zpHQB-6k';
   const chatId = '-1003077427700';
-  const message = `🛒 *Yangi Buyurtma*
 
-📦 *Товар:* ${orderData.productName}
-🏢 *Бренд:* ${orderData.productBrand}
-💰 *Цена:* ${orderData.productPrice} ${orderData.priceType}
-📊 *Количество:* ${orderData.quantity}
-💵 *Общая сумма:* ${(parseFloat(orderData.productPrice) * parseInt(orderData.quantity)).toFixed(0)} ${orderData.priceType}
+  const telegramMessage = `🛒 <b>Новый заказ}</b>
 
-👤 *Клиент:*
-  *Имя:* ${orderData.fullName}
-  *Телефон:* ${orderData.contactPhone}
-  *Email:* ${orderData.email || 'Не указано'}
-  *Дополнительно:* ${orderData.additionalInfo || 'Не указано'}
+📦 <b>ТОВАР:</b>
+<b>Название:</b> ${orderData.productName}
+<b>Бренд:</b> ${orderData.productBrand}
+<b>Цена за единицу:</b> ${orderData.productPrice} ${orderData.priceType}
+<b>Количество:</b> ${orderData.quantity}
+<b>Общая сумма:</b> ${(parseFloat(orderData.productPrice) * parseInt(orderData.quantity)).toFixed(0)} ${orderData.priceType}
 
-🕒 *Время заказа:* ${new Date().toLocaleString('ru-RU', {timeZone: 'Asia/Tashkent'})}`
+👤 <b>КЛИЕНТ:</b>
+<b>Имя:</b> ${orderData.fullName}
+<b>Телефон:</b> ${orderData.phone}
+<b>Email:</b> ${orderData.email}
+<b>Дополнительно:</b> ${orderData.additionalInfo}
+
+🕒 <b>Время заказа:</b> ${new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Tashkent' })}`;
 
   try {
     const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -963,15 +1037,39 @@ async function sendToTelegram(orderData) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: chatId,
-        text: message,
-        parse_mode: 'Markdown'
+        text: telegramMessage,
+        parse_mode: 'HTML'
       })
     });
-    return (await response.json()).ok;
+    const data = await response.json();
+    return data.ok;
   } catch (error) {
-    console.error('Telegram xatosi:', error);
+    console.error('Telegram error:', error);
     return false;
   }
+}
+
+function formatPhoneNumber(input) {
+  let value = input.value.replace(/\D/g, '');
+  if (value.startsWith('998')) value = value.substring(3);
+  
+  if (value.length > 0) {
+    if (value.length <= 2) {
+      value = `+998 (${value}`;
+    } else if (value.length <= 5) {
+      value = `+998 (${value.substring(0, 2)}) ${value.substring(2)}`;
+    } else if (value.length <= 8) {
+      value = `+998 (${value.substring(0, 2)}) ${value.substring(2, 5)}-${value.substring(5)}`;
+    } else {
+      value = `+998 (${value.substring(0, 2)}) ${value.substring(2, 5)}-${value.substring(5, 7)}-${value.substring(7, 9)}`;
+    }
+  }
+  input.value = value;
+}
+
+function validatePhone(phoneValue) {
+  const phonePattern = /^\+998\s\(\d{2}\)\s\d{3}-\d{2}-\d{2}$/;
+  return phonePattern.test(phoneValue);
 }
 
 let currentQuantity = 1;
@@ -1115,20 +1213,10 @@ function closeOrderModal() {
   document.getElementById('orderModal').classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.getElementById('orderForm').reset();
+  const phoneInput = document.getElementById('phone');
+  if (phoneInput) phoneInput.value = '+998 (';
   currentProduct = null;
   currentQuantity = 1;
-}
-
-function formatPhoneNumber(input) {
-  let value = input.value.replace(/\D/g, '');
-  if (value.startsWith('998')) value = value.substring(3);
-  if (value.length > 0) {
-    if (value.length <= 2) value = `+998 (${value}`;
-    else if (value.length <= 5) value = `+998 (${value.substring(0, 2)}) ${value.substring(2)}`;
-    else if (value.length <= 8) value = `+998 (${value.substring(0, 2)}) ${value.substring(2, 5)}-${value.substring(5)}`;
-    else value = `+998 (${value.substring(0, 2)}) ${value.substring(2, 5)}-${value.substring(5, 7)}-${value.substring(7, 9)}`;
-  }
-  input.value = value;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1156,7 +1244,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('#brandSelect, #modelSelect, #yearSelect, #seriesSelect')
     .forEach(select => select.addEventListener('change', updateFilters));
 
-  const phoneInput = document.getElementById('contactPhone');
+  const phoneInput = document.getElementById('phone');
   if (phoneInput) {
     phoneInput.addEventListener('input', () => formatPhoneNumber(phoneInput));
     phoneInput.addEventListener('focus', () => {
@@ -1166,33 +1254,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const orderForm = document.getElementById('orderForm');
   if (orderForm) {
-    orderForm.addEventListener('submit', async e => {
+    orderForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      const phoneInput = document.getElementById('phone');
+      
+      if (!validatePhone(phoneInput.value)) {
+        phoneInput.setCustomValidity(getTranslatedText('phone_validation_message'));
+        phoneInput.reportValidity();
+        return;
+      }
+      
+      phoneInput.setCustomValidity('');
+      
       const submitButton = e.target.querySelector('button[type="submit"]');
       const originalText = submitButton.textContent;
       submitButton.disabled = true;
       submitButton.textContent = getTranslatedText('sending');
+
+      const formData = new FormData(e.target);
+      
+      const orderData = {
+        productName: formData.get('productName'),
+        productBrand: formData.get('productBrand'),
+        productPrice: formData.get('productPrice'),
+        priceType: currentProduct?.priceType || 'UZS',
+        quantity: currentQuantity,
+        fullName: formData.get('fullName'),
+        phone: phoneInput.value,
+        email: formData.get('email'),
+        additionalInfo: formData.get('additionalInfo')
+      };
+
       try {
-        const formData = new FormData(e.target);
-        const orderData = {
-          productName: formData.get('productName'),
-          productBrand: formData.get('productBrand'),
-          productPrice: formData.get('productPrice'),
-          priceType: currentProduct?.priceType || 'UZS',
-          quantity: currentQuantity,
-          fullName: formData.get('fullName'),
-          contactPhone: formData.get('contactPhone'),
-          email: formData.get('email'),
-          additionalInfo: formData.get('additionalInfo')
-        };
-        if (await sendToTelegram(orderData)) {
+        const telegramSent = await sendToTelegram(orderData);
+        
+        if (telegramSent) {
           alert(getTranslatedText('order_success'));
+          orderForm.reset();
+          phoneInput.value = '+998 (';
           closeOrderModal();
         } else {
           alert(getTranslatedText('order_error'));
         }
       } catch (error) {
-        console.error(error);
+        console.error('Order submission error:', error);
         alert(getTranslatedText('order_error'));
       } finally {
         submitButton.disabled = false;
@@ -1202,11 +1308,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const orderModal = document.getElementById('orderModal');
-  if (orderModal) orderModal.addEventListener('click', e => {
+  if (orderModal) orderModal.addEventListener('click', (e) => {
     if (e.target === orderModal) closeOrderModal();
   });
 
-  document.addEventListener('keydown', e => {
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeOrderModal();
   });
 
@@ -1219,5 +1325,5 @@ window.openOrderModal = openOrderModal;
 window.closeOrderModal = closeOrderModal;
 window.changeSlide = changeSlide;
 window.updateQuantity = updateQuantity;
-</script>
+  </script>
 {% endblock %}

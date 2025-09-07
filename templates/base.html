@@ -5,274 +5,167 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{% csrf_token %}
-    <title data-translate="site_title">KWIN</title>
-    <meta
-      name="description"
-      data-translate-content="meta_description"
-      content="Your reliable partner in the world of auto products. High-quality auto components from leading manufacturers since 2005."
-    />
-    <meta
-      name="keywords"
-      data-translate-content="meta_keywords"
-      content="auto parts, car components, automotive, KWIN, Heyner, Alca, Utal, ARS, Delta, Uzbekistan, auto accessories"
-    />
-    <meta
-      property="og:title"
-      data-translate-content="og_title"
-      content="KWIN Commerce - Your Reliable Auto Parts Partner"
-    />
-    <meta
-      property="og:description"
-      data-translate-content="og_description"
-      content="High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands in Uzbekistan."
-    />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:site_name"
-      data-translate-content="og_site_name"
-      content="KWIN Commerce"
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      data-translate-content="twitter_title"
-      content="KWIN Commerce - Auto Parts & Components"
-    />
-    <meta
-      name="twitter:description"
-      data-translate-content="twitter_description"
-      content="Your reliable partner for high-quality automotive components in Uzbekistan."
-    />
-    <meta name="language" content="en" />
-    <meta name="geo.region" content="UZ" />
-    <meta name="geo.country" content="Uzbekistan" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/basket.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/productDetails.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/products.css' %}" />
-    <link rel="icon" type="image/png" href="/static/assets/img/logo.png" />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <script>
+      <title data-translate="site_title">KWIN</title>
+      <meta name="description"
+            data-translate-content="meta_description"
+            content="Your reliable partner in the world of auto products. High-quality auto components from leading manufacturers since 2005." />
+      <meta name="keywords"
+            data-translate-content="meta_keywords"
+            content="auto parts, car components, automotive, KWIN, Heyner, Alca, Utal, ARS, Delta, Uzbekistan, auto accessories" />
+      <meta property="og:title"
+            data-translate-content="og_title"
+            content="KWIN Commerce - Your Reliable Auto Parts Partner" />
+      <meta property="og:description"
+            data-translate-content="og_description"
+            content="High-quality auto components from leading manufacturers since 2005. Official distributor of Heyner, Alca, Utal, ARS, and Delta brands in Uzbekistan." />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name"
+            data-translate-content="og_site_name"
+            content="KWIN Commerce" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title"
+            data-translate-content="twitter_title"
+            content="KWIN Commerce - Auto Parts & Components" />
+      <meta name="twitter:description"
+            data-translate-content="twitter_description"
+            content="Your reliable partner for high-quality automotive components in Uzbekistan." />
+      <meta name="language" content="en" />
+      <meta name="geo.region" content="UZ" />
+      <meta name="geo.country" content="Uzbekistan" />
+      <script src="https://cdn.tailwindcss.com"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/basket.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/productDetails.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/products.css' %}" />
+      <link rel="icon" type="image/png" href="/static/assets/img/logo.png" />
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet" />
+      <script>
       window.languageChangeUrl =
         "{% url 'set_language' 'PLACEHOLDER' %}".replace("PLACEHOLDER", "");
-    </script>
-  </head>
+      </script>
+      <script type="text/javascript">
+          (function(m,e,t,r,i,k,a){
+              m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+              m[i].l=1*new Date();
+              for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+              k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+          })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=104060028', 'ym');
 
-  <body class="font-sans">
-    <nav
-      class="fixed top-0 w-full bg-white/90 backdrop-blur-sm shadow-sm z-50 border-b border-gray-100"
-    >
-      <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
-        <div class="flex justify-between items-center h-20 lg:h-24">
-          <!-- Logo Section -->
-          <a href="{% url 'home' %}" class="flex-shrink-0">
-            <div class="flex items-center space-x-2">
-              <img
-                src="{% static 'assets/img/logo.png' %}"
-                alt="KWIN Logo"
-                class="h-10 lg:h-12"
-              />
-             <span class="text-2xl lg:text-3xl font-black text-[var(--primary-red)]">
-              KWIN
-            </span> 
-            </div>
-          </a>
-
-          <!-- Navigation Links - Responsive -->
-          <div
-            class="hidden md:flex items-center space-x-3 lg:space-x-8 mx-4 lg:mx-8"
-          >
-            <a
-              href="{% url 'home' %}#home"
-              class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
-              data-translate="home"
-            >
-              <span
-                class="absolute -bottom-0.5 left-2 lg:left-0 right-2 lg:right-auto w-0 h-0.5 bg-[var(--primary-red)] transition-all duration-300 group-hover:w-full lg:group-hover:w-full"
-              ></span>
-            </a>
-            <a
-              href="{% url 'home' %}#about"
-              class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
-              data-translate="about"
-            >
-              <span
-                class="absolute -bottom-0.5 left-2 lg:left-0 right-2 lg:right-auto w-0 h-0.5 bg-[var(--primary-red)] transition-all duration-300 group-hover:w-full"
-              ></span>
-            </a>
-            <a
-              href="{% url 'productsBrend' %}"
-              class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
-              data-translate="products"
-            >
-              <span
-                class="absolute -bottom-0.5 left-2 lg:left-0 right-2 lg:right-auto w-0 h-0.5 bg-[var(--primary-red)] transition-all duration-300 group-hover:w-full"
-              ></span>
-            </a>
-            <a
-              href="{% url 'home' %}#contact"
-              class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
-              data-translate="contact"
-            >
-              <span
-                class="absolute -bottom-0.5 left-2 lg:left-0 right-2 lg:right-auto w-0 h-0.5 bg-[var(--primary-red)] transition-all duration-300 group-hover:w-full"
-              ></span>
-            </a>
-          </div>
-
-          <!-- Right Section - Actions -->
-          <div class="flex items-center space-x-4 lg:space-x-6 flex-shrink-0">
-            <!-- Cart Button - Tablet/Desktop -->
-            {% if request.user.is_authenticated %}
-            <a href="{% url 'basket' %}" class="hidden md:flex">
-              <button
-                class="bg-gray-100 rounded-full relative flex-col items-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition p-1 lg:p-2"
-              >
-                <svg
-                  class="w-7 h-7 lg:w-8 lg:h-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  ></path>
-                </svg>
-                {% if cart_count > 0 %}
-                <span
-                  class="absolute -top-1 -right-1 bg-[var(--accent-yellow)] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium animate-pulse"
-                >
-                  {{ cart_count }}
-                </span>
-                {% endif %}
-              </button>
-            </a>
-            {% endif %}
-
-            <!-- Login/Logout Button -->
-            {% if request.user.is_authenticated %}
-            <a
-              href="{% url 'logout' %}"
-              class="bg-gray-100 p-1 lg:p-2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition hover:bg-[var(--light-gray)] rounded-full flex items-center gap-2"
-            >
-              <svg
-                class="w-7 h-7 lg:w-8 lg:h-8"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12H3m12 0l-3-3m3 3l-3 3"
-                >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 5v14a2 2 0 0 1-2 2h-6"
-                >
-              </svg>
-            </a>
-            {% else %}
-            <button
-              id="openLoginModal"
-              class="bg-gray-100 p-1 lg:p-2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition hover:bg-[var(--light-gray)] rounded-full"
-            >
-              <svg
-                class="w-7 h-7 lg:w-8 lg:h-8"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                ></path>
-              </svg>
-            </button>
-            {% endif %}
-
-            <!-- Separator -->
-
-            <div class="relative group">
-              <button
-                class="flex items-center space-x-1 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition px-2 lg:px-3 py-1 lg:py-2 rounded-lg bg-gray-100 hover:bg-[var(--light-gray)]"
-              >
-                <div
-                  class="w-0.5 lg:w-1 h-6 lg:h-8 bg-[var(--primary-red)] rounded-full opacity-70 me-4"
-                ></div>
-                <span
-                  id="current-language"
-                  class="font-medium text-sm lg:text-base"
-                ></span>
-                <svg
-                  class="w-3 h-3 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-              <form id="langForm" method="post" class="hidden">
-                {% csrf_token %}
-              </form>
-
-              <div
-                class="absolute right-0 mt-1 w-32 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50"
-              >
-                <a
-                  href="javascript:void(0)"
-                  data-lang="en"
-                  class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
-                  data-translate="lang_en"
-                  >English</a
-                >
-
-                <a
-                  href="javascript:void(0)"
-                  data-lang="uz"
-                  class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
-                  data-translate="lang_uz"
-                  >O‘zbekcha</a
-                >
-
-                <a
-                  href="javascript:void(0)"
-                  data-lang="ru"
-                  class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
-                  data-translate="lang_ru"
-                  >Русский</a
-                >
-
-                <a
-                  href="javascript:void(0)"
-                  data-lang="ger"
-                  class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
-                  data-translate="lang_ger"
-                  >Deutsch</a
-                >
+          ym(104060028, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+      </script>
+    </head>
+    <body class="font-sans">
+    <noscript><div><img src="https://mc.yandex.ru/watch/104060028" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+      <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-sm shadow-sm z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+          <div class="flex justify-between items-center h-20 lg:h-24">
+            <a href="{% url 'home' %}" class="flex-shrink-0">
+              <div class="flex items-center space-x-2">
+                <img src="{% static 'assets/img/logo.png' %}"
+                     alt="KWIN Logo"
+                     class="h-10 lg:h-12" />
+                <span class="text-2xl lg:text-3xl font-black text-[var(--primary-red)]">KWIN</span>
               </div>
-
-              <script>
+            </a>
+            <div class="hidden md:flex items-center space-x-3 lg:space-x-8 mx-4 lg:mx-8">
+              <a href="{% url 'home' %}#home"
+                 class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
+                 data-translate="home">
+                <span class="absolute -bottom-0.5 left-2 lg:left-0 right-2 lg:right-auto w-0 h-0.5 bg-[var(--primary-red)] transition-all duration-300 group-hover:w-full lg:group-hover:w-full"></span>
+              </a>
+              <a href="{% url 'home' %}#about"
+                 class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
+                 data-translate="about">
+                <span class="absolute -bottom-0.5 left-2 lg:left-0 right-2 lg:right-auto w-0 h-0.5 bg-[var(--primary-red)] transition-all duration-300 group-hover:w-full"></span>
+              </a>
+              <a href="{% url 'productsBrend' %}"
+                 class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
+                 data-translate="products">
+                <span class="absolute -bottom-0.5 left-2 lg:left-0 right-2 lg:right-auto w-0 h-0.5 bg-[var(--primary-red)] transition-all duration-300 group-hover:w-full"></span>
+              </a>
+              <a href="{% url 'home' %}#contact"
+                 class="text-[var(--text-gray)] hover:text-[var(--primary-red)] transition font-medium relative group text-sm lg:text-lg py-2 px-2 lg:px-0"
+                 data-translate="contact">
+                <span class="absolute -bottom-0.5 left-2 lg:left-0 right-2 lg:right-auto w-0 h-0.5 bg-[var(--primary-red)] transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </div>
+            <div class="flex items-center space-x-4 lg:space-x-6 flex-shrink-0">
+              {% if request.user.is_authenticated %}
+                <a href="{% url 'basket' %}" class="hidden md:flex">
+                  <button class="bg-gray-100 rounded-full relative flex-col items-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition p-1 lg:p-2">
+                    <svg class="w-7 h-7 lg:w-8 lg:h-8"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                      </path>
+                    </svg>
+                    {% if cart_count > 0 %}
+                      <span class="absolute -top-1 -right-1 bg-[var(--accent-yellow)] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium animate-pulse">
+                        {{ cart_count }}
+                      </span>
+                    {% endif %}
+                  </button>
+                </a>
+              {% endif %}
+              {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}"
+                   class="bg-gray-100 p-1 lg:p-2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition hover:bg-[var(--light-gray)] rounded-full flex items-center gap-2">
+                  <svg class="w-7 h-7 lg:w-8 lg:h-8"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H3m12 0l-3-3m3 3l-3 3">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 5v14a2 2 0 0 1-2 2h-6">
+                  </svg>
+                </a>
+              {% else %}
+                <button id="openLoginModal"
+                        class="bg-gray-100 p-1 lg:p-2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition hover:bg-[var(--light-gray)] rounded-full">
+                  <svg class="w-7 h-7 lg:w-8 lg:h-8"
+                       fill="none"
+                       stroke="currentColor"
+                       viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                    </path>
+                  </svg>
+                </button>
+              {% endif %}
+              <div class="relative group">
+                <button class="flex items-center space-x-1 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition px-2 lg:px-3 py-1 lg:py-2 rounded-lg bg-gray-100 hover:bg-[var(--light-gray)]">
+                  <div class="w-0.5 lg:w-1 h-6 lg:h-8 bg-[var(--primary-red)] rounded-full opacity-70 me-4"></div>
+                  <span id="current-language" class="font-medium text-sm lg:text-base"></span>
+                  <svg class="w-3 h-3 lg:w-4 lg:h-4 transition-transform duration-300 group-hover:rotate-180"
+                       fill="none"
+                       stroke="currentColor"
+                       viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <form id="langForm" method="post" class="hidden">
+                  {% csrf_token %}
+                </form>
+                <div class="absolute right-0 mt-1 w-32 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                  <a href="javascript:void(0)"
+                     data-lang="en"
+                     class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
+                     data-translate="lang_en"></a>
+                  <a href="javascript:void(0)"
+                     data-lang="uz"
+                     class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
+                     data-translate="lang_uz"></a>
+                  <a href="javascript:void(0)"
+                     data-lang="ru"
+                     class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
+                     data-translate="lang_ru"></a>
+                  <a href="javascript:void(0)"
+                     data-lang="ger"
+                     class="border-l-[4px] border-[var(--primary-red)] block px-4 py-3 text-sm text-[var(--text-gray)] hover:bg-[var(--light-gray)] hover:text-[var(--primary-red)]"
+                     data-translate="lang_ger"></a>
+                </div>
+                <script>
                 document.addEventListener("DOMContentLoaded", function () {
                   document.querySelectorAll("[data-lang]").forEach((el) => {
                     el.addEventListener("click", function () {
@@ -284,356 +177,223 @@
                     });
                   });
                 });
-              </script>
+                </script>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div
-      id="mobile-menu"
-      class="fixed bottom-0 left-0 w-full bg-white shadow-lg md:hidden z-50 border-t-2 border-gray-200"
-    >
-      <div class="flex justify-around py-4">
-        <a
-          href="{% url 'home' %}#home"
-          class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2"
-        >
-          <svg
-            class="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-            ></path>
-          </svg>
-        </a>
-        <a
-          href="{% url 'home' %}#about"
-          class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2"
-        >
-          <svg
-            class="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
-        </a>
-        <a
-          href="{% url 'products' %}"
-          class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2"
-        >
-          <svg
-            class="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-            ></path>
-          </svg>
-        </a>
-        <a
-          href="{% url 'home' %}#contact"
-          class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2"
-        >
-          <svg
-            class="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-            ></path>
-          </svg>
-        </a>
-        {% if request.user.is_authenticated %}
-        <a href="{% url 'basket' %}" class="relative">
-          <button
-            class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2"
-          >
-            <svg
-              class="w-7 h-7"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              ></path>
+      </nav>
+      <div id="mobile-menu"
+           class="fixed bottom-0 left-0 w-full bg-white shadow-lg md:hidden z-50 border-t-2 border-gray-200">
+        <div class="flex justify-around py-4">
+          <a href="{% url 'home' %}#home"
+             class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2">
+            <svg class="w-7 h-7"
+                 fill="none"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+              </path>
             </svg>
-            {% if cart_count > 0 %}
-            <span
-              class="absolute -top-1 -right-1 bg-[var(--accent-yellow)] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium animate-pulse"
-              >{{ cart_count }}</span
-            >
-            {% endif %}
-          </button>
-        </a>
-        {% else %}
-        <button
-          id="openLoginModalMobile"
-          class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2 pe-2"
-        >
-          <svg
-            class="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            ></path>
-          </svg>
-        </button>
-        {% endif %}
-      </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div
-      id="loginModal"
-      class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] hidden"
-    >
-      <div
-        id="loginModalContent"
-        class="w-11/12 max-w-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/95 rounded-lg shadow-md p-8 border border-gray-100"
-      >
-        <button
-          id="closeLoginModal"
-          class="absolute top-4 right-4 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
-        <h2
-          class="text-3xl font-semibold text-[var(--primary-dark)] text-center mb-8"
-          data-translate="login"
-        ></h2>
-        <form id="loginForm" class="flex flex-col gap-6">
-          {% csrf_token %}
-          <div class="relative">
-            <input
-              id="loginUsername"
-              class="w-full py-4 px-5 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-lg"
-              type="text"
-              placeholder=""
-              required
-              name="username"
-              data-translate="name"
-            />
-            <svg
-              class="absolute top-1/2 right-5 -translate-y-1/2 w-6 h-6 text-[var(--text-gray)]"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-              ></path>
+          </a>
+          <a href="{% url 'home' %}#about"
+             class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2">
+            <svg class="w-7 h-7"
+                 fill="none"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
             </svg>
-          </div>
-          <div class="relative">
-            <input
-              id="loginPassword"
-              class="w-full py-3 px-4 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-base"
-              type="password"
-              name="password"
-              placeholder=""
-              required
-              data-translate="password"
-            />
-            <button
-              type="button"
-              id="toggleLoginPassword"
-              class="absolute top-1/2 right-4 -translate-y-1/2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition"
-            >
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                ></path>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                ></path>
+          </a>
+          <a href="{% url 'productsBrend' %}"
+             class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2">
+            <svg class="w-7 h-7"
+                 fill="none"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            </svg>
+          </a>
+          <a href="{% url 'home' %}#contact"
+             class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2">
+            <svg class="w-7 h-7"
+                 fill="none"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24"
+                 stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+              </path>
+            </svg>
+          </a>
+          {% if request.user.is_authenticated %}
+            <a href="{% url 'basket' %}" class="relative">
+              <button class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2">
+                <svg class="w-7 h-7"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24"
+                     stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                  </path>
+                </svg>
+                {% if cart_count > 0 %}
+                  <span class="absolute -top-1 -right-1 bg-[var(--accent-yellow)] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium animate-pulse">{{ cart_count }}</span>
+                {% endif %}
+              </button>
+            </a>
+          {% else %}
+            <button id="openLoginModalMobile"
+                    class="flex flex-col items-center justify-center text-[var(--text-gray)] hover:text-[var(--primary-red)] transition-colors duration-200 p-2 pe-2">
+              <svg class="w-7 h-7"
+                   fill="none"
+                   stroke="currentColor"
+                   viewBox="0 0 24 24"
+                   stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                </path>
               </svg>
             </button>
-          </div>
-          <button
-            type="submit"
-            class="w-full bg-[var(--primary-red)] hover:bg-[var(--primary-dark)] py-3 rounded-lg text-white font-medium text-base transition"
-            data-translate="login"
-          ></button>
-          <button
-            type="button"
-            id="openRegisterModal"
-            class="text-[var(--primary-red)] hover:text-[var(--primary-dark)] text-center text-sm font-medium transition"
-            data-translate="register"
-          ></button>
-        </form>
+          {% endif %}
+        </div>
       </div>
-    </div>
-
-    <!-- Register Modal -->
-    <div
-      id="registerModal"
-      class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] hidden"
-    >
-      <div
-        id="registerModalContent"
-        class="w-11/12 max-w-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/95 rounded-lg shadow-md p-6 border border-gray-100"
-      >
-        <button
-          id="closeRegisterModal"
-          class="absolute top-4 right-4 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
-        <h2
-          class="text-2xl font-semibold text-[var(--primary-dark)] text-center mb-6"
-          data-translate="register"
-        ></h2>
-        <form id="registerForm" class="flex flex-col gap-5">
-          {% csrf_token %}
-          <div class="relative">
-            <input
-              id="registerName"
-              class="w-full py-3 px-4 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-base"
-              type="text"
-              placeholder=""
-              name="username"
-              required
-              data-translate="name"
-            />
-          </div>
-          <div class="relative">
-            <input
-              id="registerPhone"
-              class="w-full py-3 px-4 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-base"
-              type="tel"
-              name="phone"
-              placeholder="+998 (XX) XXX-XX-XX"
-              required
-            />
-          </div>
-          <div class="relative">
-            <input
-              id="registerPassword"
-              class="w-full py-3 px-4 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-base"
-              type="password"
-              placeholder=""
-              name="password"
-              required
-              data-translate="password"
-            />
-          </div>
-          <button
-            type="submit"
-            class="w-full bg-[var(--primary-red)] hover:bg-[var(--primary-dark)] py-3 rounded-lg text-white font-medium text-base transition"
-            data-translate="register"
-          ></button>
-          <button
-            type="button"
-            id="openLoginModalFromRegister"
-            class="text-[var(--primary-red)] hover:text-[var(--primary-dark)] text-center text-sm font-medium transition"
-            data-translate="login"
-          ></button>
-        </form>
+      <div id="loginModal"
+           class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] hidden">
+        <div id="loginModalContent"
+             class="w-11/12 max-w-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/95 rounded-lg shadow-md p-8 border border-gray-100">
+          <button id="closeLoginModal"
+                  class="absolute top-4 right-4 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+          <h2 class="text-3xl font-semibold text-[var(--primary-dark)] text-center mb-8"
+              data-translate="login"></h2>
+          <form id="loginForm" class="flex flex-col gap-6">
+            {% csrf_token %}
+            <div class="relative">
+              <input id="loginUsername"
+                     class="w-full py-4 px-5 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-lg"
+                     type="text"
+                     placeholder=""
+                     required
+                     name="username"
+                     data-translate="name" />
+              <svg class="absolute top-1/2 right-5 -translate-y-1/2 w-6 h-6 text-[var(--text-gray)]"
+                   fill="currentColor"
+                   viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z">
+                </path>
+              </svg>
+            </div>
+            <div class="relative">
+              <input id="loginPassword"
+                     class="w-full py-4 px-4 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-base"
+                     type="password"
+                     name="password"
+                     placeholder=""
+                     required
+                     data-translate="password" />
+              <button type="button"
+                      id="toggleLoginPassword"
+                      class="absolute top-1/2 right-4 -translate-y-1/2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+            <button type="submit"
+                    class="w-full bg-[var(--primary-red)] hover:bg-[var(--primary-dark)] py-3 rounded-lg text-white font-medium text-base transition"
+                    data-translate="login"></button>
+            <button type="button"
+                    id="openRegisterModal"
+                    class="text-[var(--primary-red)] hover:text-[var(--primary-dark)] text-center text-sm font-medium transition"
+                    data-translate="register"></button>
+          </form>
+        </div>
       </div>
-    </div>
-
-    {% block content %} {% endblock %}
-
-    <footer
-      class="bg-[var(--primary-dark)] text-white py-10 border-t border-gray-800 pb-24 md:pb-12 lg:pb-8"
-    >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <a href="{% url 'home' %}">
-          <div class="flex items-center justify-center space-x-2 mb-4">
-            <span
-              class="text-2xl font-bold text-[var(--primary-red)]"
-              data-translate="footer_title"
-            ></span>
-          </div>
-        </a>
-        <p
-          class="text-gray-400 text-sm mb-6"
-          data-translate="footer_slogan"
-        ></p>
-        <p class="text-gray-500 text-xs" data-translate="footer_copyright"></p>
+      <div id="registerModal"
+           class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] hidden">
+        <div id="registerModalContent"
+             class="w-11/12 max-w-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/95 rounded-lg shadow-md p-6 border border-gray-100">
+          <button id="closeRegisterModal"
+                  class="absolute top-4 right-4 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+          <h2 class="text-2xl font-semibold text-[var(--primary-dark)] text-center mb-6"
+              data-translate="register"></h2>
+          <form id="registerForm" class="flex flex-col gap-5">
+            {% csrf_token %}
+            <div class="relative">
+              <input id="registerName"
+                     class="w-full py-3 px-4 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-base"
+                     type="text"
+                     placeholder=""
+                     name="username"
+                     required
+                     data-translate="name" />
+            </div>
+            <div class="relative">
+              <input id="registerPhone"
+                     class="w-full py-3 px-4 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-base"
+                     type="tel"
+                     name="phone"
+                     placeholder="+998 (XX) XXX-XX-XX"
+                     required />
+            </div>
+            <div class="relative">
+              <input id="registerPassword"
+                     class="w-full py-3 px-4 rounded-lg border border-gray-200 bg-[var(--light-gray)] text-[var(--text-gray)] focus:border-[var(--primary-red)] focus:ring-1 focus:ring-[var(--primary-red)] outline-none text-base"
+                     type="password"
+                     placeholder=""
+                     name="password"
+                     required
+                     data-translate="password" />
+              <button type="button"
+                      id="toggleRegisterPassword"
+                      class="absolute top-1/2 right-4 -translate-y-1/2 text-[var(--text-gray)] hover:text-[var(--primary-red)] transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+            <button type="submit"
+                    class="w-full bg-[var(--primary-red)] hover:bg-[var(--primary-dark)] py-3 rounded-lg text-white font-medium text-base transition"
+                    data-translate="register"></button>
+            <button type="button"
+                    id="openLoginModalFromRegister"
+                    class="text-[var(--primary-red)] hover:text-[var(--primary-dark)] text-center text-sm font-medium transition"
+                    data-translate="login"></button>
+          </form>
+        </div>
       </div>
-    </footer>
-
-    <!-- Load Scripts -->
-     {% block scripts %}
-     
-     {% endblock  %}
-    <script src="{% static 'script/translation.js' %}"></script>
-    <script src="{% static 'script/index.js' %}"></script>
-    
-    <script>
+      {% block content %}{% endblock %}
+      <footer class="bg-[var(--primary-dark)] text-white py-10 border-t border-gray-800 pb-24 md:pb-12 lg:pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <a href="{% url 'home' %}">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+              <span class="text-2xl font-bold text-[var(--primary-red)]"
+                    data-translate="footer_title"></span>
+            </div>
+          </a>
+          <p class="text-gray-400 text-sm mb-6" data-translate="footer_slogan"></p>
+          <p class="text-gray-500 text-xs" data-translate="footer_copyright"></p>
+        </div>
+      </footer>
+      {% block scripts %}{% endblock %}
+      <script src="{% static 'script/translation.js' %}"></script>
+      <script src="{% static 'script/index.js' %}"></script>
+      <script>
       $(document).ready(function () {
-        // Login AJAX
         $("#loginForm").submit(function (e) {
           e.preventDefault();
           var formData = $(this).serialize();
@@ -664,7 +424,6 @@
           $("#langForm").submit();
         });
 
-        // Register AJAX
         $("#registerForm").submit(function (e) {
           e.preventDefault();
           var formData = $(this).serialize();
@@ -690,8 +449,6 @@
             },
           });
         });
-
-        // Modal controls
         function openLoginModal() {
           $("#loginModal").removeClass("hidden");
         }
@@ -717,7 +474,6 @@
           $("#registerModal").addClass("hidden");
         });
 
-        // Close modals when clicking outside content
         $("#loginModal").click(function (e) {
           if (e.target.id === "loginModal") {
             $(this).addClass("hidden");
@@ -729,7 +485,6 @@
           }
         });
 
-        // Password toggle
         $("#toggleLoginPassword").click(function () {
           var passwordField = $("#loginPassword");
           var type =
@@ -744,7 +499,20 @@
           );
         });
 
-        // Phone number formatting
+        $("#toggleRegisterPassword").click(function () {
+          var passwordField = $("#registerPassword");
+          var type =
+            passwordField.attr("type") === "password" ? "text" : "password";
+          passwordField.attr("type", type);
+
+          var icon = $(this).find("svg");
+          icon.html(
+            type === "text"
+              ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>'
+              : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>'
+          );
+        });
+
         $("#registerPhone").on("input", function () {
           var value = this.value.replace(/\D/g, "");
           if (value.startsWith("998")) {
@@ -778,7 +546,6 @@
           }
         });
 
-        // Smooth scrolling
         $('a[href^="#"]').click(function (e) {
           e.preventDefault();
           var target = $(this.getAttribute("href"));
@@ -792,23 +559,20 @@
           }
         });
 
-        // Form validation
         $("input[required]").on("blur", function () {
           $(this).toggleClass("border-red-500", !this.value.trim());
         });
 
-        // Escape key to close modals
         $(document).keydown(function (e) {
           if (e.key === "Escape") {
             $("#loginModal, #registerModal").addClass("hidden");
           }
         });
 
-        // Apply translations
         if (window.applyTranslations) {
           window.applyTranslations();
         }
       });
-    </script>
-  </body>
-</html>
+      </script>
+    </body>
+  </html>

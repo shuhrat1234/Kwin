@@ -2,41 +2,42 @@
 {% load static %}
 {% load product_tags %}
 {% block content %}
-<style>
-  .basket-btn {
+    <style>
+.basket-btn {
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  .basket-btn.added {
+}
+.basket-btn.added {
     background-color: var(--primary-red);
-  }
-  .basket-btn.added svg {
+}
+.basket-btn.added svg {
     stroke: white;
-  }
-  .buy-button {
+}
+.buy-button {
     background-color: var(--primary);
     transition: background-color 0.3s ease;
-  }
-  .buy-button:hover {
+}
+.buy-button:hover {
     background-color: var(--primary-dark);
-  }
-  .error-message {
+}
+.error-message {
     color: #dc2626;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     padding: 0.5rem;
     border-radius: 0.5rem;
     display: none;
-  }
-  .success-message {
+}
+.success-message {
     color: #15803d;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     padding: 0.5rem;
     background-color: #dcfce7;
     border-radius: 0.5rem;
     display: none;
-  }
-  #orderModal {
+}
+
+#orderModal {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
@@ -45,36 +46,97 @@
     align-items: center;
     justify-content: center;
     padding: 1rem;
-  }
-  #orderModal.hidden {
+}
+
+#orderModal.hidden {
     display: none;
-  }
-  .modal-content {
+}
+
+.modal-content {
     background-color: white;
     border-radius: 1rem;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 28rem;
-    max-height: 90vh;
+    max-width: 450px;
+    position: relative;
     overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8fafc;
+    border-radius: 1rem 1rem 0 0;
+}
+
+.modal-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    color: #374151;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.product-info {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
-  }
-  .modal-content .p-6 {
-    flex: 1;
+    gap: 0.75rem;
+}
+
+.product-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
     overflow: hidden;
-  }
-  body.modal-open {
+    text-overflow: ellipsis;
+}
+
+.product-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
     overflow: hidden;
-  }
-  .quantity-controls {
+    text-overflow: ellipsis;
+}
+
+.quantity-controls {
     display: inline-flex;
     align-items: center;
     border: 1px solid #d1d5db;
     border-radius: 0.5rem;
     background-color: white;
-  }
-  .quantity-btn {
+    margin-left: 0.5rem;
+}
+
+.quantity-btn {
     background: none;
     border: none;
     width: 2.5rem;
@@ -87,576 +149,689 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 1.125rem;
-  }
-  .quantity-btn:hover {
+}
+
+.quantity-btn:hover:not(:disabled) {
     background-color: #f3f4f6;
     color: #374151;
-  }
-  .quantity-btn:disabled {
+}
+
+.quantity-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
-  .quantity-display {
+}
+
+.quantity-display {
     padding: 0 1rem;
     font-weight: 600;
     color: #111827;
     min-width: 3rem;
     text-align: center;
-  }
-</style>
-<main class="pt-32 pb-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {% if error %}
-    <div class="{% if error|slice:":4" == "Товар" %}success-message{% else %}error-message{% endif %}" style="display: block;">
-      {{ error }}
-    </div>
-    {% endif %}
-    {% if product_one %}
-    <div class="product-card rounded-2xl shadow-xl p-4 lg:p-6">
-      <div class="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
-        <div class="space-y-3">
-          <div class="product-image-container rounded-2xl p-4 relative overflow-hidden">
-            {% if product_one.images.exists %}
-              <img
-                id="mainImage-{{ product_one.id }}"
-                src="{{ product_one.images.first.image.url }}"
-                alt="{{ product_one|get_name_by_lang:lang }}"
-                class="w-full h-auto max-w-md mx-auto drop-shadow-2xl animate-float"
-              />
-            {% else %}
-              <div class="w-full h-auto max-w-md mx-auto flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260" class="w-full h-full max-h-64">
-                  <defs>
-                    <linearGradient id="wiper{{ product_one.id }}" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/>
-                      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9"/>
-                      <stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8"/>
-                    </linearGradient>
-                  </defs>
-                  <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper{{ product_one.id }})"/>
-                  <rect x="40" y="140" width="280" height="8" rx="4" fill="#667eea" opacity="0.6"/>
-                  <circle cx="50" cy="126" r="8" fill="#764ba2"/>
-                  <circle cx="330" cy="126" r="8" fill="#764ba2"/>
-                  <circle cx="50" cy="126" r="3" fill="white"/>
-                  <circle cx="330" cy="126" r="3" fill="white"/>
-                </svg>
-              </div>
-            {% endif %}
-          </div>
-          
-          <!-- {% if product_one.images.exists %}
-            <div class="flex space-x-3 justify-center">
-              {% for image in product_one.images.all %}
-              <button
-                data-product="{{ product_one.id }}"
-                data-slide="{{ forloop.counter0 }}"
-                class="thumbnail-btn w-18 h-16 rounded-lg border-2 overflow-hidden {% if forloop.first %}border-primary{% else %}border-gray-300{% endif %}"
-              >
-                <img
-                  src="{{ image.image.url }}"
-                  alt="Thumbnail {{ forloop.counter }}"
-                  class="w-full h-full object-cover"
-                />
-              </button>
-              {% endfor %}
-            </div>
-          {% endif %} -->
-        </div>
-        
-        <div class="space-y-5">
-          <div>
-            <div class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-3">
-              {{ product_one.brand.name }}
-            </div>
-            <h1 class="text-2xl lg:text-4xl font-bold text-gray-900 mb-4">
-              {{ product_one|get_name_by_lang:lang }}
-            </h1>
-          </div>
-          <div class="flex items-center gap-4">
-            <span class="text-3xl lg:text-4xl font-bold text-gray-900">
-              {{ product_one.get_price_with_icon }}
-            </span>
-            <!-- <span class="text-xl text-gray-400 line-through">
-              {{ product_one.get_price_original_with_icon }}
-            </span> -->
-            <!-- <div class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-sm font-semibold">
-              -{{ product_one.discount }}%
-            </div> -->
-          </div>
-          <div class="bg-gray-50 rounded-xl p-5">
-            <h3 class="text-lg font-semibold text-gray-900 mb-3" data-translate="product_description">
-              Описание товара
-            </h3>
-            <p class="text-gray-700 leading-relaxed mb-3">
-              {{ product_one|get_description_by_lang:lang }}
-            </p>
-          </div>
-          <div class="flex items-center gap-4 pt-3">
-            <button
-              class="buy-button flex-1 px-4 sm:px-6 lg:px-8 py-3 text-white font-semibold rounded-lg text-sm sm:text-base lg:text-lg shadow-lg"
-              onclick="openOrderModal()"
-              data-translate="buy_now"
-            >
-              Купить сейчас
-            </button>
-            {% if product_one|is_in_cart:request.user %}
-            <a
-              href="{% url 'cart-remove' remove_id=product_one.id %}"
-              class="basket-btn flex items-center justify-center w-12 h-12 rounded-lg border border-gray-300 hover:bg-red-600 added"
-              title="Удалить из корзины"
-              data-translate-title="remove_from_cart"
-            >
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-              </svg>
-            </a>
-            {% else %}
-            <form action="{% url 'cart-add' add_id=product_one.id %}" method="post">
-              {% csrf_token %}
-              <button
-                type="submit"
-                class="basket-btn flex items-center justify-center w-12 h-12 rounded-lg border border-gray-300 hover:bg-gray-50"
-                title="Добавить в корзину"
-                data-translate-title="add_to_cart"
-              >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                </svg>
-              </button>
-            </form>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="feature-card rounded-xl p-6 text-center">
-        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
-          </svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2" data-translate="convenient_purchase">
-          Удобно Купить
-        </h3>
-        <p class="text-gray-600 text-sm" data-translate="convenient_purchase_description">
-          Легко и быстро оформить заказ
-        </p>
-      </div>
-      <div class="feature-card rounded-xl p-6 text-center">
-        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-          </svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2" data-translate="quality_guarantee">
-          Гарантия качества
-        </h3>
-        <p class="text-gray-600 text-sm" data-translate="quality_guarantee_description">
-          Все товары качественные
-        </p>
-      </div>
-      <div class="feature-card rounded-xl p-6 text-center">
-        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-          </svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2" data-translate="reliable_partner">
-          Надежный Партнер
-        </h3>
-        <p class="text-gray-600 text-sm" data-translate="reliable_partner_description">
-          Ваш надежный партнер в мире авто товаров
-        </p>
-      </div>
-    </div>
-    {% else %}
-    <div class="text-center py-12">
-      <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate="no_products_found">
-        Товар не найден
-      </h3>
-    </div>
-    {% endif %}
-  </div>
-  
-  <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-    <div class="modal-content">
-      <div class="p-6">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold text-gray-900" data-translate="order_checkout">
-            Оформить заказ
-          </h2>
-          <button
-            id="closeOrderModalBtn"
-            class="text-gray-400 hover:text-gray-600 transition-colors"
-            onclick="closeOrderModal()"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
-        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-          <h3 id="modalProductName" class="font-semibold text-gray-900 mb-2">
-            {{ product_one|get_name_by_lang:lang }}
-          </h3>
-          <div class="flex justify-between items-center text-sm text-gray-600">
-            <div class="flex items-center gap-2">
-              <span data-translate="quantity_label">Количество:</span>
-              <div class="quantity-controls">
-                <button
-                  type="button"
-                  class="quantity-btn"
-                  onclick="updateQuantity(-1)"
-                  id="decreaseBtn"
-                >
-                  −
-                </button>
-                <span class="quantity-display" id="quantity">1</span>
-                <button
-                  type="button"
-                  class="quantity-btn"
-                  onclick="updateQuantity(1)"
-                  id="increaseBtn"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            <span id="modalPrice" class="font-bold text-lg text-gray-900">
-              {{ product_one.get_price_with_icon }}
-            </span>
-          </div>
-        </div>
-        <form id="orderForm" action="{% url 'order_create' %}" method="post" class="space-y-4">
-          {% csrf_token %}
-          <input type="hidden" id="productId" name="productId" value="{{ product_one.id }}" />
-          <input type="hidden" id="productName" name="productName" value="{{ product_one|get_name_by_lang:lang }}" />
-          <input type="hidden" id="productPrice" name="productPrice" value="{{ product_one.get_price }}" />
-          <input type="hidden" id="productBrand" name="productBrand" value="{{ product_one.brand.name }}" />
-          <input type="hidden" id="productQuantity" name="productQuantity" value="1" />
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="full_name">
-              Полное имя *
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              required
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              data-translate-placeholder="name_placeholder"
-            />
-          </div>
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="phone_number">
-              Номер телефона *
-            </label>
-            <input
-              id="contactPhone"
-              type="tel"
-              name="phone"
-              placeholder="+998 (XX) XXX-XX-XX"
-              required
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              data-translate-placeholder="phone_placeholder"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="email">
-              Email *
-            </label>
-            <input
-              type="email"
-              name="email"
-              required
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              data-translate-placeholder="email"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="additional_info">
-              Дополнительная информация
-            </label>
-            <textarea
-              name="additionalInfo"
-              rows="3"
-              placeholder="Ваше сообщение"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-              data-translate-placeholder="message_placeholder"
-            ></textarea>
-          </div>
-          <div class="flex gap-3 pt-4">
-            <button
-              type="button"
-              onclick="closeOrderModal()"
-              class="max-h-12 max-w-full flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
-              data-translate="cancel"
-            >
-              Отмена
-            </button>
-            <button
-              type="submit"
-              class="max-h-12 max-w-full flex-1 px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
-              data-translate="send"
-            >
-              Подтвердить заказ
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</main>
+}
 
-<script>
-  function getCookie(name) {
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    background: white;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #dc2626;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    background: white;
+    resize: none;
+    min-height: 80px;
+    transition: border-color 0.2s ease;
+}
+
+.form-textarea:focus {
+    outline: none;
+    border-color: #dc2626;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-cancel {
+    background: #f9fafb;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn-cancel:hover {
+    background: #f3f4f6;
+}
+
+.btn-confirm {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background: #b91c1c;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.product-card {
+    background-color: white;
+    overflow: hidden;
+}
+.product-image-container {
+    background-color: #f9fafb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@media (max-width: 640px) {
+    .modal-content {
+        max-width: 95%;
+        margin: 1rem;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .product-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .product-price {
+        font-size: 0.875rem;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1000px) {
+    .modal-content {
+        max-width: 90%;
+        margin: 1rem;
+    }
+    .product-image-container img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+    .grid.lg:grid-cols-2 {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .product-image-container {
+        margin: 0 auto;
+    }
+}
+    </style>
+    <main class="pt-32 pb-12">
+        <div class="mb-4">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.type != 'success' %}
+                        <div class="text-{% if message.type == 'error' %}red-600{% else %}green-600{% endif %} text-center">
+                            {{ message.message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {% if error %}
+                <div class="{% if error|slice:":4" == "Товар" %}success-message{% else %}error-message{% endif %}"
+                     style="display: block">{{ error }}</div>
+            {% endif %}
+            {% if product_one %}
+                <div class="product-card rounded-2xl shadow-xl p-4 lg:p-6">
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-6 items-center">
+                        <div class="space-y-3">
+                            <div class="product-image-container rounded-2xl relative overflow-hidden">
+                                {% if product_one.images.exists %}
+                                    <img id="mainImage-{{ product_one.id }}"
+                                         src="{{ product_one.images.first.image.url }}"
+                                         alt="{{ product_one|get_name_by_lang:lang }}"
+                                         class="w-full h-auto max-w-md mx-auto drop-shadow-2xl animate-float" />
+                                {% else %}
+                                    <div class="w-full h-auto max-w-md mx-auto flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 380 260"
+                                             class="w-full h-full max-h-64">
+                                            <defs>
+                                            <linearGradient id="wiper{{ product_one.id }}" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8" />
+                                            <stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.9" />
+                                            <stop offset="100%" style="stop-color:#667eea;stop-opacity:0.8" />
+                                            </linearGradient>
+                                            </defs>
+                                            <rect x="40" y="120" width="300" height="12" rx="6" fill="url(#wiper{{ product_one.id }})" />
+                                            <rect x="40" y="140" width="280" height="8" rx="4" fill="#667eea" opacity="0.6" />
+                                            <circle cx="50" cy="126" r="8" fill="#764ba2" />
+                                            <circle cx="330" cy="126" r="8" fill="#764ba2" />
+                                            <circle cx="50" cy="126" r="3" fill="white" />
+                                            <circle cx="330" cy="126" r="3" fill="white" />
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="space-y-5">
+                            <div>
+                                <div class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-3">
+                                    {{ product_one.brand.name }}
+                                </div>
+                                <h1 class="text-2xl lg:text-4xl font-bold text-gray-900 mb-4">{{ product_one|get_name_by_lang:lang }}</h1>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <span class="text-3xl lg:text-4xl font-bold text-gray-900">{{ product_one.get_price_with_icon }}</span>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-5">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-3"
+                                    data-translate="product_description"></h3>
+                                <p class="text-gray-700 leading-relaxed mb-3">
+                                    {{ product_one|get_description_by_lang:lang }}
+                                    {% if product_one.size or product_one.color_uz or product_one.color_ru or product_one.color_en or product_one.color_ger %}
+                                        <br>
+                                        <br>
+                                    {% endif %}
+                                    {% if product_one.size %}
+                                        <strong data-translate="size"></strong> {{ product_one.size }}
+                                        {% if product_one.color_uz or product_one.color_ru or product_one.color_en or product_one.color_ger %}<br>{% endif %}
+                                    {% endif %}
+                                    {% if product_one.color_uz or product_one.color_ru or product_one.color_en or product_one.color_ger %}
+                                        <strong data-translate="color"></strong>
+                                        {% if lang == 'uz' and product_one.color_uz %}
+                                            {{ product_one.color_uz }}
+                                        {% elif lang == 'ru' and product_one.color_ru %}
+                                            {{ product_one.color_ru }}
+                                        {% elif lang == 'en' and product_one.color_en %}
+                                            {{ product_one.color_en }}
+                                        {% elif lang == 'ger' and product_one.color_ger %}
+                                            {{ product_one.color_ger }}
+                                        {% else %}
+                                            {{ product_one.color_ru|default:product_one.color_en|default:product_one.color_uz|default:product_one.color_ger }}
+                                        {% endif %}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-4 pt-3">
+                                <button class="buy-button flex-1 px-4 sm:px-6 lg:px-8 py-2 text-white font-semibold rounded-lg text-sm sm:text-base lg:text-lg shadow-lg"
+                                        onclick="openOrderModal()"
+                                        data-translate="buy_now"></button>
+                                {% if product_one|is_in_cart:request.user %}
+                                    <a href="{% url 'cart-remove' remove_id=product_one.id %}"
+                                       class="basket-btn flex items-center justify-center w-12 h-11 rounded-lg border border-gray-300 hover:bg-red-600 added"
+                                       title="Удалить из корзины"
+                                       data-translate-title="remove_from_cart">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                {% else %}
+                                    <form action="{% url 'cart-add' add_id=product_one.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit"
+                                                class="basket-btn flex items-center justify-center w-12 h-11 rounded-lg border border-gray-300 hover:bg-gray-50"
+                                                data-translate-title="add_to_cart">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                                                </path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="feature-card rounded-xl p-6 text-center">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-primary"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2"
+                            data-translate="convenient_purchase"></h3>
+                        <p class="text-gray-600 text-sm"
+                           data-translate="convenient_purchase_description"></p>
+                    </div>
+                    <div class="feature-card rounded-xl p-6 text-center">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-primary"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2"
+                            data-translate="quality_guarantee"></h3>
+                        <p class="text-gray-600 text-sm"
+                           data-translate="quality_guarantee_description"></p>
+                    </div>
+                    <div class="feature-card rounded-xl p-6 text-center">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-primary"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2"
+                            data-translate="reliable_partner"></h3>
+                        <p class="text-gray-600 text-sm"
+                           data-translate="reliable_partner_description"></p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-center py-12">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2"
+                        data-translate="no_products_found"></h3>
+                </div>
+            {% endif %}
+        </div>
+        <div id="orderModal"
+             class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center px-4">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" data-translate="order_checkout"></h2>
+                    <button class="close-btn" onclick="closeOrderModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="product-info">
+                        <h3 id="modalProductName" class="product-name">{{ product_one|get_name_by_lang:lang }}</h3>
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center">
+                                <span data-translate="quantity_label"></span>
+                                <div class="quantity-controls">
+                                    <button type="button"
+                                            class="quantity-btn"
+                                            onclick="updateQuantity(-1)"
+                                            id="decreaseBtn">−</button>
+                                    <span class="quantity-display" id="quantity">1</span>
+                                    <button type="button"
+                                            class="quantity-btn"
+                                            onclick="updateQuantity(1)"
+                                            id="increaseBtn">+</button>
+                                </div>
+                            </div>
+                            <span id="modalProductPrice" class="product-price">{{ product_one.get_price_with_icon }}</span>
+                        </div>
+                    </div>
+                    <form id="orderForm" method="post" action="{% url 'order_create' %}">
+                        {% csrf_token %}
+                        <input type="hidden"
+                               id="productId"
+                               name="productId"
+                               value="{{ product_one.id }}">
+                        <input type="hidden"
+                               id="productName"
+                               name="productName"
+                               value="{{ product_one|get_name_by_lang:lang }}">
+                        <input type="hidden"
+                               id="productPrice"
+                               name="productPrice"
+                               value="{{ product_one.get_price }}"
+                               data-price-type="{{ product_one.price_type|default:'UZS' }}">
+                        <input type="hidden"
+                               id="productBrand"
+                               name="productBrand"
+                               value="{{ product_one.brand.name }}">
+                        <input type="hidden" id="productQuantity" name="productQuantity" value="1">
+                        <div class="form-group">
+                            <label class="form-label" data-translate="full_name"></label>
+                            <input type="text"
+                                   name="fullName"
+                                   required
+                                   class="form-input"
+                                   data-translate-placeholder="name_placeholder">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-translate="phone_number"></label>
+                            <input type="tel"
+                                   id="contactPhone"
+                                   name="phone"
+                                   placeholder="+998 (XX) XXX-XX-XX"
+                                   required
+                                   class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-translate="email"></label>
+                            <input type="email"
+                                   name="email"
+                                   required
+                                   class="form-input"
+                                   placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-translate="additional_info"></label>
+                            <textarea name="additionalInfo"
+                                      class="form-textarea"
+                                      data-translate-placeholder="message_placeholder"></textarea>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button"
+                                    class="btn btn-cancel"
+                                    onclick="closeOrderModal()"
+                                    data-translate="cancel"></button>
+                            <button type="submit" class="btn btn-confirm" data-translate="send"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
         }
-      }
     }
     return cookieValue;
-  }
+}
 
-  // Function to get translated text by data-translate attribute
-  function getTranslatedText(key) {
+function getTranslatedText(key) {
     const element = document.querySelector(`[data-translate="${key}"]`);
-    return element ? element.textContent || element.innerText : key;
-  }
+    return element ? element.textContent || element.innerText : (window.translateText ? window.translateText(key) : key);
+}
 
-  // Function to send order data to Telegram
-  async function sendToTelegram(orderData) {
+async function sendToTelegram(orderData) {
     const botToken = '8390195291:AAGK2g83t4Oo88CynwMPnyjnbx5zpHQB-6k';
     const chatId = '-1003077427700';
-    const message = `🛒 *Yangi Buyurtma*\n\n` +
-      `📦 *Товар:* ${orderData.productName}\n` +
-      `🏢 *Бренд:* ${orderData.productBrand}\n` +
-      `💰 *Цена:* ${orderData.productPrice} ${orderData.priceType}\n` +
-      `📊 *Количество:* ${orderData.quantity}\n` +
-      `💵 *Общая сумма:* ${(parseFloat(orderData.productPrice) * parseInt(orderData.quantity)).toFixed(0)} ${orderData.priceType}\n\n` +
-      `👤 *Клиент:*\n` +
-      `  *Имя:* ${orderData.fullName}\n` +
-      `  *Телефон:* ${orderData.phone}\n` +
-      `  *Email:* ${orderData.email || 'Не указано'}\n` +
-      `  *Дополнительно:* ${orderData.additionalInfo || 'Не указано'}\n\n` +
-      `🕒 *Время заказа:* ${new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Tashkent' })}`;
+
+    const telegramMessage = `🛒 <b>Новый заказ</b>
+
+📦 <b>ТОВАР:</b>
+<b>Название:</b> ${orderData.productName}
+<b>Бренд:</b> ${orderData.productBrand}
+<b>Цена за единицу:</b> ${orderData.productPrice} ${orderData.priceType}
+<b>Количество:</b> ${orderData.quantity}
+<b>Общая сумма:</b> ${(parseFloat(orderData.productPrice) * parseInt(orderData.quantity)).toFixed(0)} ${orderData.priceType}
+
+👤 <b>КЛИЕНТ:</b>
+<b>Имя:</b> ${orderData.fullName}
+<b>Телефон:</b> ${orderData.phone}
+<b>Email:</b> ${orderData.email}
+<b>Дополнительно:</b> ${orderData.additionalInfo}
+
+🕒 <b>Время заказа:</b> ${new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Tashkent' })}`;
 
     try {
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-          parse_mode: 'Markdown'
-        })
-      });
-      return (await response.json()).ok;
+        const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: telegramMessage,
+                parse_mode: 'HTML'
+            })
+        });
+        const data = await response.json();
+        return data.ok;
     } catch (error) {
-      console.error('Telegram error:', error);
-      return false;
+        console.error('Telegram error:', error);
+        return false;
     }
-  }
+}
 
-  // Function to format phone number input
-  function formatPhoneNumber(input) {
+function formatPhone(input) {
     let value = input.value.replace(/\D/g, '');
-    if (!value.startsWith('998')) value = '998' + value;
-    if (value.length > 12) value = value.substring(0, 12); // Limit to +998 and 9 digits
-    let formattedValue = '+998';
-    if (value.length > 3) {
-      formattedValue += ` (${value.substring(3, 5)}`;
-      if (value.length > 5) {
-        formattedValue += `) ${value.substring(5, 8)}`;
-        if (value.length > 8) {
-          formattedValue += `-${value.substring(8, 10)}`;
-          if (value.length > 10) {
-            formattedValue += `-${value.substring(10, 12)}`;
-          }
+    if (value.startsWith('998')) value = value.substring(3);
+    
+    if (value.length > 0) {
+        if (value.length <= 2) {
+            value = `+998 (${value}`;
+        } else if (value.length <= 5) {
+            value = `+998 (${value.substring(0, 2)}) ${value.substring(2)}`;
+        } else if (value.length <= 8) {
+            value = `+998 (${value.substring(0, 2)}) ${value.substring(2, 5)}-${value.substring(5)}`;
+        } else {
+            value = `+998 (${value.substring(0, 2)}) ${value.substring(2, 5)}-${value.substring(5, 7)}-${value.substring(7, 9)}`;
         }
-      }
     }
-    input.value = formattedValue;
-    return formattedValue;
-  }
+    input.value = value;
+}
 
-  let currentQuantity = 1;
-  let currentPrice = parseFloat("{{ product_one.get_price }}".replace(/[^\d.]/g, ""));
+function validatePhone(phoneValue) {
+    const phonePattern = /^\+998\s\(\d{2}\)\s\d{3}-\d{2}-\d{2}$/;
+    return phonePattern.test(phoneValue);
+}
 
-  window.openOrderModal = () => {
+let currentQuantity = 1;
+let currentPrice = 0;
+
+function initializePrice() {
+    const priceElement = document.getElementById("productPrice");
+    if (priceElement) {
+        currentPrice = parseFloat(priceElement.value.replace(/[^\d.]/g, "")) || 0;
+    }
+}
+
+window.openOrderModal = () => {
     currentQuantity = 1;
     document.getElementById("quantity").textContent = currentQuantity;
     document.getElementById("productQuantity").value = currentQuantity;
     const phoneInput = document.getElementById("contactPhone");
-    if (phoneInput) phoneInput.value = '+998'; // Set default to +998
+    if (phoneInput) phoneInput.value = '+998 (';
     updateQuantityButtons();
     updatePrice();
     const orderModal = document.getElementById("orderModal");
     if (orderModal) {
-      orderModal.classList.remove("hidden");
-      document.body.classList.add("modal-open");
+        orderModal.classList.remove("hidden");
+        document.body.classList.add("modal-open");
     }
-  };
+};
 
-  window.closeOrderModal = () => {
+window.closeOrderModal = () => {
     const orderModal = document.getElementById("orderModal");
     if (orderModal) {
-      orderModal.classList.add("hidden");
-      document.body.classList.remove("modal-open");
-      const orderForm = document.getElementById("orderForm");
-      if (orderForm) orderForm.reset();
-      const phoneInput = document.getElementById("contactPhone");
-      if (phoneInput) phoneInput.value = '+998';
+        orderModal.classList.add("hidden");
+        document.body.classList.remove("modal-open");
+        const orderForm = document.getElementById("orderForm");
+        if (orderForm) orderForm.reset();
+        const phoneInput = document.getElementById("contactPhone");
+        if (phoneInput) phoneInput.value = '+998 (';
     }
-  };
+};
 
-  window.updateQuantity = (change) => {
+window.updateQuantity = (change) => {
     const newQuantity = currentQuantity + change;
     if (newQuantity >= 1) {
-      currentQuantity = newQuantity;
-      document.getElementById("quantity").textContent = currentQuantity;
-      document.getElementById("productQuantity").value = currentQuantity;
-      updateQuantityButtons();
-      updatePrice();
+        currentQuantity = newQuantity;
+        document.getElementById("quantity").textContent = currentQuantity;
+        document.getElementById("productQuantity").value = currentQuantity;
+        updateQuantityButtons();
+        updatePrice();
     }
-  };
+};
 
-  function updateQuantityButtons() {
+function updateQuantityButtons() {
     const decreaseBtn = document.getElementById("decreaseBtn");
     if (decreaseBtn) {
-      decreaseBtn.disabled = currentQuantity <= 1;
+        decreaseBtn.disabled = currentQuantity <= 1;
     }
-  }
+}
 
-  function updatePrice() {
+function updatePrice() {
     const totalPrice = currentPrice * currentQuantity;
-    document.getElementById("modalPrice").textContent = `${totalPrice.toFixed(2)} {{ product_one.price_type }}`;
-  }
+    const priceElement = document.getElementById("productPrice");
+    const priceType = priceElement?.getAttribute("data-price-type") || "UZS";
+    const modalPriceElement = document.getElementById("modalPrice");
+    if (modalPriceElement) {
+        modalPriceElement.textContent = `${totalPrice.toFixed(0)} ${priceType}`;
+    }
+}
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Phone number formatting
+document.addEventListener('DOMContentLoaded', function() {
+    initializePrice();
+    
     const phoneInput = document.getElementById("contactPhone");
     if (phoneInput) {
-      phoneInput.value = '+998'; // Initial value
-      phoneInput.addEventListener('input', () => {
-        formatPhoneNumber(phoneInput);
-      });
-      phoneInput.addEventListener('focus', () => {
-        if (!phoneInput.value) phoneInput.value = '+998';
-      });
+        phoneInput.value = '+998 (';
+        phoneInput.addEventListener('input', function() {
+            formatPhone(this);
+        });
+        phoneInput.addEventListener('focus', function() {
+            if (!this.value) this.value = '+998 (';
+        });
     }
 
     const orderForm = document.getElementById("orderForm");
     if (orderForm) {
-      orderForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const phoneInput = document.getElementById("contactPhone");
-
-        const submitButton = orderForm.querySelector('button[type="submit"]');
-        const originalText = submitButton.textContent;
-        submitButton.disabled = true;
-        submitButton.textContent = getTranslatedText('sending') || 'Отправка...';
-
-        try {
-          const formData = new FormData(orderForm);
-          // Send phone number as clean digits
-          formData.set('phone', phoneInput.value.replace(/\D/g, ''));
-          const orderData = {
-            productName: formData.get('productName'),
-            productBrand: formData.get('productBrand'),
-            productPrice: formData.get('productPrice'),
-            priceType: "{{ product_one.price_type }}",
-            quantity: currentQuantity,
-            fullName: formData.get('fullName'),
-            phone: phoneInput.value.replace(/\D/g, ''),
-            email: formData.get('email'),
-            additionalInfo: formData.get('additionalInfo')
-          };
-
-          // Send to Telegram
-          const telegramSuccess = await sendToTelegram(orderData);
-
-          // Send to server
-          const response = await fetch("{% url 'order_create' %}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-              "X-CSRFToken": getCookie("csrftoken"),
-              "X-Requested-With": "XMLHttpRequest"
+        orderForm.addEventListener("submit", async function(e) {
+            e.preventDefault();
+            
+            const phoneInput = document.getElementById("contactPhone");
+            
+            if (!validatePhone(phoneInput.value)) {
+                phoneInput.setCustomValidity(getTranslatedText('phone_validation_message'));
+                phoneInput.reportValidity();
+                return;
             }
-          });
-          const data = await response.json();
+            
+            phoneInput.setCustomValidity('');
 
-          if (data.success && telegramSuccess) {
-            alert(getTranslatedText('order_success') || 'Заказ успешно оформлен!');
-            orderForm.reset();
-            if (phoneInput) phoneInput.value = '+998';
-            closeOrderModal();
-          } else {
-            alert(getTranslatedText('order_error') || 'Ошибка при оформлении заказа.');
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          alert(getTranslatedText('order_error') || 'Произошла ошибка. Попробуйте снова.');
-        } finally {
-          submitButton.disabled = false;
-          submitButton.textContent = originalText;
-        }
-      });
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = getTranslatedText('sending');
+
+            const formData = new FormData(this);
+            const priceElement = document.getElementById("productPrice");
+            const priceType = priceElement?.getAttribute("data-price-type") || "UZS";
+            
+            const orderData = {
+                productName: formData.get('productName'),
+                productBrand: formData.get('productBrand'),
+                productPrice: formData.get('productPrice'),
+                priceType: priceType,
+                quantity: currentQuantity,
+                fullName: formData.get('fullName'),
+                phone: phoneInput.value,
+                email: formData.get('email') || (getTranslatedText('not_specified')),
+                additionalInfo: formData.get('additionalInfo') || (getTranslatedText('not_specified'))
+            };
+
+            try {
+                const telegramSent = await sendToTelegram(orderData);
+                
+                if (telegramSent) {
+                    alert(getTranslatedText('order_success'));
+                    orderForm.reset();
+                    phoneInput.value = '+998 (';
+                    closeOrderModal();
+                } else {
+                    alert(getTranslatedText('order_error'));
+                }
+            } catch (error) {
+                console.error('Order submission error:', error);
+                alert(getTranslatedText('order_error'));
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        });
     }
 
-    // Close modal on ESC key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeOrderModal();
-      }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeOrderModal();
+        }
     });
 
-    // Close modal when clicking outside
     const orderModal = document.getElementById("orderModal");
     if (orderModal) {
-      orderModal.addEventListener("click", (e) => {
-        if (e.target === orderModal) {
-          closeOrderModal();
-        }
-      });
+        orderModal.addEventListener("click", function(e) {
+            if (e.target === this) {
+                closeOrderModal();
+            }
+        });
     }
 
-    // Close modal button
     const closeOrderModalBtn = document.getElementById("closeOrderModalBtn");
     if (closeOrderModalBtn) {
-      closeOrderModalBtn.addEventListener("click", closeOrderModal);
+        closeOrderModalBtn.addEventListener("click", closeOrderModal);
     }
 
-    // Thumbnail button handling (if re-enabled)
-    const thumbnailButtons = document.querySelectorAll(".thumbnail-btn");
-    if (thumbnailButtons.length > 0) {
-      thumbnailButtons.forEach((button) => {
-        button.addEventListener("click", (event) => {
-          const productId = button.getAttribute("data-product");
-          const slideIndex = button.getAttribute("data-slide");
-          const mainImage = document.getElementById(`mainImage-${productId}`);
-          const newImageSrc = button.querySelector("img").src;
-          mainImage.src = newImageSrc;
-          thumbnailButtons.forEach((btn) => {
-            btn.classList.remove("border-primary");
-            btn.classList.add("border-gray-300");
-          });
-          button.classList.remove("border-gray-300");
-          button.classList.add("border-primary");
-        });
-      });
+    if (window.applyTranslations) {
+        window.applyTranslations();
     }
-  });
-</script>
+});
+    </script>
 {% endblock %}
-
 {% block scripts %}
     <script src="{% static 'script/productDetails.js' %}"></script>
 {% endblock scripts %}
