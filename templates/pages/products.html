@@ -779,7 +779,7 @@ body.modal-open {
                         id="filterButtonDesktop"
                         class="filter-button"
                         data-translate="filter"></button>
-                <button type="reset" class="reset-button" data-translate="reset_filters"></button>
+                <button href="{% url 'products' %}?lang={{ lang }}" class="reset-button" data-translate="reset_filters"></button>
               </div>
             </div>
           </form>
